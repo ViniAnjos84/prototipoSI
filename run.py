@@ -7,11 +7,6 @@ from app import create_app
 # 📦 organizar melhor os models (evitar repetir conexão/cursor)
 # ⚙️ mover configs sensíveis pro .env
 
-#
-#
-#
-#
-
 # 1. python -m venv venv
 # 2. venv/Scripts/Activate.ps1
 # 3. pip install -r requirements.txt
