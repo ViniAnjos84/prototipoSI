@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/loginCadastroStyle.css') }}">
+</head>
+<body>
+
+    <form class="formulario-container-login" method="POST" action="{{ url_for('auth.login') }}">
+        <div class="info-form">
+            <div class="mb-3">
+                <h1>Login</h1>
+                <label for="exampleInputEmail1" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Senha</label>
+                <input type="password" class="form-control" name="senha" id="senha" required>
+              </div>
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+              </div>
+              <button type="submit" class="btn-login">Login</button>
+              <a href="{{ url_for('auth.cadastrar') }}">Não tem login? Cadastre-se</a> <br>
+              <a href="{{ url_for('main.index') }}">Voltar</a>
+        </div>
+        <div class="imagem">
+            <img src="https://img.freepik.com/vetores-gratis/conceito-abstrato-de-sistema-de-controle-de-acesso_335657-3180.jpg?t=st=1745948694~exp=1745952294~hmac=60b906094215cb19989cf54fd29c7d890b2d5494e4a65ad7dc6be2c3a32edda1&w=826" alt="">
+        </div>
+      </form>
+</body>
+</html>

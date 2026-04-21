@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/userStyle.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar bg-primary-subtle fixed-top">
+        <div class="container-fluid">
+
+          <a class="navbar-brand text-primary-emphasis" href="{{ url_for('main.indexUsers') }}">SAEC</a>
+
+          <button class="navbar-toggler bg-primary-subtle rounded-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
+            
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title">Menu</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+            </div>
+
+            <div class="offcanvas-body">
+
+              <!-- 👤 Usuário -->
+              <h6>Olá, {{ session['usuario_nome'] }} 👋</h6>
+
+              <ul class="navbar-nav">
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Notificações</a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Configurações</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                    Cadastrar Novo Dependente
+                  </a>
+
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Menor de Idade</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Pet</a></li>
+                  </ul>
+                </li>
+
+              </ul>
+
+              <!-- 🚪 Logout -->
+              <div class="btn-sair mt-3">
+                <a href="{{ url_for('auth.logout') }}">Sair</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </nav>
+
+
+    <main style="margin-top: 80px;">
+        
+        <header>
+            <div class="content-inicio">
+                
+                <div class="introducao">
+
+                    <div class="texto-intro-user">
+                        <h1>Bem-vindo(a)</h1>
+                        <p>
+                            Explore os serviços disponíveis e encontre as opções que melhor atendem às suas necessidades.
+                        </p>
+                    </div>
+
+                    <div class="img-intro">
+                        <img src="https://img.freepik.com/vetores-gratis/ilustracao-de-gerenciamento-de-tempo-desenhada-a-mao_23-2148819273.jpg" class="imagem-inicio">
+                    </div>
+
+                </div>
+
+                <div class="menu">
+
+                    <div class="menu-itens">
+                        
+                        
+                        <div class="item-menu" style="padding: 0;">
+                            <a href="{{ url_for('main.user_agendamentos') }}" 
+                            style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; text-decoration: none; color: inherit; min-height: 50px;">
+                                Meus Agendamentos
+                            </a>
+                        </div>
+
+                        <div class="item-menu-blue" style="padding: 0;">
+                            <a href="{{ url_for('main.user_servicos') }}" 
+                            style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; text-decoration: none; color: inherit; min-height: 50px;">
+                                Serviços
+                            </a>
+                        </div>
+
+                        <div class="item-menu" style="padding: 0;">
+                            <a href="{{ url_for('main.user_consultas_medicas') }}" 
+                            style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; text-decoration: none; color: inherit; min-height: 50px;">
+                                Consultas Médicas
+                            </a>
+                        </div>
+
+                        <div class="item-menu-blue" style="padding: 0;">
+                            <a href="{{ url_for('main.user_consultas_vet') }}" 
+                            style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; text-decoration: none; color: inherit; min-height: 50px;">
+                                Consultas Veterinárias
+                            </a>
+                        </div>
+
+                        <div class="item-menu" style="padding: 0;">
+                            <a href="{{ url_for('main.user_acessibilidade') }}" 
+                            style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; text-decoration: none; color: inherit; min-height: 50px;">
+                                Acessibilidade
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <div class="menu-itens">
+
+                        <div class="item-menu-blue">
+                            <p>Meu Perfil</p>
+                        </div>
+
+                        <div class="item-menu">
+                            <p>Eventos</p>
+                        </div>
+
+                        <div class="item-menu-blue">
+                            <p>Oficinas</p>
+                        </div>
+
+                        <div class="item-menu">
+                            <p>Cursos</p>
+                        </div>
+
+                        <div class="item-menu-blue">
+                            <p>Notificações</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </header>
+
+
+        <section>
+            <h2 class="mais-buscados-title">Mais buscados</h2>
+
+            <div class="content-mais-buscados">
+
+                <div class="card-mb"><h3>#1 Psicologia</h3></div>
+                <div class="card-mb"><h3>#2 Nutrição</h3></div>
+                <div class="card-mb"><h3>#3 Fisioterapia</h3></div>
+                <div class="card-mb"><h3>#4 Estética</h3></div>
+                <div class="card-mb"><h3>#5 Dermatologia</h3></div>
+
+            </div>
+        </section>
+
+    </main>
+
+
+    <footer>
+        <p>&copy; 2025 SAEC</p>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

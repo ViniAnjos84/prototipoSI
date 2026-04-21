@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Verificação</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        input {
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 10px;
+            padding: 10px;
+            width: 180px;
+            margin-top: 15px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Digite o código</h2>
+        <form method="POST" action="/verificar">
+            <input 
+                type="text" 
+                name="codigo" 
+                maxlength="6" 
+                pattern="\d{6}" 
+                placeholder="000000"
+                required
+            >
+            <br>
+            <button type="submit">Confirmar</button>
+        </form>
+    </div>
+</body>
+</html>

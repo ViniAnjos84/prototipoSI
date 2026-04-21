@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admStyle.css') }}">
+</head>
+<body>
+
+    <nav class="navbar bg-primary-subtle fixed-top ">
+        <div class="container-fluid">
+          <a class="navbar-brand text-primary-emphasis" href="{{ url_for('main.indexAdmin') }}">SAEC</a>
+          <button class="navbar-toggler bg-primary-subtle rounded-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                  <a   class="nav-link active" aria-current="page" href="{{ url_for('auth.login') }}" data-link >Home</a>
+                </li>
+                <li class="nav-item">
+                  <a   class="nav-link"  href="{{ url_for('main.adm_cadastro') }}" data-link >Cadastrar</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a   class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Cadastrar Novo Serviço
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" data-link href="{{ url_for('main.form_consulta_medica') }}">Consulta Médica</a></li>
+                    <li><a class="dropdown-item" data-link href="{{ url_for('main.form_cursos') }}">Cursos</a></li>
+                    <li><a class="dropdown-item" data-link href="{{ url_for('main.form_eventos') }}">Eventos</a></li>
+                    <li><a class="dropdown-item" data-link href="{{ url_for('main.form_oficinas') }}">Oficinas</a></li>
+                    <li><a class="dropdown-item" data-link href="{{ url_for('main.form_cursos') }}">Veterinária</a></li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <form class="d-flex mt-3" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
+              <div class="btn-sair">
+                <a href="{{ url_for('main.index') }}">Sair</a>
+              </div>
+            </div>
+          </div>
+        </div>
+    </nav>
+
+    <main id="content">
+    </main>
+
+    <template id="home-template">
+      <header class="introducao">
+          <p>Bem-vindo(a) ao painel de controle do sistema! <br>
+              Aqui você encontrará todas as funcionalidades disponíveis para facilitar a sua gestão e navegação. <br>
+              Escolha uma das opções do menu ao lado ou nos cards abaixo para realizar as ações desejadas.</p>
+      </header>
+      <section class="menu">
+          <div class="item-menu" data-page="admin/adm-cadastro.html">
+              <div class="icone-menu">
+                  <img src="{{ url_for('static', filename='assets/novoEvento.png') }}" alt="">
+              </div>
+              <div class="titulo-item">
+                  <p>Cadastrar Novo Serviço</p>
+              </div>
+          </div>
+          <div class="item-menu-blue" data-page="admin/adm-visualizarAgd.html">
+              <div class="icone-menu">
+                  <img src="{{ url_for('static', filename='assets/visualizar-evt.png') }}" alt="">
+              </div>
+              <div class="titulo-item">
+                  <p>Visualizar Agendamentos</p>
+              </div>
+          </div>
+          <div class="item-menu" data-page="admin/adm-notificacoes.html">
+              <div class="icone-menu">
+                  <img src="{{ url_for('static', filename='assets/notificacao.png') }}" alt="">
+              </div>
+              <div class="titulo-item">
+                  <p>Notificações</p>
+              </div>
+          </div>
+          <div class="item-menu-blue" data-page="admin/adm-relatorio.html">
+              <div class="icone-menu">
+                  <img src="{{ url_for('static', filename='assets/relatorio.png') }}" alt="">
+              </div>
+              <div class="titulo-item">
+                  <p>Relatórios</p>
+              </div>
+          </div>
+          <div class="item-menu" data-page="admin/adm-usuarios.html">
+            <div class="icone-menu">
+                <img src="{{ url_for('static', filename='assets/visualizar-usu.png') }}" alt="">
+            </div>
+            <div class="titulo-item">
+                <p>Visualizar Usuários</p>
+            </div>
+        </div>
+      </section>
+      <section class="ajuda">
+          <a href="ajuda">Ajuda</a>
+      </section>
+    </template>    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/indexAdm.js') }}"></script>
+</body>
+</html>

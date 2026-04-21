@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oficinas Acadêmicas - Universidade</title>
+  <style>
+    /* Estilo padrão */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f4f8;
+      margin-top: 4rem;
+    }
+    header {
+      padding: 1rem;
+      text-align: center;
+    }
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    h1 {
+      margin-left: 6rem;
+    }
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card h2 {
+      color: #003366;
+      margin-bottom: 0.5rem;
+    }
+    .card p {
+      flex-grow: 1;
+      margin-bottom: 1rem;
+    }
+    .btn-inscrever {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      align-self: flex-start;
+      text-decoration: none;
+    }
+    .btn-inscrever:hover {
+      background-color: #0056b3;
+    }
+
+    /* Estilo para o card de confirmação */
+    .confirmacao-card {
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      padding: 1.5rem;
+      width: 300px;
+      text-align: center;
+      z-index: 9999;
+      display: none; /* Inicialmente oculto */
+    }
+    .confirmacao-card button {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    .confirmacao-card button:hover {
+      background-color: #c82333;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Oficinas Acadêmicas</h1>
+  </header>
+
+  <main>
+    <div class="cards-container">
+      <div class="card"><h2>Produção Textual</h2><p>Aprenda técnicas para escrever bem em textos acadêmicos.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Matemática Básica</h2><p>Oficina para reforço e revisão de conteúdos fundamentais.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Leitura Crítica</h2><p>Desenvolva a capacidade de interpretar e questionar textos.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Pesquisa Científica</h2><p>Aprenda os primeiros passos para iniciar um projeto de pesquisa.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Estudo para Concursos</h2><p>Técnicas e cronogramas para estudar com eficiência.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Ferramentas Digitais</h2><p>Uso de Word, Excel, PowerPoint e Google Docs na vida acadêmica.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Redação ENEM</h2><p>Pratique a escrita com foco nos critérios da banca avaliadora.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Oratória para Apresentações</h2><p>Fale em público com segurança e clareza.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Gestão do Tempo</h2><p>Organize melhor seus estudos e compromissos.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+    </div>
+  </main>
+
+  <!-- Card de confirmação -->
+  <div class="confirmacao-card">
+    <h2>Inscrição Confirmada!</h2>
+    <p>Você se inscreveu com sucesso! Em breve, você receberá um e-mail de confirmação.</p>
+    <button>Fechar</button>
+  </div>
+
+  <script>
+    // Seleciona todos os botões de inscrição
+    document.querySelectorAll('.btn-inscrever').forEach(botao => {
+      botao.addEventListener('click', function(event) {
+        event.preventDefault(); // impede que a página recarregue
+        
+        // Exibe o card de confirmação
+        const confirmacaoCard = document.querySelector('.confirmacao-card');
+        confirmacaoCard.style.display = 'block';
+
+        // Funcionalidade para fechar o card
+        confirmacaoCard.querySelector('button').addEventListener('click', function() {
+          confirmacaoCard.style.display = 'none'; // Esconde o card ao clicar no botão
+        });
+      });
+    });
+  </script>
+</body>
+</html>

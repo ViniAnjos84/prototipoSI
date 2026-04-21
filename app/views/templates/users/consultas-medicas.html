@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consultas Médicas - Universidade</title>
+  <style>
+    /* Estilo padrão */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f4f8;
+      margin-top: 4rem;
+    }
+    header {
+      padding: 1rem;
+      text-align: center;
+    }
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    h1 {
+      margin-left: 6rem;
+    }
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card h2 {
+      color: #003366;
+      margin-bottom: 0.5rem;
+    }
+    .card p {
+      flex-grow: 1;
+      margin-bottom: 1rem;
+    }
+    .btn-inscrever {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      align-self: flex-start;
+      text-decoration: none;
+    }
+    .btn-inscrever:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Consultas Médicas Gratuitas</h1>
+  </header>
+
+  <main>
+    <div class="cards-container">
+      <div class="card"><h2>Clínico Geral</h2><p>Atendimento geral para diagnósticos e orientações iniciais.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Ginecologia</h2><p>Consultas voltadas à saúde da mulher e exames preventivos.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Pediatria</h2><p>Cuidados com a saúde infantil, acompanhamento do crescimento.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Dermatologia</h2><p>Avaliação de pele, unhas e cabelos com profissionais capacitados.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Oftalmologia</h2><p>Exames de visão e diagnósticos para uso de lentes ou óculos.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Ortopedia</h2><p>Consultas para dores articulares, musculares e pós-lesões.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Nutrição</h2><p>Orientações sobre alimentação saudável e planos alimentares.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Psicologia</h2><p>Atendimento psicológico com escuta e acolhimento gratuito.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Endocrinologia</h2><p>Consultas para distúrbios hormonais, como diabetes e tireoide.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+    </div>
+  </main>
+</body>
+</html>

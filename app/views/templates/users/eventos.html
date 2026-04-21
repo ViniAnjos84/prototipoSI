@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eventos - Universidade</title>
+  <style>
+    /* Estilo padrão */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f4f8;
+      margin-top: 4rem;
+    }
+    header {
+      padding: 1rem;
+      text-align: center;
+    }
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    h1 {
+      margin-left: 6rem;
+    }
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card h2 {
+      color: #003366;
+      margin-bottom: 0.5rem;
+    }
+    .card p {
+      flex-grow: 1;
+      margin-bottom: 1rem;
+    }
+    .btn-inscrever {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      align-self: flex-start;
+      text-decoration: none;
+    }
+    .btn-inscrever:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Eventos da Universidade</h1>
+  </header>
+
+  <main>
+    <div class="cards-container">
+      <div class="card">
+        <h2>Semana da Saúde</h2>
+        <p>Palestras, atividades físicas e serviços gratuitos de saúde abertos ao público.</p>
+        <a href="#" class="btn-inscrever">Participar</a>
+      </div>
+      <div class="card">
+        <h2>Feira de Profissões</h2>
+        <p>Descubra cursos, converse com profissionais e tire dúvidas sobre o mercado de trabalho.</p>
+        <a href="#" class="btn-inscrever">Participar</a>
+      </div>
+      <div class="card">
+        <h2>Encontro de Empreendedores</h2>
+        <p>Networking, mentorias e histórias inspiradoras para quem quer empreender.</p>
+        <a href="#" class="btn-inscrever">Participar</a>
+      </div>
+      <div class="card">
+        <h2>Festival de Cultura</h2>
+        <p>Exposição de arte, música ao vivo, dança e apresentações culturais da comunidade.</p>
+        <a href="#" class="btn-inscrever">Participar</a>
+      </div>
+      <div class="card">
+        <h2>Circuito de Palestras</h2>
+        <p>Palestrantes renomados compartilham experiências nas áreas de saúde, tecnologia e educação.</p>
+        <a href="#" class="btn-inscrever">Participar</a>
+      </div>
+      <div class="card">
+        <h2>Dia do Voluntariado</h2>
+        <p>Ação social em comunidades carentes com o apoio dos alunos e professores.</p>
+        <a href="#" class="btn-inscrever">Participar</a>
+      </div>
+      <div class="card">
+        <h2>Hackathon Universitário</h2>
+        <p>Competição de inovação tecnológica para criação de soluções com impacto social.</p>
+        <a href="#" class="btn-inscrever">Participar</a>
+      </div>
+      <div class="card">
+        <h2>Campanha de Doação de Sangue</h2>
+        <p>Parceria com o Hemocentro para doação de sangue no campus universitário.</p>
+        <a href="#" class="btn-inscrever">Participar</a>
+      </div>
+      <div class="card">
+        <h2>Cinema na Universidade</h2>
+        <p>Sessões gratuitas com debate e análise de filmes relevantes à formação cidadã.</p>
+        <a href="#" class="btn-inscrever">Participar</a>
+      </div>
+    </div>
+  </main>
+  
+</body>
+</html>

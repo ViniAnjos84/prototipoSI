@@ -1,0 +1,450 @@
+
+.content-inicio {
+    display: flex;
+    flex-direction: row; /* As divs irão ficar lado a lado */
+    align-items: flex-start; /* Alinha pelo topo */
+}
+
+.introducao {
+    margin-top: 8rem;
+    font-size: 1.5rem;
+    width: 60%; /* Ajuste o tamanho conforme necessário */
+    display: flex;
+    flex-direction: row;
+}
+
+.texto-intro-user{
+    width: 100%;
+    margin-left: 7rem;
+}
+
+.img-intro{
+    width: 100%;
+}
+
+
+.imagem-inicio{
+    width: 35rem;
+}
+
+
+.menu {
+    width: 40%; /* Ajuste o tamanho conforme necessário */
+    display: flex;
+    flex-direction: row;
+    margin-top: 7rem;
+    margin-left: 7rem;
+}
+
+.item-menu{
+    margin-right: 3rem;
+    margin-top: 4%;
+    height: 5rem;
+    width: 15rem;
+    border: 2px solid #345CFC;
+    border-radius: 3%;
+    display: flex;
+    flex-direction: row;
+    padding: 9%;
+}
+
+.item-menu-blue{
+    margin-top: 4%;
+    height: 5rem;
+    width: 15rem;
+    background-color: #345CFC;
+    border-radius: 3%;
+    color: aliceblue;
+    padding: 9%;
+    display: flex;
+    flex-direction: row;
+}
+
+.item-menu-blue:hover{
+    background-color: orange;
+}
+
+.item-menu:hover{
+    background-color: orange;
+}
+
+img{
+    width: 80%;
+}
+
+.titulo-item{
+    width: 100%;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.mais-buscados-title{
+    background-color: chocolate;
+    color: white;
+    font-size: 1.8rem;
+    padding-top: 2.5%;
+    padding-bottom: 1.5%;
+    padding-left: 7rem;
+    margin-top: 5rem;
+}
+
+.content-mais-buscados{
+    display: flex;
+    flex-direction: row;
+    margin-left: 7rem;
+    margin-right: 7rem;
+    justify-content: space-evenly;
+    margin-top: 5rem;
+}
+
+.num-classificacao{
+    margin-right: 2%;
+}
+
+.card-mb {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 16.5rem;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.titulo-item-mb p {
+    font-weight: bold;
+    margin: 0;
+}
+
+.titulo-item-mb small {
+    display: block;
+    color: #666;
+    margin-top: 4px;
+}
+
+.content-btn-mb {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.btn-mb svg {
+    transition: transform 0.2s;
+}
+
+.btn-mb:hover svg {
+    transform: translateX(4px);
+}
+
+/* FOOTER */
+footer {
+    width: 100%;
+    height: 30%; /* Adicionado 'px' para evitar erros */
+    margin-top: 9%;
+    padding-top: 96px;
+    padding-bottom: 96px;
+    background-color: #345CFC;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+    color: whitesmoke;
+}
+
+footer a{
+    color: aliceblue;
+}
+
+footer a:hover{
+    color: orange;
+}
+
+
+/* MEUS AGENDAMENTOS */
+
+.agenda-title {
+    margin-top: 5rem;
+    margin-bottom: 4rem;
+    font-size: 2rem;
+    text-align: center;
+    color: white;
+    background-color: chocolate;
+  }
+  
+  .agenda-container {
+    margin-left: 5rem;
+    margin-right: 5rem;
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(2, 1fr); /* Dois cards por linha */
+    padding: 0 1rem;
+  }
+  
+  @media (max-width: 768px) {
+    .agenda-container {
+      grid-template-columns: 1fr; /* Um card por linha em telas menores */
+    }
+  }
+  
+  .agenda-card {
+    background-color: #f9f9f9;
+    border-left: 5px solid orange;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease;
+  }
+  
+  .agenda-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .agenda-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #222;
+  }
+  
+  .agenda-card p {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #555;
+  }
+  
+  .agenda-card small {
+    display: block;
+    margin-bottom: 1rem;
+    color: #777;
+  }
+  
+  .agenda-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .btn-agenda {
+    text-decoration: none;
+    background-color: orange;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+  }
+  
+  .btn-agenda:hover {
+    background-color: #5a55c7;
+  }
+  
+  .agenda-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    margin-top: 5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .toggle-btn {
+    padding: 0.75rem 1.5rem;
+    background-color: #ececec;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+  
+  .toggle-btn:hover {
+    background-color: #ddd;
+  }
+  
+  .toggle-btn.active {
+    background-color: orange;
+    color: white;
+    border-color: orange;
+  }
+  
+  .botoes-usuario {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem; /* espaço entre os botões */
+    margin-top: 1rem;
+  }
+  
+  .editar-btn {
+    background-color: orange;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  .btn-voltar {
+    background-color: #345CFC;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+  }
+  
+
+  #campo-pesquisa{
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    margin-left: 30%;
+    width: 40%;
+  }
+
+  .servicos{
+    margin-top: 6rem;
+  }
+
+  .servicos h1{
+    margin-left: 6rem;
+  }
+
+
+/* btn sair */
+.btn-sair{
+    background-color: red;
+    width: 20%;
+    margin-top: 60%;
+    text-align: center;
+    margin-left: 80%;
+    padding: 0.5rem 1.5rem;
+    border-radius: 9999px;
+}
+
+.btn-sair a{
+    color: aliceblue;
+    text-decoration: none;
+}
+  /* Perfil usuário */
+  .usuario-container {
+  padding: 1.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.perfil {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.foto-perfil {
+  width: 80px;
+  height: 80px;
+  background-color: #ccc;
+  border-radius: 50%;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+
+.info-cadastro p {
+  background-color: #fff;
+  padding: 0.7rem;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+}
+
+.info-cadastro{
+    width: 40%;
+    padding: 2%;
+}
+
+.acoes {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  width: 10%;
+}
+
+.atalhos {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.atalhos button {
+  padding: 0.7rem 1.2rem;
+  background-color: #003366;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.atalhos button:hover {
+  background-color: #002244;
+}
+
+/* Ajuste das colunas dentro do flex container */
+.cards-dependentes {
+    margin-top: 1.5rem;
+    width: 45%;
+  }
+
+  a{
+    text-decoration: none;
+  }
+  
+  
+  .editar-btn:hover {
+    background-color: #002244;
+  }
+  
+  /* Cards */
+  .cards-dependentes {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .card {
+    background-color: #f0f0f0;
+    border-left: 5px solid orangered;
+    padding: 1rem;
+    border-radius: 4px;
+  }
+  
+  .card h3 {
+    margin-top: 0;
+  }
+  
+
+
+  .botoes-usuario {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 5rem;
+    padding: 1.5rem 2rem;
+  }
+  
+  .btn-voltar {
+    background-color: #345CFC;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-voltar:hover {
+    background-color: #2749c7;
+  }
+  

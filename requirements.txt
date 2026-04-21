@@ -1,0 +1,5 @@
+Flask
+psycopg2
+dotenv
+argon2-cffi
+requests

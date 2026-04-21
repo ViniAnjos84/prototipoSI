@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cursos Gratuitos - Universidade</title>
+  <style>
+    /* Estilo padrão */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f4f8;
+      margin-top: 4rem;
+    }
+    header {
+      padding: 1rem;
+      text-align: center;
+    }
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    h1 {
+      margin-left: 6rem;
+    }
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card h2 {
+      color: #003366;
+      margin-bottom: 0.5rem;
+    }
+    .card p {
+      flex-grow: 1;
+      margin-bottom: 1rem;
+    }
+    .btn-inscrever {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      align-self: flex-start;
+      text-decoration: none;
+    }
+    .btn-inscrever:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Cursos Gratuitos da Universidade</h1>
+  </header>
+
+  <main>
+    <div class="cards-container">
+      <div class="card"><h2>Informática Básica</h2><p>Aprenda o essencial para usar o computador e internet.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Excel para Iniciantes</h2><p>Domine fórmulas e planilhas com aulas práticas.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Primeiros Socorros</h2><p>Noções básicas para agir em situações de emergência.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Educação Financeira</h2><p>Aprenda a organizar suas finanças pessoais.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Inglês para Iniciantes</h2><p>Curso introdutório com foco em vocabulário e frases básicas.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Marketing Digital</h2><p>Noções de divulgação e redes sociais para pequenos negócios.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Libras Básico</h2><p>Aprenda os sinais fundamentais da Língua Brasileira de Sinais.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Design Gráfico</h2><p>Noções de layout, cor e criação de peças gráficas.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+      <div class="card"><h2>Introdução à Programação</h2><p>Fundamentos para quem deseja entrar no mundo do código.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+    </div>
+  </main>
+</body>
+</html>
