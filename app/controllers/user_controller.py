@@ -80,7 +80,7 @@ def realizar_login(form):
         "usuario": usuario
     }
 
-#def gerar_codigo_2fa():
-#    return str(random.randint(100000, 999999))
+def gerar_codigo_2fa():
+    return str(random.randint(100000, 999999))
 
 
