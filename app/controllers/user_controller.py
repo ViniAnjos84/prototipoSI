@@ -13,6 +13,46 @@ ph = PasswordHasher(
 
 def cadastrar_usuario(form):
     try:
+    
+        senha = form.get("senha")
+        senha_ver = form.get("senhaVER")
+
+        # Validar senha
+        if senha != senha_ver:
+            return {
+                "success": False,
+                "erro": "As senhas não coincidem"
+            }
+
+        # Verificar email duplicado
+        usuario_existente = find_user_by_email(form.get("email"))
+        if usuario_existente:
+            return {
+                "success": False,
+                "erro": "Email já cadastrado"
+            }
+
+        usuario_existente = find_user_by_cpf(form.get("cpf"))
+        if usuario_existente:
+            return {
+                "success": False,
+                "erro": "CPF já cadastrado"
+            }
+
+        usuario_existente = find_user_by_rg(form.get("rg"))
+        if usuario_existente:
+            return {
+                "success": False,
+                "erro": "RG já cadastrado"
+            }
+
+        usuario_existente = find_user_by_telefone(form.get("telefone"))
+        if usuario_existente:
+            return {
+                "success": False,
+                "erro": "Telefone já cadastrado"
+            }
+
         senha_hash = ph.hash(form.get("senha"))
 
         data = {

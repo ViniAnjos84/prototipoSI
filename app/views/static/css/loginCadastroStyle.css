@@ -38,8 +38,8 @@ body {
   }
 
   .formulario-buttons{
-    margin-left: 5%;
-
+    margin-left: 2%;
+    margin-top: 2%;
   }
 
   .formulario-infos {
@@ -91,7 +91,7 @@ body {
     text-decoration: none;
   }
 
-  #termos-uso{
-    margin-top: 11%;
-    /* background-color: #345CFC; */
-  }
+  /* #termos-uso{
+    /* margin-top: 0.5%; 
+    /* background-color: #345CFC; 
+  } */
