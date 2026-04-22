@@ -10,16 +10,110 @@
     />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/loginCadastroStyle.css') }}">
   </head>
-  <body>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  // ✅ VALIDAÇÃO DE SENHA
+  document.querySelector("form").addEventListener("submit", function (e) {
+    const senha = document.getElementById("senha").value;
+    const confirmar = document.getElementById("senhaVER").value;
+
+    if (senha !== confirmar) {
+      e.preventDefault();
+      alert("As senhas não coincidem!");
+    }
+  });
+
+  // ✅ MÁSCARA TELEFONE
+  document.getElementById("telefone").addEventListener("input", function (e) {
+    let v = e.target.value.replace(/\D/g, "");
+
+    if (v.length > 11) v = v.slice(0, 11);
+
+    if (v.length > 6) {
+      v = v.replace(/(\d{2})(\d{5})(\d+)/, "($1) $2-$3");
+    } else if (v.length > 2) {
+      v = v.replace(/(\d{2})(\d+)/, "($1) $2");
+    }
+
+    e.target.value = v;
+  });
+
+  // ✅ MÁSCARA CPF
+  document.getElementById("cpf").addEventListener("input", function (e) {
+    let v = e.target.value.replace(/\D/g, "");
+
+    if (v.length > 11) v = v.slice(0, 11);
+
+    v = v.replace(/(\d{3})(\d)/, "$1.$2");
+    v = v.replace(/(\d{3})(\d)/, "$1.$2");
+    v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+
+    e.target.value = v;
+  });
+
+  // ✅ MÁSCARA RG
+  document.getElementById("rg").addEventListener("input", function (e) {
+    let v = e.target.value.replace(/\D/g, "");
+
+    if (v.length > 9) v = v.slice(0, 9);
+
+    v = v.replace(/(\d{2})(\d)/, "$1.$2");
+    v = v.replace(/(\d{3})(\d)/, "$1.$2");
+    v = v.replace(/(\d{3})(\d{1})$/, "$1-$2");
+
+    e.target.value = v;
+  });
+
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const toastEl = document.getElementById("toastMsg");
+
+  if (toastEl) {
+    const toast = new bootstrap.Toast(toastEl, {
+      delay: 4000
+    });
+    toast.show();
+  }
+});
+</script>
+<body>
 
 <!-- #mensagem de sucesso ou erro no cadastro -->
-    {% if mensagem %}
-  <div class="alert 
-    {% if tipo == 'sucesso' %}alert-success
-    {% elif tipo == 'erro' %}alert-danger
-    {% endif %}">
-    {{ mensagem }}
+{% if mensagem %}
+<div class="position-fixed top-50 start-50 translate-middle" style="z-index: 11">
+
+  {% if tipo == 'sucesso' %}
+  <div id="toastMsg" class="toast align-items-center text-bg-success border-0 text-center" role="alert">
+    <div class="d-flex flex-column align-items-center p-3">
+      <strong class="mb-2">Sucesso</strong>
+      <div class="toast-body">
+        <p>Cadastrado com Sucesso :)</p>
+      </div>
+      <button type="button" class="btn-close btn-close-white mt-2" data-bs-dismiss="toast"></button>
+    </div>
   </div>
+  {% endif %}
+
+  {% if tipo == 'erro' %}
+  <div id="toastMsg" class="toast align-items-center text-bg-danger border-0 text-center" role="alert">
+    <div class="d-flex flex-column align-items-center p-3">
+      <strong class="mb-2">Erro</strong>
+      <div class="toast-body">
+        <p>Não foi possível realizar o cadastro, por favor, verifique suas informações :(</p>
+      </div>
+      <button type="button" class="btn-close btn-close-white mt-2" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+  {% endif %}
+
+</div>
 {% endif %}
 
     <form class="formulario-container" method="POST" action="/cadastrar">
@@ -31,27 +125,35 @@
 
           <div class="mb-3">
             <label class="form-label">Nome Completo</label>
-            <input type="text" name="nome" class="form-control" required />
+            <input type="text" name="nome" class="form-control" placeholder="Ex: Nome Sobrenome"  required />
           </div>
 
           <div class="mb-3">
             <label class="form-label">Telefone</label>
-            <input type="tel" name="telefone" class="form-control" required />
+            <input type="tel" id="telefone" name="telefone" class="form-control" placeholder="Digite apenas os números do seu Telefone" required />
           </div>
 
           <div class="mb-3">
             <label class="form-label">CEP</label>
-            <input type="text" name="cep" class="form-control" required />
+            <input type="text" name="cep" class="form-control" placeholder="Digite apenas os números do seu CEP" required />
           </div>
 
           <div class="mb-3">
             <label class="form-label">Número</label>
-            <input type="text" name="numero" class="form-control" required />
+            <input type="text" name="numero" class="form-control" placeholder="Ex: 100" required />
           </div>
 
           <div class="mb-3">
             <label class="form-label">Complemento</label>
-            <input type="text" name="complemento" class="form-control" />
+            <input type="text" name="complemento" class="form-control" placeholder="Ex: Apto 54, bloco B" />
+          </div>
+
+           <div class="mb-3" id="termos-uso">
+            <div>
+              <a href="#">Ler termos de uso</a>
+            </div>
+            <input type="checkbox" name="termos" class="form-check-input" required />
+            <label class="form-check-label">Aceito os termos</label>
           </div>
         </div>
 
@@ -60,35 +162,32 @@
 
           <div class="mb-3">
             <label class="form-label">CPF</label>
-            <input type="text" name="cpf" class="form-control" required />
+            <input type="text" id="cpf" name="cpf" class="form-control" placeholder="Digite apenas os números do seu CPF"  required />
           </div>
 
           <div class="mb-3">
             <label class="form-label">RG</label>
-            <input type="text" name="rg" class="form-control" required />
+            <input type="text" id="rg" name="rg" class="form-control" placeholder="Digite apenas os números do seu RG" required />
           </div>
 
           <div class="mb-3">
             <label class="form-label">Email</label>
-            <input type="email" name="email" class="form-control" required />
+          <input type="email" id="email" name="email" class="form-control" placeholder="endereço@email.com"  required />
           </div>
 
           <div class="mb-3">
             <label class="form-label">Senha</label>
-            <input type="password" name="senha" class="form-control" required />
+            <input type="password" name="senha" id="senha" class="form-control" required />
           </div>
 
-          <div class="mb-3" id="termos-uso">
-            <div>
-              <a href="#">Ler termos de uso</a>
-            </div>
-            <input type="checkbox" name="termos" class="form-check-input" required />
-            <label class="form-check-label">Aceito os termos</label>
+          <div class="mb-3">
+            <label class="form-label">Confirme sua senha</label>
+            <input type="password"  name="senhaVER"  id="senhaVER" class="form-control" placeholder="Digite sua senha novamente" required />
           </div>
 
         </div>
 
-        <!-- COLUNA 3 -->
+        <!-- COLUNA 3
         <div class="info-form" style="margin-top: 5%">
 
           <div class="mb-3">
@@ -106,7 +205,7 @@
           </div>
 
           <!-- DEPENDENTE -->
-          <div id="formDependente" style="display: none">
+          <!-- <div id="formDependente" style="display: none">
             <div class="mb-3">
               <label class="form-label">Nome do Dependente</label>
               <input type="text" name="nome_dependente" class="form-control" />
@@ -123,7 +222,7 @@
             </div>
           </div>
 
-          <!-- PET -->
+          PET 
           <div id="formPet" style="display: none">
             <div class="mb-3">
               <label class="form-label">Nome do Pet</label>
@@ -139,9 +238,9 @@
               <label class="form-label">Raça</label>
               <input type="text" name="raca" class="form-control" />
             </div>
-          </div>
+          </div> 
 
-        </div>
+        </div> -->
 
         <!-- IMAGEM -->
         <div class="info-form" style="width: 5%;">
