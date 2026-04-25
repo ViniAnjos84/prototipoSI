@@ -1,7 +1,10 @@
-from app.models.user_model import create_cliente, create_dependente, create_pet
-from app.models.user_model import find_user_by_email
+from app.models.user_model import create_cliente
+from app.models.user_model import find_user_by_email, find_user_by_rg, find_user_by_cpf, find_user_by_telefone
+from datetime import datetime, timedelta
 from argon2 import PasswordHasher
-import random
+from email.mime.text import MIMEText
+import random, smtplib, os
+
 
 ph = PasswordHasher(
     time_cost=3,
@@ -24,7 +27,7 @@ def cadastrar_usuario(form):
                 "erro": "As senhas não coincidem"
             }
 
-        # Verificar email duplicado
+        # Verificar dados duplicados
         usuario_existente = find_user_by_email(form.get("email"))
         if usuario_existente:
             return {
@@ -75,20 +78,20 @@ def cadastrar_usuario(form):
 
         conn, cursor, cliente_id = create_cliente(data)
 
-        tipo = form.get("tipoCadastro")
+        #tipo = form.get("tipoCadastro")
 
-        if tipo == "dependente":
-            create_dependente(cursor, data, cliente_id)
+        #if tipo == "dependente":
+        #    create_dependente(cursor, data, cliente_id)
 
-        elif tipo == "pet":
-            create_pet(cursor, data, cliente_id)
+        #elif tipo == "pet":
+        #    create_pet(cursor, data, cliente_id)
 
         # Salva as alterações no banco
         conn.commit()
 
         return {"success": True}
 
-    except Exception as e:
+    except Exception:
         import traceback
         traceback.print_exc()
         return {"success": False}
@@ -121,6 +124,21 @@ def realizar_login(form):
     }
 
 def gerar_codigo_2fa():
-    return str(random.randint(100000, 999999))
+    codigo = str(random.randint(100000, 999999))
+    expiracao = datetime.now() + timedelta(minutes=5)
+    
+    return codigo, expiracao
 
+def enviar_codigo_email(destinatario, codigo):
+    remetente = os.getenv("EMAIL_REMETENTE")
+    senha = os.getenv("EMAIL_SENHA")
 
+    msg = MIMEText(f"Seu código de verificação é: {codigo}")
+    msg["Subject"] = "Código de verificação"
+    msg["From"] = remetente
+    msg["To"] = destinatario
+
+    with smtplib.SMTP("smtp.gmail.com", 587) as servidor:
+        servidor.starttls()
+        servidor.login(remetente, senha)
+        servidor.send_message(msg)
