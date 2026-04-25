@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, session
-from app.controllers.user_controller import cadastrar_usuario, realizar_login
+from flask import Blueprint, render_template, request, redirect, session, url_for
+from app.controllers.user_controller import cadastrar_usuario, realizar_login, gerar_codigo_2fa, enviar_codigo_email
+from datetime import datetime
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -38,18 +39,58 @@ def login():
     if result["success"]:
         usuario = result["usuario"]
 
-        session["usuario_id"] = usuario["id"]
-        session["usuario_nome"] = usuario["nome"]
-        
-        return redirect("/indexUsers")
-    
+        # Gerar codigo de autenticação em 2 Fatores (2FA)
+        codigo, expiracao = gerar_codigo_2fa()
 
+        # Salva na sessão
+        session["usuario_nome"] = usuario["nome"]
+        session["usuario_temp_id"] = usuario["id"]
+        session["codigo_2fa"] = codigo
+        session["codigo_expira"] = expiracao.strftime("%Y-%m-%d %H:%M:%S")
+
+        # envia email
+        enviar_codigo_email(usuario["email"], codigo)
+
+        return redirect(url_for("auth.verificar_2fa"))
+    
     return render_template(
         "login.html",
         mensagem=result["erro"],
         tipo="erro"
     )
    
+# ========================
+# Autenticação 2FA
+# ========================
+@auth_bp.route("/verificar-2fa", methods=["GET", "POST"])
+def verificar_2fa():
+    if request.method == "POST":
+        codigo_digitado = request.form["codigo"]
+        codigo_salvo = session.get("codigo_2fa")
+        expiracao = session.get("codigo_expira")
+
+        if not codigo_salvo:
+            return "Sessão expirada"
+
+        # verifica expiração
+        if datetime.now() > datetime.strptime(expiracao, "%Y-%m-%d %H:%M:%S"):
+            return "Código expirado"
+
+        if codigo_digitado == codigo_salvo:
+            # login definitivo
+            session["usuario_id"] = session["usuario_temp_id"]
+
+            # limpa dados temporários
+            session.pop("codigo_2fa", None)
+            session.pop("codigo_expira", None)
+            session.pop("usuario_temp_id", None)
+
+            return redirect("/indexUsers")
+
+        return "Código inválido"
+
+    return render_template("2fa.html")
+
 # ========================
 # LOGOUT
 # ========================

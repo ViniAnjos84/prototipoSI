@@ -71,7 +71,6 @@ def find_user_by_email(email):
         )
 
         usuario = cursor.fetchone()
-
         return usuario
     
     except:
@@ -79,3 +78,53 @@ def find_user_by_email(email):
         conn.close()
         raise
 
+def find_user_by_cpf(cpf):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(
+            "SELECT * FROM clientes WHERE cpf = %s", (cpf,)
+        )
+
+        usuario = cursor.fetchone()
+        return usuario
+    
+    except:
+        cursor.close()
+        conn.close()
+        raise
+
+def find_user_by_rg(rg):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(
+            "SELECT * FROM clientes WHERE cpf = %s", (rg,)
+        )
+
+        usuario = cursor.fetchone()
+        return usuario
+    
+    except:
+        cursor.close()
+        conn.close()
+        raise
+
+def find_user_by_telefone(tel):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(
+            "SELECT * FROM clientes WHERE cpf = %s", (tel,)
+        )
+
+        usuario = cursor.fetchone()
+        return usuario
+    
+    except:
+        cursor.close()
+        conn.close()
+        raise
