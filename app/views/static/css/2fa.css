@@ -1,0 +1,91 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    width: 320px;
+}
+
+h2 {
+    margin-bottom: 10px;
+}
+
+p {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+.code-inputs {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+.code-inputs input {
+    width: 100%;
+    max-width: 45px;
+    height: 60px;
+
+    font-size: 28px;
+    text-align: center;
+
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+
+    padding: 0;
+    transition: 0.2s;
+}
+
+.code-inputs input:focus {
+    border-color: #4facfe;
+    box-shadow: 0 0 8px rgba(79,172,254,0.6);
+    transform: scale(1.05);
+}
+
+button {
+    margin-top: 25px;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #4facfe;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #3a8ee6;
+}
+
+.resend {
+    margin-top: 15px;
+    font-size: 13px;
+}
+
+.resend a {
+    color: #4facfe;
+    text-decoration: none;
+}
+
+.resend a:hover {
+    text-decoration: underline;
+}

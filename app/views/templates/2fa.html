@@ -3,56 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>Verificação</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-
-        input {
-            font-size: 24px;
-            text-align: center;
-            letter-spacing: 10px;
-            padding: 10px;
-            width: 180px;
-            margin-top: 15px;
-        }
-
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/2fa.css') }}">
 </head>
+
 <body>
     <div class="container">
-        <h2>Digite o código</h2>
-        <form method="POST" action="/verificar">
-            <input 
-                type="text" 
-                name="codigo" 
-                maxlength="6" 
-                pattern="\d{6}" 
-                placeholder="000000"
-                required
-            >
-            <br>
+        <h2>Verificação</h2>
+        <p>Digite o código de 6 dígitos enviado para seu email</p>
+
+        <form method="POST" action="{{ url_for('auth.verificar_2fa') }}">
+            
+            <div class="code-inputs">
+                <input type="text" maxlength="1" required>
+                <input type="text" maxlength="1" required>
+                <input type="text" maxlength="1" required>
+                <input type="text" maxlength="1" required>
+                <input type="text" maxlength="1" required>
+                <input type="text" maxlength="1" required>
+            </div>
+
+            <!-- Campo oculto que junta tudo -->
+            <input type="hidden" name="codigo" id="codigoCompleto">
+
             <button type="submit">Confirmar</button>
         </form>
+
+        <div class="resend">
+            Não recebeu? <a href="#">Reenviar código</a>
+        </div>
     </div>
+
+    <script>
+        const inputs = document.querySelectorAll(".code-inputs input");
+        const hiddenInput = document.getElementById("codigoCompleto");
+
+        inputs.forEach((input, index) => {
+            input.addEventListener("input", () => {
+                if (input.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+                atualizarCodigo();
+            });
+
+            input.addEventListener("keydown", (e) => {
+                if (e.key === "Backspace" && !input.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+
+        function atualizarCodigo() {
+            let codigo = "";
+            inputs.forEach(input => {
+                codigo += input.value;
+            });
+            hiddenInput.value = codigo;
+        }
+    </script>
 </body>
 </html>
