@@ -9,7 +9,7 @@
 </head>
 <body>
     <main class="servicos">
-        <h1>Visualizar agendamentos</h1>
+        <h1>Meus agendamentos</h1>
         <div class="agenda-toggle">
           <button id="btn-agendamentos" class="toggle-btn active">Ver Agendamentos</button>
           <button id="btn-historico" class="toggle-btn">Histórico de Agendamentos</button>
@@ -21,8 +21,8 @@
       
           <!-- Evento -->
           <div class="agenda-card">
-            <h3>📅 Evento: Palestra de Inovação</h3>
-            <p>Participe da palestra sobre tecnologia e tendências do futuro.</p>
+            <h3> Evento: Palestra de Inovação</h3>
+            <p>Palestra sobre tecnologia e tendências do futuro.</p>
             <small><strong>Data:</strong> 15/05/2025 às 19:00</small>
             <div class="agenda-actions">
               <a href="#" class="btn-agenda">Ver Detalhes</a>
@@ -32,7 +32,7 @@
       
           <!-- Consulta Médica -->
           <div class="agenda-card">
-            <h3>🩺 Consulta Médica</h3>
+            <h3>Consulta Médica</h3>
             <p>Consulta com a Dra. Fernanda - Clínica Geral.</p>
             <small><strong>Data:</strong> 18/05/2025 às 10:30</small>
             <div class="agenda-actions">
@@ -43,7 +43,7 @@
       
           <!-- Oficina Acadêmica -->
           <div class="agenda-card">
-            <h3>📚 Oficina Acadêmica: Lógica de Programação</h3>
+            <h3>Oficina Acadêmica: Lógica de Programação</h3>
             <p>Aprenda os fundamentos da lógica com atividades práticas.</p>
             <small><strong>Data:</strong> 20/05/2025 às 14:00</small>
             <div class="agenda-actions">
@@ -54,7 +54,7 @@
       
           <!-- Consulta Veterinária -->
           <div class="agenda-card">
-            <h3>🐾 Consulta Veterinária</h3>
+            <h3>Consulta Veterinária</h3>
             <p>Check-up do seu pet com o Dr. Ricardo.</p>
             <small><strong>Data:</strong> 22/05/2025 às 09:00</small>
             <div class="agenda-actions">
@@ -66,10 +66,9 @@
         </div>
        
       </section>
-      <div class="botoes-usuario">
-        
-        <a class="btn-voltar" href="./indexUsers.html">Voltar</a>
-      </div>
+        <div class="botoes-usuario">
+      <a class="btn-voltar" href= "{{ url_for('main.indexUsers') }}">Voltar</a>
+    </div>
     
       <script>
         const btnAgendamentos = document.getElementById('btn-agendamentos');

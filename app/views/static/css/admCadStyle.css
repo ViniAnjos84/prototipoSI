@@ -280,7 +280,21 @@ label {
 .bar:nth-child(5) { height: 118px; background-color: #2980b9;}   /* cursos */
 
   
-
+  .btn-voltar {
+    background-color: #345CFC;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 90%;
+  }
+  .botoes-usuario {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
 
 
 
