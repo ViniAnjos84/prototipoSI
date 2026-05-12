@@ -3,135 +3,284 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Oficinas Acadêmicas - Universidade</title>
-  <style>
-    /* Estilo padrão */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f0f4f8;
-      margin-top: 4rem;
-    }
-    header {
-      padding: 1rem;
-      text-align: center;
-    }
-    main {
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-    h1 {
-      margin-left: 6rem;
-    }
-    .cards-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-    .card {
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .card h2 {
-      color: #003366;
-      margin-bottom: 0.5rem;
-    }
-    .card p {
-      flex-grow: 1;
-      margin-bottom: 1rem;
-    }
-    .btn-inscrever {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      cursor: pointer;
-      align-self: flex-start;
-      text-decoration: none;
-    }
-    .btn-inscrever:hover {
-      background-color: #0056b3;
-    }
 
-    /* Estilo para o card de confirmação */
-    .confirmacao-card {
-      position: fixed;
-      top: 20%;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-      padding: 1.5rem;
-      width: 300px;
-      text-align: center;
-      z-index: 9999;
-      display: none; /* Inicialmente oculto */
-    }
-    .confirmacao-card button {
-      background-color: #dc3545;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-top: 1rem;
-    }
-    .confirmacao-card button:hover {
-      background-color: #c82333;
-    }
-  </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/userStyle.css') }}">
 </head>
-<body>
-  <header>
-    <h1>Oficinas Acadêmicas</h1>
-  </header>
 
-  <main>
-    <div class="cards-container">
-      <div class="card"><h2>Produção Textual</h2><p>Aprenda técnicas para escrever bem em textos acadêmicos.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
-      <div class="card"><h2>Matemática Básica</h2><p>Oficina para reforço e revisão de conteúdos fundamentais.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
-      <div class="card"><h2>Leitura Crítica</h2><p>Desenvolva a capacidade de interpretar e questionar textos.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
-      <div class="card"><h2>Pesquisa Científica</h2><p>Aprenda os primeiros passos para iniciar um projeto de pesquisa.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
-      <div class="card"><h2>Estudo para Concursos</h2><p>Técnicas e cronogramas para estudar com eficiência.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
-      <div class="card"><h2>Ferramentas Digitais</h2><p>Uso de Word, Excel, PowerPoint e Google Docs na vida acadêmica.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
-      <div class="card"><h2>Redação ENEM</h2><p>Pratique a escrita com foco nos critérios da banca avaliadora.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
-      <div class="card"><h2>Oratória para Apresentações</h2><p>Fale em público com segurança e clareza.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
-      <div class="card"><h2>Gestão do Tempo</h2><p>Organize melhor seus estudos e compromissos.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+<body>
+
+  <main class="servicos">
+
+    <h1>Oficinas Acadêmicas</h1>
+
+    <!-- Campo de pesquisa -->
+    <div class="input-group mb-3" id="campo-pesquisa">
+
+      <input
+        type="text"
+        class="form-control"
+        placeholder="nome, categoria..."
+        aria-label="Pesquisar oficinas"
+        aria-describedby="button-addon2"
+      >
+
+      <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="16"
+             height="16"
+             fill="currentColor"
+             class="bi bi-search"
+             viewBox="0 0 16 16">
+
+          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397
+          1.398h-.001q.044.06.098.115l3.85
+          3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1
+          1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1
+          1-11 0 5.5 5.5 0 0 1 11 0"/>
+        </svg>
+
+      </button>
+
     </div>
+
+    <!-- Cards -->
+    <div class="agenda-container">
+
+      <!-- Card 1 -->
+      <div class="agenda-card">
+
+        <h3>Produção Textual</h3>
+
+        <p>
+          Aprenda técnicas para escrever bem em textos acadêmicos.
+        </p>
+
+        <small>
+          <strong>Data:</strong> 12/06/2025 às 14h
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda btn-inscrever">Inscrever-se</a>
+        </div>
+
+      </div>
+
+      <!-- Card 2 -->
+      <div class="agenda-card">
+
+        <h3>Matemática Básica</h3>
+
+        <p>
+          Oficina para reforço e revisão de conteúdos fundamentais.
+        </p>
+
+        <small>
+          <strong>Data:</strong> 14/06/2025 às 10h
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda btn-inscrever">Inscrever-se</a>
+        </div>
+
+      </div>
+
+      <!-- Card 3 -->
+      <div class="agenda-card">
+
+        <h3>Leitura Crítica</h3>
+
+        <p>
+          Desenvolva a capacidade de interpretar e questionar textos.
+        </p>
+
+        <small>
+          <strong>Data:</strong> 16/06/2025 às 15h
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda btn-inscrever">Inscrever-se</a>
+        </div>
+
+      </div>
+
+      <!-- Card 4 -->
+      <div class="agenda-card">
+
+        <h3>Pesquisa Científica</h3>
+
+        <p>
+          Aprenda os primeiros passos para iniciar um projeto de pesquisa.
+        </p>
+
+        <small>
+          <strong>Data:</strong> 18/06/2025 às 13h
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda btn-inscrever">Inscrever-se</a>
+        </div>
+
+      </div>
+
+      <!-- Card 5 -->
+      <div class="agenda-card">
+
+        <h3>Estudo para Concursos</h3>
+
+        <p>
+          Técnicas e cronogramas para estudar com eficiência.
+        </p>
+
+        <small>
+          <strong>Data:</strong> 20/06/2025 às 19h
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda btn-inscrever">Inscrever-se</a>
+        </div>
+
+      </div>
+
+      <!-- Card 6 -->
+      <div class="agenda-card">
+
+        <h3>Ferramentas Digitais</h3>
+
+        <p>
+          Uso de Word, Excel, PowerPoint e Google Docs na vida acadêmica.
+        </p>
+
+        <small>
+          <strong>Data:</strong> 22/06/2025 às 09h
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda btn-inscrever">Inscrever-se</a>
+        </div>
+
+      </div>
+
+      <!-- Card 7 -->
+      <div class="agenda-card">
+
+        <h3>Redação ENEM</h3>
+
+        <p>
+          Pratique a escrita com foco nos critérios da banca avaliadora.
+        </p>
+
+        <small>
+          <strong>Data:</strong> 24/06/2025 às 16h
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda btn-inscrever">Inscrever-se</a>
+        </div>
+
+      </div>
+
+      <!-- Card 8 -->
+      <div class="agenda-card">
+
+        <h3>Oratória para Apresentações</h3>
+
+        <p>
+          Fale em público com segurança e clareza.
+        </p>
+
+        <small>
+          <strong>Data:</strong> 26/06/2025 às 18h
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda btn-inscrever">Inscrever-se</a>
+        </div>
+
+      </div>
+
+      <!-- Card 9 -->
+      <div class="agenda-card">
+
+        <h3>Gestão do Tempo</h3>
+
+        <p>
+          Organize melhor seus estudos e compromissos.
+        </p>
+
+        <small>
+          <strong>Data:</strong> 28/06/2025 às 11h
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda btn-inscrever">Inscrever-se</a>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Card de confirmação -->
+    <div class="confirmacao-card" id="confirmacao-card">
+
+      <h2>Inscrição Confirmada!</h2>
+
+      <p>
+        Você se inscreveu com sucesso! Em breve, você receberá um e-mail de confirmação.
+      </p>
+
+      <button id="fechar-confirmacao">
+        Fechar
+      </button>
+
+    </div>
+
+    <!-- Botão voltar -->
+    <div class="botoes-usuario">
+
+      <a class="btn-voltar" href="{{ url_for('main.indexUsers') }}">
+        Voltar
+      </a>
+
+    </div>
+
   </main>
 
-  <!-- Card de confirmação -->
-  <div class="confirmacao-card">
-    <h2>Inscrição Confirmada!</h2>
-    <p>Você se inscreveu com sucesso! Em breve, você receberá um e-mail de confirmação.</p>
-    <button>Fechar</button>
-  </div>
-
   <script>
+
     // Seleciona todos os botões de inscrição
     document.querySelectorAll('.btn-inscrever').forEach(botao => {
-      botao.addEventListener('click', function(event) {
-        event.preventDefault(); // impede que a página recarregue
-        
-        // Exibe o card de confirmação
-        const confirmacaoCard = document.querySelector('.confirmacao-card');
-        confirmacaoCard.style.display = 'block';
 
-        // Funcionalidade para fechar o card
-        confirmacaoCard.querySelector('button').addEventListener('click', function() {
-          confirmacaoCard.style.display = 'none'; // Esconde o card ao clicar no botão
-        });
+      botao.addEventListener('click', function(event) {
+
+        event.preventDefault();
+
+        // Mostra o card
+        document.getElementById('confirmacao-card').style.display = 'block';
+
       });
+
     });
+
+    // Botão fechar
+    document.getElementById('fechar-confirmacao').addEventListener('click', function() {
+
+      document.getElementById('confirmacao-card').style.display = 'none';
+
+    });
+
   </script>
+
 </body>
 </html>

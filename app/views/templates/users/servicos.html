@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>SAEC - Serviços</title>
-  <link rel="stylesheet" href="userStyle.css">
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/userStyle.css') }}">
 </head>
 <body>
   <main class="servicos">
@@ -17,7 +17,7 @@
       <div class="agenda-container">
         <!-- Palestra 1 -->
         <div class="agenda-card">
-          <h3>📢 Palestra: Inovação e Futuro</h3>
+          <h3> Palestra: Inovação e Futuro</h3>
           <p>Descubra as tendências tecnológicas para os próximos anos.</p>
           <small><strong>Data:</strong> 15/05/2025 às 19:00</small>
           <div class="agenda-actions">
@@ -28,7 +28,7 @@
   
         <!-- Palestra 2 -->
         <div class="agenda-card">
-          <h3>🎤 Palestra: Saúde Mental na Era Digital</h3>
+          <h3> Palestra: Saúde Mental na Era Digital</h3>
           <p>Como equilibrar o bem-estar emocional com o uso da tecnologia.</p>
           <small><strong>Data:</strong> 18/05/2025 às 14:00</small>
           <div class="agenda-actions">
@@ -39,7 +39,7 @@
   
         <!-- Palestra 3 -->
         <div class="agenda-card">
-          <h3>🧠 Palestra: Inteligência Artificial na Educação</h3>
+          <h3> Palestra: Inteligência Artificial na Educação</h3>
           <p>Entenda como a IA está transformando o aprendizado.</p>
           <small><strong>Data:</strong> 20/05/2025 às 16:30</small>
           <div class="agenda-actions">
@@ -50,7 +50,7 @@
   
         <!-- Palestra 4 -->
         <div class="agenda-card">
-          <h3>💡 Palestra: Empreendedorismo Jovem</h3>
+          <h3> Palestra: Empreendedorismo Jovem</h3>
           <p>Inspire-se com histórias reais e dicas para começar um negócio.</p>
           <small><strong>Data:</strong> 22/05/2025 às 10:00</small>
           <div class="agenda-actions">
@@ -61,9 +61,8 @@
       </div>
      
     </section>
-    <div class="botoes-usuario">
-        
-      <a class="btn-voltar" href="./indexUsers.html">Voltar</a>
+       <div class="botoes-usuario">
+      <a class="btn-voltar" href= "{{ url_for('main.indexUsers') }}">Voltar</a>
     </div>
   </main>
 </body>
