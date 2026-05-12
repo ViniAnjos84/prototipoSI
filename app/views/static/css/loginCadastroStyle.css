@@ -4,7 +4,7 @@ body {
     display: flex;
     justify-content: center;  
     align-items: center;      
-    background-color: #f2f2f2; 
+    background-color: #f2f2f2; /* só para dar contraste */
   }
   
   .formulario-container {
@@ -90,34 +90,6 @@ body {
   a{
     text-decoration: none;
   }
-
-.senha-requisitos{
-    margin-top: 0.6rem;
-}
-
-.senha-requisitos small{
-    color: #666;
-    font-size: 0.85rem;
-}
-
-.lista-requisitos{
-    display: flex;
-
-    gap: 2rem;
-
-    margin-top: 0.4rem;
-}
-
-.lista-requisitos ul{
-    padding-left: 1.2rem;
-
-    color: #777;
-    font-size: 0.82rem;
-}
-
-.lista-requisitos li{
-    margin-bottom: 0.2rem;
-}
 
   /* #termos-uso{
     /* margin-top: 0.5%; 
