@@ -1,3 +1,4 @@
+
 .content-inicio {
     display: flex;
     flex-direction: row; /* As divs irão ficar lado a lado */
@@ -165,8 +166,8 @@ footer a:hover{
 /* MEUS AGENDAMENTOS */
 
 .agenda-title {
-    margin-top: 3rem;
-    margin-bottom: 3rem;
+    margin-top: 5rem;
+    margin-bottom: 4rem;
     font-size: 2rem;
     text-align: center;
     color: white;
@@ -190,7 +191,7 @@ footer a:hover{
   
   .agenda-card {
     background-color: #f9f9f9;
-    border-left: 5px solid  #2E8B57;
+    border-left: 5px solid orange;
     padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
@@ -226,7 +227,7 @@ footer a:hover{
   
   .btn-agenda {
     text-decoration: none;
-    background-color: #2E8B57;
+    background-color: orange;
     color: #fff;
     padding: 0.5rem 1rem;
     border-radius: 6px;
@@ -235,7 +236,7 @@ footer a:hover{
   }
   
   .btn-agenda:hover {
-    background-color: #D2691E;
+    background-color: #5a55c7;
   }
   
   .agenda-toggle {
@@ -249,7 +250,6 @@ footer a:hover{
   
   .toggle-btn {
     padding: 0.75rem 1.5rem;
-    width: 30%;
     background-color: #ececec;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -263,9 +263,9 @@ footer a:hover{
   }
   
   .toggle-btn.active {
-    background-color: #2E8B57;
+    background-color: orange;
     color: white;
-    border-color:  #2E8B57;
+    border-color: orange;
   }
   
   .botoes-usuario {
@@ -276,7 +276,7 @@ footer a:hover{
   }
   
   .editar-btn {
-    background-color: #2E8B57;
+    background-color: orange;
     color: white;
     padding: 0.75rem 1.5rem;
     border: none;
@@ -293,79 +293,18 @@ footer a:hover{
     font-weight: 500;
     text-decoration: none;
     display: inline-block;
-    width: 30%;
-    font-size: 100%;
-    text-align: center;
   }
   
 
-
-
-/* Campo de pesquisa */
-#campo-pesquisa{
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    width: 70%;
-    margin-left: 15%;
-    margin-bottom: 2.5rem;
-    margin-top: 2.5rem;
-
+  #campo-pesquisa{
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    margin-left: 30%;
+    width: 40%;
   }
 
-/* Input */
-#campo-pesquisa .form-control{
-    flex: 1;
-    padding: 0.9rem 1rem;
-    border: 1px solid #dcdcdc;
-    border-radius: 12px;
-    font-size: 1rem;
-    font-family: 'Inter', sans-serif;
-    background-color: #fff;
-    outline: none;
-    transition: all 0.3s ease;
-}
-
-/* Efeito ao clicar */
-#campo-pesquisa .form-control:focus{
-    border-color: #2E8B57;
-    box-shadow: 0 0 0 4px rgba(46, 139, 87, 0.15);
-}
-
-/* Placeholder */
-#campo-pesquisa .form-control::placeholder{
-    color: #9a9a9a;
-}
-
-/* Botão */
-#campo-pesquisa .btn{
-    width: 5%;
-    height: 52px;
-    border: none;
-    border-radius: 12px;
-    background-color: #2E8B57;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-/* Hover botão */
-#campo-pesquisa .btn:hover{
-    background-color: #256f46;
-    transform: scale(1.05);
-}
-
-/* Ícone */
-#campo-pesquisa svg{
-    width: 18px;
-    height: 18px;
-}
-
   .servicos{
-    margin-top: 2rem;
+    margin-top: 6rem;
   }
 
   .servicos h1{
@@ -456,7 +395,7 @@ footer a:hover{
 /* Ajuste das colunas dentro do flex container */
 .cards-dependentes {
     margin-top: 1.5rem;
-    width: 35%;
+    width: 45%;
   }
 
   a{
@@ -491,7 +430,8 @@ footer a:hover{
   .botoes-usuario {
     display: flex;
     justify-content: flex-end;
-    margin-right: 5.3%;
+    margin-right: 5rem;
+    padding: 1.5rem 2rem;
   }
   
   .btn-voltar {
@@ -502,138 +442,9 @@ footer a:hover{
     text-decoration: none;
     font-weight: 500;
     transition: background-color 0.3s ease;
-    width: 30%;
   }
   
   .btn-voltar:hover {
     background-color: #2749c7;
   }
   
-  /* botões do perfil usuário */
-  /* Área dos botões */
-.acoes-usuario{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-top: 2rem;
-}
-
-/* Botões padrão */
-.editar-btn,
-.exportar-btn,
-.termos-btn{
-    padding: 0.8rem 1.2rem;
-    border: none;
-    border-radius: 10px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-
-/* Exportar dados */
-.exportar-btn{
-    background-color: #2E8B57;
-    color: white;
-}
-
-.exportar-btn:hover{
-    background-color: grey;
-}
-
-/* Revisar termos */
-.termos-btn{
-    background-color: #6c757d;
-    color: white;
-}
-
-.termos-btn:hover{
-    background-color: #565e64;
-}
-
-  .btn-voltar-users {
-    background-color: #345CFC;
-    color: #fff;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: background-color 0.3s ease;
-    width: 100%;
-     margin-top: 3rem;
-     text-align: center;
-  }
-  
-  .btn-voltar-users:hover {
-    background-color: #2749c7;
-  }
-  
-   .botoes-usuario-users {
-    display: flex;
-    justify-content: flex-end;
-    margin-right: 1%;
-  }
-
-
-  /* Card de confirmação de incrição Oficinas */
-  /* Card de confirmação */
-.confirmacao-card{
-    position: fixed;
-
-    top: 50%;
-    left: 50%;
-
-    transform: translate(-50%, -50%);
-
-    width: 100%;
-    max-width: 420px;
-
-    background-color: white;
-
-    padding: 2rem;
-
-    border-radius: 18px;
-
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-
-    z-index: 999;
-
-    display: none;
-
-    text-align: center;
-}
-
-.confirmacao-card h2{
-    margin-bottom: 1rem;
-
-    color: #2E8B57;
-}
-
-.confirmacao-card p{
-    color: #555;
-
-    line-height: 1.5;
-
-    margin-bottom: 1.5rem;
-}
-
-.confirmacao-card button{
-    background-color: #2E8B57;
-
-    color: white;
-
-    border: none;
-
-    padding: 0.8rem 1.4rem;
-
-    border-radius: 10px;
-
-    cursor: pointer;
-
-    transition: 0.3s;
-}
-
-.confirmacao-card button:hover{
-    background-color: #256f46;
-}
-
