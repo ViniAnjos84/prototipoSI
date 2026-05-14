@@ -103,7 +103,7 @@ def user_oficinas():
 def user_servicos():
     return render_template("users/servicos.html")
 
-@main_bp.route("/user/usuarios")
-def user_usuarios():
-    return render_template("users/usuarios.html")
+@main_bp.route("/user/meu-perfil")
+def user_meuPerfil():
+    return render_template("users/meu-perfil.html")
 
