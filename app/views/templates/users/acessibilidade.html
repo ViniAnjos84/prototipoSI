@@ -91,8 +91,65 @@
       color: #FFF !important;
     }
   </style>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/userStyle.css') }}">
+
 </head>
 <body>
+   <nav class="navbar bg-primary-subtle fixed-top">
+        <div class="container-fluid">
+
+          <a class="navbar-brand text-primary-emphasis" href="{{ url_for('main.indexUsers') }}">SAEC</a>
+
+          <button class="navbar-toggler bg-primary-subtle rounded-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
+            
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title">Menu</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+            </div>
+
+            <div class="offcanvas-body">
+
+              <!-- 👤 Usuário -->
+              <h6>Olá, {{ session['usuario_nome'] }} 👋</h6>
+
+              <ul class="navbar-nav">
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Notificações</a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Configurações</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                    Cadastrar Novo Dependente
+                  </a>
+
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Menor de Idade</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Pet</a></li>
+                  </ul>
+                </li>
+
+              </ul>
+
+              <!-- 🚪 Logout -->
+              <div class="btn-sair mt-3">
+                <a href="{{ url_for('auth.logout') }}">Sair</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </nav>
   <div class="container">
     <h1>Configurações de Acessibilidade</h1>
 
@@ -117,8 +174,10 @@
     <div class="botoes-usuario">
       <button class="btn-ajuda" onclick="mostrarAjuda()">Ajuda</button>
       <button class="btn-ajuda" onclick="restaurarPadrao()">Restaurar Padrão</button>
-      <a class="btn-voltar-a" href="./indexUsers.html" style="padding-top: 6%;">Voltar</a>
+      <a class="btn-voltar-a" href="{{ url_for('main.indexUsers') }}">Voltar</a>
     </div>
   </div>
 </body>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 </html>

@@ -1,93 +1,156 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/userStyle.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/userStyle.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+       <nav class="navbar bg-primary-subtle fixed-top">
+        <div class="container-fluid">
+
+          <a class="navbar-brand text-primary-emphasis" href="{{ url_for('main.indexUsers') }}">SAEC</a>
+
+          <button class="navbar-toggler bg-primary-subtle rounded-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
+            
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title">Menu</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+            </div>
+
+            <div class="offcanvas-body">
+
+              <!-- 👤 Usuário -->
+              <h6>Olá, {{ session['usuario_nome'] }} 👋</h6>
+
+              <ul class="navbar-nav">
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Notificações</a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Configurações</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                    Cadastrar Novo Dependente
+                  </a>
+
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Menor de Idade</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Pet</a></li>
+                  </ul>
+                </li>
+
+              </ul>
+
+              <!-- 🚪 Logout -->
+              <div class="btn-sair mt-3">
+                <a href="{{ url_for('auth.logout') }}">Sair</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </nav>
     <main class="servicos">
-        <h1>Visualizar agendamentos</h1>
-        <div class="agenda-toggle">
-          <button id="btn-agendamentos" class="toggle-btn active">Ver Agendamentos</button>
-          <button id="btn-historico" class="toggle-btn">Histórico de Agendamentos</button>
-        </div>
-      </main>
-      
-    <section>
-        <div class="agenda-container">
-      
-          <!-- Evento -->
-          <div class="agenda-card">
-            <h3>📅 Evento: Palestra de Inovação</h3>
-            <p>Participe da palestra sobre tecnologia e tendências do futuro.</p>
-            <small><strong>Data:</strong> 15/05/2025 às 19:00</small>
-            <div class="agenda-actions">
-              <a href="#" class="btn-agenda">Ver Detalhes</a>
-              <a href="#" class="btn-agenda">Editar</a>
-            </div>
-          </div>
-      
-          <!-- Consulta Médica -->
-          <div class="agenda-card">
-            <h3>🩺 Consulta Médica</h3>
-            <p>Consulta com a Dra. Fernanda - Clínica Geral.</p>
-            <small><strong>Data:</strong> 18/05/2025 às 10:30</small>
-            <div class="agenda-actions">
-              <a href="#" class="btn-agenda">Ver Detalhes</a>
-              <a href="#" class="btn-agenda">Editar</a>
-            </div>
-          </div>
-      
-          <!-- Oficina Acadêmica -->
-          <div class="agenda-card">
-            <h3>📚 Oficina Acadêmica: Lógica de Programação</h3>
-            <p>Aprenda os fundamentos da lógica com atividades práticas.</p>
-            <small><strong>Data:</strong> 20/05/2025 às 14:00</small>
-            <div class="agenda-actions">
-              <a href="#" class="btn-agenda">Ver Detalhes</a>
-              <a href="#" class="btn-agenda">Editar</a>
-            </div>
-          </div>
-      
-          <!-- Consulta Veterinária -->
-          <div class="agenda-card">
-            <h3>🐾 Consulta Veterinária</h3>
-            <p>Check-up do seu pet com o Dr. Ricardo.</p>
-            <small><strong>Data:</strong> 22/05/2025 às 09:00</small>
-            <div class="agenda-actions">
-              <a href="#" class="btn-agenda">Ver Detalhes</a>
-              <a href="#" class="btn-agenda">Editar</a>
-            </div>
-          </div>
-      
-        </div>
-       
-      </section>
-      <div class="botoes-usuario">
-        
-        <a class="btn-voltar" href="./indexUsers.html">Voltar</a>
+      <h1>Visualizar agendamentos</h1>
+      <div class="agenda-toggle">
+        <button id="btn-agendamentos" class="toggle-btn active">
+          Ver Agendamentos
+        </button>
+        <button id="btn-historico" class="toggle-btn">
+          Histórico de Agendamentos
+        </button>
       </div>
-    
-      <script>
-        const btnAgendamentos = document.getElementById('btn-agendamentos');
-        const btnHistorico = document.getElementById('btn-historico');
-      
-        btnAgendamentos.addEventListener('click', () => {
-          btnAgendamentos.classList.add('active');
-          btnHistorico.classList.remove('active');
-          // Aqui você pode mostrar ou esconder seções com agendamentos ativos
-        });
-      
-        btnHistorico.addEventListener('click', () => {
-          btnHistorico.classList.add('active');
-          btnAgendamentos.classList.remove('active');
-          // Aqui você pode mostrar ou esconder histórico
-        });
-      </script>
-      
+    </main>
+
+    <section>
+      <div class="agenda-container">
+        <!-- Evento -->
+        <div class="agenda-card">
+          <h3>Evento: Palestra de Inovação</h3>
+          <p>Participe da palestra sobre tecnologia e tendências do futuro.</p>
+          <small><strong>Data:</strong> 15/05/2025 às 19:00</small>
+          <div class="agenda-actions">
+            <a href="#" class="btn-agenda">Ver Detalhes</a>
+            <a href="#" class="btn-agenda">Cancelar</a>
+          </div>
+        </div>
+
+        <!-- Consulta Médica -->
+        <div class="agenda-card">
+          <h3>Consulta Médica</h3>
+          <p>Consulta com a Dra. Fernanda - Clínica Geral.</p>
+          <small><strong>Data:</strong> 18/05/2025 às 10:30</small>
+          <div class="agenda-actions">
+            <a href="#" class="btn-agenda">Ver Detalhes</a>
+            <a href="#" class="btn-agenda">Cancelar</a>
+          </div>
+        </div>
+
+        <!-- Oficina Acadêmica -->
+        <div class="agenda-card">
+          <h3>Oficina Acadêmica: Lógica de Programação</h3>
+          <p>Aprenda os fundamentos da lógica com atividades práticas.</p>
+          <small><strong>Data:</strong> 20/05/2025 às 14:00</small>
+          <div class="agenda-actions">
+            <a href="#" class="btn-agenda">Ver Detalhes</a>
+            <a href="#" class="btn-agenda">Cancelar</a>
+          </div>
+        </div>
+
+        <!-- Consulta Veterinária -->
+        <div class="agenda-card">
+          <h3>Consulta Veterinária</h3>
+          <p>Check-up do seu pet com o Dr. Ricardo.</p>
+          <small><strong>Data:</strong> 22/05/2025 às 09:00</small>
+          <div class="agenda-actions">
+            <a href="#" class="btn-agenda">Ver Detalhes</a>
+            <a href="#" class="btn-agenda">Cancelar</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="botoes-usuario">
+      <a class="btn-voltar"  href="{{ url_for('main.indexUsers') }}">Voltar</a>                 
+    </div>
+
+    <script>
+      const btnAgendamentos = document.getElementById("btn-agendamentos");
+      const btnHistorico = document.getElementById("btn-historico");
+
+      btnAgendamentos.addEventListener("click", () => {
+        btnAgendamentos.classList.add("active");
+        btnHistorico.classList.remove("active");
+        // Aqui você pode mostrar ou esconder seções com agendamentos ativos
+      });
+
+      btnHistorico.addEventListener("click", () => {
+        btnHistorico.classList.add("active");
+        btnAgendamentos.classList.remove("active");
+        // Aqui você pode mostrar ou esconder histórico
+      });
+    </script>
+
     <script src="js/adm-cadastro.js"></script>
-</body>
+  </body>
+  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 </html>

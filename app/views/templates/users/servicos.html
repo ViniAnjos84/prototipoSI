@@ -4,10 +4,65 @@
   <meta charset="UTF-8">
   <title>SAEC - Serviços</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/userStyle.css') }}">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+     <nav class="navbar bg-primary-subtle fixed-top">
+        <div class="container-fluid">
+
+          <a class="navbar-brand text-primary-emphasis" href="{{ url_for('main.indexUsers') }}">SAEC</a>
+
+          <button class="navbar-toggler bg-primary-subtle rounded-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
+            
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title">Menu</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+            </div>
+
+            <div class="offcanvas-body">
+
+              <!-- 👤 Usuário -->
+              <h6>Olá, {{ session['usuario_nome'] }} 👋</h6>
+
+              <ul class="navbar-nav">
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Notificações</a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Configurações</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                    Cadastrar Novo Dependente
+                  </a>
+
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Menor de Idade</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Pet</a></li>
+                  </ul>
+                </li>
+
+              </ul>
+
+              <!-- 🚪 Logout -->
+              <div class="btn-sair mt-3">
+                <a href="{{ url_for('auth.logout') }}">Sair</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </nav>
   <main class="servicos">
-    <h1>Serviços</h1>
+    <h1>Palestras</h1>
     <div class="input-group mb-3" id="campo-pesquisa">
         <input type="text" class="form-control" placeholder="nome, categoria..." aria-label="Recipient’s username" aria-describedby="button-addon2">
         <button class="btn btn-outline-secondary" type="button" id="button-addon2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -17,7 +72,7 @@
       <div class="agenda-container">
         <!-- Palestra 1 -->
         <div class="agenda-card">
-          <h3>📢 Palestra: Inovação e Futuro</h3>
+          <h3>Palestra: Inovação e Futuro</h3>
           <p>Descubra as tendências tecnológicas para os próximos anos.</p>
           <small><strong>Data:</strong> 15/05/2025 às 19:00</small>
           <div class="agenda-actions">
@@ -28,7 +83,7 @@
   
         <!-- Palestra 2 -->
         <div class="agenda-card">
-          <h3>🎤 Palestra: Saúde Mental na Era Digital</h3>
+          <h3>Palestra: Saúde Mental na Era Digital</h3>
           <p>Como equilibrar o bem-estar emocional com o uso da tecnologia.</p>
           <small><strong>Data:</strong> 18/05/2025 às 14:00</small>
           <div class="agenda-actions">
@@ -39,7 +94,7 @@
   
         <!-- Palestra 3 -->
         <div class="agenda-card">
-          <h3>🧠 Palestra: Inteligência Artificial na Educação</h3>
+          <h3>Palestra: Inteligência Artificial na Educação</h3>
           <p>Entenda como a IA está transformando o aprendizado.</p>
           <small><strong>Data:</strong> 20/05/2025 às 16:30</small>
           <div class="agenda-actions">
@@ -50,7 +105,7 @@
   
         <!-- Palestra 4 -->
         <div class="agenda-card">
-          <h3>💡 Palestra: Empreendedorismo Jovem</h3>
+          <h3>Palestra: Empreendedorismo Jovem</h3>
           <p>Inspire-se com histórias reais e dicas para começar um negócio.</p>
           <small><strong>Data:</strong> 22/05/2025 às 10:00</small>
           <div class="agenda-actions">
@@ -61,10 +116,14 @@
       </div>
      
     </section>
+   <!-- Botão voltar -->
     <div class="botoes-usuario">
-        
-      <a class="btn-voltar" href="./indexUsers.html">Voltar</a>
+      <a class="btn-voltar" href="{{ url_for('main.indexUsers') }}">
+        Voltar
+      </a>
     </div>
   </main>
 </body>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 </html>

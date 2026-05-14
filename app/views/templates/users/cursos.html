@@ -3,82 +3,300 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cursos Gratuitos - Universidade</title>
-  <style>
-    /* Estilo padrão */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f0f4f8;
-      margin-top: 4rem;
-    }
-    header {
-      padding: 1rem;
-      text-align: center;
-    }
-    main {
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-    h1 {
-      margin-left: 6rem;
-    }
-    .cards-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-    .card {
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .card h2 {
-      color: #003366;
-      margin-bottom: 0.5rem;
-    }
-    .card p {
-      flex-grow: 1;
-      margin-bottom: 1rem;
-    }
-    .btn-inscrever {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      cursor: pointer;
-      align-self: flex-start;
-      text-decoration: none;
-    }
-    .btn-inscrever:hover {
-      background-color: #0056b3;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Cursos Gratuitos da Universidade</h1>
-  </header>
 
-  <main>
-    <div class="cards-container">
-      <div class="card"><h2>Informática Básica</h2><p>Aprenda o essencial para usar o computador e internet.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
-      <div class="card"><h2>Excel para Iniciantes</h2><p>Domine fórmulas e planilhas com aulas práticas.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
-      <div class="card"><h2>Primeiros Socorros</h2><p>Noções básicas para agir em situações de emergência.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
-      <div class="card"><h2>Educação Financeira</h2><p>Aprenda a organizar suas finanças pessoais.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
-      <div class="card"><h2>Inglês para Iniciantes</h2><p>Curso introdutório com foco em vocabulário e frases básicas.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
-      <div class="card"><h2>Marketing Digital</h2><p>Noções de divulgação e redes sociais para pequenos negócios.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
-      <div class="card"><h2>Libras Básico</h2><p>Aprenda os sinais fundamentais da Língua Brasileira de Sinais.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
-      <div class="card"><h2>Design Gráfico</h2><p>Noções de layout, cor e criação de peças gráficas.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
-      <div class="card"><h2>Introdução à Programação</h2><p>Fundamentos para quem deseja entrar no mundo do código.</p><a href="#" class="btn-inscrever">Inscrever-se</a></div>
+  <title>Cursos Gratuitos - Universidade</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/userStyle.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+   <nav class="navbar bg-primary-subtle fixed-top">
+        <div class="container-fluid">
+
+          <a class="navbar-brand text-primary-emphasis" href="{{ url_for('main.indexUsers') }}">SAEC</a>
+
+          <button class="navbar-toggler bg-primary-subtle rounded-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
+            
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title">Menu</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+            </div>
+
+            <div class="offcanvas-body">
+
+              <!-- 👤 Usuário -->
+              <h6>Olá, {{ session['usuario_nome'] }} 👋</h6>
+
+              <ul class="navbar-nav">
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Notificações</a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Configurações</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                    Cadastrar Novo Dependente
+                  </a>
+
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Menor de Idade</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Pet</a></li>
+                  </ul>
+                </li>
+
+              </ul>
+
+              <!-- 🚪 Logout -->
+              <div class="btn-sair mt-3">
+                <a href="{{ url_for('auth.logout') }}">Sair</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </nav>
+  <main class="servicos">
+
+    <h1>Cursos Gratuitos da Universidade</h1>
+
+    <!-- Campo de pesquisa -->
+    <div class="input-group mb-3" id="campo-pesquisa">
+
+      <input
+        type="text"
+        class="form-control"
+        placeholder="nome, categoria..."
+        aria-label="Pesquisar cursos"
+        aria-describedby="button-addon2"
+      >
+
+      <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="16"
+             height="16"
+             fill="currentColor"
+             class="bi bi-search"
+             viewBox="0 0 16 16">
+
+          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397
+          1.398h-.001q.044.06.098.115l3.85
+          3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1
+          1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1
+          1-11 0 5.5 5.5 0 0 1 11 0"/>
+        </svg>
+
+      </button>
+
     </div>
+
+    <!-- Cards -->
+    <div class="agenda-container">
+
+      <!-- Card 1 -->
+      <div class="agenda-card">
+
+        <h3>Informática Básica</h3>
+
+        <p>
+          Aprenda o essencial para usar o computador e internet.
+        </p>
+
+        <small>
+          <strong>Duração:</strong> 4 semanas
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda">Inscrever-se</a>
+        </div>
+
+      </div>
+
+      <!-- Card 2 -->
+      <div class="agenda-card">
+
+        <h3>Excel para Iniciantes</h3>
+
+        <p>
+          Domine fórmulas e planilhas com aulas práticas.
+        </p>
+
+        <small>
+          <strong>Duração:</strong> 6 semanas
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda">Inscrever-se</a>
+        </div>
+
+      </div>
+
+      <!-- Card 3 -->
+      <div class="agenda-card">
+
+        <h3>Primeiros Socorros</h3>
+
+        <p>
+          Noções básicas para agir em situações de emergência.
+        </p>
+
+        <small>
+          <strong>Duração:</strong> 2 semanas
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda">Inscrever-se</a>
+        </div>
+
+      </div>
+
+      <!-- Card 4 -->
+      <div class="agenda-card">
+
+        <h3>Educação Financeira</h3>
+
+        <p>
+          Aprenda a organizar suas finanças pessoais.
+        </p>
+
+        <small>
+          <strong>Duração:</strong> 5 semanas
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda">Inscrever-se</a>
+        </div>
+
+      </div>
+
+      <!-- Card 5 -->
+      <div class="agenda-card">
+
+        <h3>Inglês para Iniciantes</h3>
+
+        <p>
+          Curso introdutório com foco em vocabulário e frases básicas.
+        </p>
+
+        <small>
+          <strong>Duração:</strong> 8 semanas
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda">Inscrever-se</a>
+        </div>
+
+      </div>
+
+      <!-- Card 6 -->
+      <div class="agenda-card">
+
+        <h3>Marketing Digital</h3>
+
+        <p>
+          Noções de divulgação e redes sociais para pequenos negócios.
+        </p>
+
+        <small>
+          <strong>Duração:</strong> 4 semanas
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda">Inscrever-se</a>
+        </div>
+
+      </div>
+
+      <!-- Card 7 -->
+      <div class="agenda-card">
+
+        <h3>Libras Básico</h3>
+
+        <p>
+          Aprenda os sinais fundamentais da Língua Brasileira de Sinais.
+        </p>
+
+        <small>
+          <strong>Duração:</strong> 6 semanas
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda">Inscrever-se</a>
+        </div>
+
+      </div>
+
+      <!-- Card 8 -->
+      <div class="agenda-card">
+
+        <h3>Design Gráfico</h3>
+
+        <p>
+          Noções de layout, cor e criação de peças gráficas.
+        </p>
+
+        <small>
+          <strong>Duração:</strong> 5 semanas
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda">Inscrever-se</a>
+        </div>
+
+      </div>
+
+      <!-- Card 9 -->
+      <div class="agenda-card">
+
+        <h3>Introdução à Programação</h3>
+
+        <p>
+          Fundamentos para quem deseja entrar no mundo do código.
+        </p>
+
+        <small>
+          <strong>Duração:</strong> 8 semanas
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda">Inscrever-se</a>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Botão voltar -->
+    <div class="botoes-usuario">
+
+      <a class="btn-voltar" href="{{ url_for('main.indexUsers') }}">
+        Voltar
+      </a>
+
+    </div>
+
   </main>
+
 </body>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 </html>

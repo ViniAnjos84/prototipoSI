@@ -1,58 +1,152 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SAEC - Tela do Usuário</title>
-  <link rel="stylesheet" href="css/userStyle.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-</head>
-<body>
-  <header>
-    <h1>SAEC</h1>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SAEC - Tela do Usuário</title>
 
-  <main class="usuario-container">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/userStyle.css') }}"
+    />
 
-    <div class="info-cadastro">
-      <div class="perfil">
-        <div class="foto-perfil">DO</div>
-        <div class="info-principal">
-          <h2>Nome do Usuário</h2>
-          <p>ID: 123456</p>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+       <nav class="navbar bg-primary-subtle fixed-top">
+        <div class="container-fluid">
+
+          <a class="navbar-brand text-primary-emphasis" href="{{ url_for('main.indexUsers') }}">SAEC</a>
+
+          <button class="navbar-toggler bg-primary-subtle rounded-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
+            
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title">Menu</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+            </div>
+
+            <div class="offcanvas-body">
+
+              <!-- 👤 Usuário -->
+              <h6>Olá, {{ session['usuario_nome'] }} 👋</h6>
+
+              <ul class="navbar-nav">
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Notificações</a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Configurações</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                    Cadastrar Novo Dependente
+                  </a>
+
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Menor de Idade</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Pet</a></li>
+                  </ul>
+                </li>
+
+              </ul>
+
+              <!-- 🚪 Logout -->
+              <div class="btn-sair mt-3">
+                <a href="{{ url_for('auth.logout') }}">Sair</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </nav>
+    <header>
+      <h1>SAEC</h1>
+    </header>
+
+    <main class="usuario-container">
+      <!-- Informações do usuário -->
+      <div class="info-cadastro">
+        <div class="perfil">
+          <div class="foto-perfil">DO</div>
+
+          <div class="info-principal">
+            <h2>{{ session['usuario_nome'] }}</h2>
+            <p>ID: {{ session['usuario_id'] }}</p>
+          </div>
+        </div>
+
+        <p><strong>Nome:</strong> {{ session['usuario_nome'] }}</p>
+
+        <p><strong>E-mail:</strong> {{ session['usuario_email'] }}</p>
+
+        <p><strong>Telefone:</strong> {{ session['usuario_telefone'] }}</p>
+
+        <p><strong>CEP:</strong> {{ session['usuario_cep'] }}</p>
+
+        <p><strong>Número:</strong> {{ session['usuario_numero'] }}</p>
+
+        <p>
+          <strong>Complemento:</strong> {{ session['usuario_complemento'] }}
+        </p>
+
+        <p><strong>CPF:</strong> {{ session['usuario_cpf'] }}</p>
+
+        <!-- Botões de ação -->
+        <div class="acoes-usuario">
+          <button class="editar-btn" onclick="">Editar Informações</button>
+
+          <button class="exportar-btn">Exportar Dados</button>
+
+          <button class="termos-btn">Revisar Termos</button>
+        </div>
+
+        <!-- Botão voltar -->
+        <div class="botoes-usuario">
+          <a class="btn-voltar" href="{{ url_for('main.indexUsers') }}">
+            Voltar
+          </a>
         </div>
       </div>
-      <p><strong>Nome:</strong> Joana Silva</p>
-      <p><strong>E-mail:</strong> joana@email.com</p>
-      <p><strong>Telefone:</strong> (11) 91234-5678</p>
-      <p><strong>CEP:</strong> 01234-567</p>
-      <p><strong>Número:</strong> 123</p>
-      <p><strong>Complemento:</strong> Apto 45</p>
-      <p><strong>CPF:</strong> 123.456.789-00</p>
-  
-      <button class="editar-btn" onclick="">Editar Informações</button>
-      
-      <a class="btn-voltar" href="./indexUsers.html" >voltar</a>
-    </div>
-  
-    <div class="cards-dependentes">
-      <h1>Dependentes</h1>
-      <div class="card">
-        <h3>Dependente: Maria Silva</h3>
-        <p><strong>Idade:</strong> 8 anos</p>
-        <p><strong>Grau de Parentesco:</strong> Filha</p>
-        <p><strong>Escola:</strong> Escola Municipal Alegria de Viver</p>
+
+      <!-- Dependentes -->
+      <div class="cards-dependentes">
+        <h1>Dependentes</h1>
+
+        <div class="card">
+          <h3>Dependente: Maria Silva</h3>
+
+          <p><strong>Idade:</strong> 8 anos</p>
+
+          <p><strong>Grau de Parentesco:</strong> Filha</p>
+
+          <p><strong>Escola:</strong> Escola Municipal Alegria de Viver</p>
+        </div>
+
+        <div class="card">
+          <h3>Pet: Rex</h3>
+
+          <p><strong>Espécie:</strong> Cachorro</p>
+
+          <p><strong>Raça:</strong> Labrador</p>
+
+          <p><strong>Idade:</strong> 4 anos</p>
+        </div>
       </div>
-  
-      <div class="card">
-        <h3>Pet: Rex</h3>
-        <p><strong>Espécie:</strong> Cachorro</p>
-        <p><strong>Raça:</strong> Labrador</p>
-        <p><strong>Idade:</strong> 4 anos</p>
-      </div>
-    </div>
-  
-  </main>
-  
-</body>
+    </main>
+  </body>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
 </html>
