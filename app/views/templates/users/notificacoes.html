@@ -25,9 +25,62 @@
   />
 </head>
 
-<body class="bg-light">
+<body>
+   <nav class="navbar bg-primary-subtle fixed-top">
+        <div class="container-fluid">
 
-  <main class="container py-5">
+          <a class="navbar-brand text-primary-emphasis" href="{{ url_for('main.indexUsers') }}">SAEC</a>
+
+          <button class="navbar-toggler bg-primary-subtle rounded-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
+            
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title">Menu</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+            </div>
+
+            <div class="offcanvas-body">
+
+              <!-- 👤 Usuário -->
+              <h6>Olá, {{ session['usuario_nome'] }} 👋</h6>
+
+              <ul class="navbar-nav">
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Notificações</a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Configurações</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                    Cadastrar Novo Dependente
+                  </a>
+
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Menor de Idade</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Pet</a></li>
+                  </ul>
+                </li>
+
+              </ul>
+
+              <!-- 🚪 Logout -->
+              <div class="btn-sair mt-3">
+                <a href="{{ url_for('auth.logout') }}">Sair</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </nav>
+  <main class="container">
 
     <!-- Título -->
     <div class="mb-4">
@@ -142,9 +195,7 @@
     </div>
 
   </main>
-
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
+ <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </html>
