@@ -2,16 +2,6 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from dotenv import load_dotenv
 import os
-# import pymysql  # Codigo Stephany
-
-#def get_connection():
-#    return pymysql.connect(
-#        host="localhost",
-#        user="root",
-#        password="$Aec@202604@",
-#        database="usuarios",
-#        cursorclass=pymysql.cursors.DictCursor
-#    )
 
 load_dotenv()
 
