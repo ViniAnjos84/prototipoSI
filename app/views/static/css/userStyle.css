@@ -1,4 +1,6 @@
-
+.container{
+  margin-top: 10%;
+}
 .content-inicio {
     display: flex;
     flex-direction: row; /* As divs irão ficar lado a lado */
@@ -285,6 +287,37 @@ footer a:hover{
     cursor: pointer;
   }
   
+  .exportar-btn {
+    background-color: blue;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+    .editar-btn {
+    background-color: orange;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+    .termos-btn {
+    background-color: orange;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+
   .btn-voltar {
     background-color: #345CFC;
     color: white;
@@ -295,13 +328,6 @@ footer a:hover{
     display: inline-block;
   }
   
-
-  #campo-pesquisa{
-    margin-top: 3rem;
-    margin-bottom: 3rem;
-    margin-left: 30%;
-    width: 40%;
-  }
 
   .servicos{
     margin-top: 6rem;
@@ -447,4 +473,141 @@ footer a:hover{
   .btn-voltar:hover {
     background-color: #2749c7;
   }
-  
+
+
+  /* CAMPO DE PESQUISA */
+#campo-pesquisa{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    width: 60%;
+    margin-left: 20%;
+    margin-top: 2%;
+    margin-bottom: 4%;
+}
+
+/* Input */
+#campo-pesquisa .form-control{
+    flex: 1;
+
+    padding: 0.9rem 1rem;
+
+    border: 1px solid #dcdcdc;
+    border-radius: 12px;
+
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+
+    background-color: #fff;
+
+    outline: none;
+
+    transition: all 0.3s ease;
+}
+
+/* Efeito ao clicar */
+#campo-pesquisa .form-control:focus{
+    border-color: #d2691e;
+
+    box-shadow: 0 0 0 4px rgba(139, 77, 46, 0.15);
+}
+
+/* Placeholder */
+#campo-pesquisa .form-control::placeholder{
+    color: #9a9a9a;
+}
+
+/* Botão */
+#campo-pesquisa .btn{
+    width: 52px;
+    height: 52px;
+
+    border: none;
+    border-radius: 12px;
+
+    background-color: #d2691e;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+/* Hover botão */
+#campo-pesquisa .btn:hover{
+    background-color: #2268bf;
+
+    transform: scale(1.05);
+}
+
+/* Ícone */
+#campo-pesquisa svg{
+    width: 18px;
+    height: 18px;
+}
+
+/* Card de confirmação */
+.confirmacao-card{
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 100%;
+    max-width: 420px;
+
+    background-color: white;
+
+    padding: 2rem;
+
+    border-radius: 18px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+
+    z-index: 999;
+
+    display: none;
+
+    text-align: center;
+}
+
+.confirmacao-card h2{
+    margin-bottom: 1rem;
+
+    color: #2E8B57;
+}
+
+.confirmacao-card p{
+    color: #555;
+
+    line-height: 1.5;
+
+    margin-bottom: 1.5rem;
+}
+
+.confirmacao-card button{
+    background-color: #2E8B57;
+
+    color: white;
+
+    border: none;
+
+    padding: 0.8rem 1.4rem;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.confirmacao-card button:hover{
+    background-color: #256f46;
+}

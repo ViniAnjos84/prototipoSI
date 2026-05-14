@@ -3,119 +3,300 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eventos - Universidade</title>
-  <style>
-    /* Estilo padrão */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f0f4f8;
-      margin-top: 4rem;
-    }
-    header {
-      padding: 1rem;
-      text-align: center;
-    }
-    main {
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-    h1 {
-      margin-left: 6rem;
-    }
-    .cards-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-    .card {
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .card h2 {
-      color: #003366;
-      margin-bottom: 0.5rem;
-    }
-    .card p {
-      flex-grow: 1;
-      margin-bottom: 1rem;
-    }
-    .btn-inscrever {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      cursor: pointer;
-      align-self: flex-start;
-      text-decoration: none;
-    }
-    .btn-inscrever:hover {
-      background-color: #0056b3;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Eventos da Universidade</h1>
-  </header>
 
-  <main>
-    <div class="cards-container">
-      <div class="card">
-        <h2>Semana da Saúde</h2>
-        <p>Palestras, atividades físicas e serviços gratuitos de saúde abertos ao público.</p>
-        <a href="#" class="btn-inscrever">Participar</a>
-      </div>
-      <div class="card">
-        <h2>Feira de Profissões</h2>
-        <p>Descubra cursos, converse com profissionais e tire dúvidas sobre o mercado de trabalho.</p>
-        <a href="#" class="btn-inscrever">Participar</a>
-      </div>
-      <div class="card">
-        <h2>Encontro de Empreendedores</h2>
-        <p>Networking, mentorias e histórias inspiradoras para quem quer empreender.</p>
-        <a href="#" class="btn-inscrever">Participar</a>
-      </div>
-      <div class="card">
-        <h2>Festival de Cultura</h2>
-        <p>Exposição de arte, música ao vivo, dança e apresentações culturais da comunidade.</p>
-        <a href="#" class="btn-inscrever">Participar</a>
-      </div>
-      <div class="card">
-        <h2>Circuito de Palestras</h2>
-        <p>Palestrantes renomados compartilham experiências nas áreas de saúde, tecnologia e educação.</p>
-        <a href="#" class="btn-inscrever">Participar</a>
-      </div>
-      <div class="card">
-        <h2>Dia do Voluntariado</h2>
-        <p>Ação social em comunidades carentes com o apoio dos alunos e professores.</p>
-        <a href="#" class="btn-inscrever">Participar</a>
-      </div>
-      <div class="card">
-        <h2>Hackathon Universitário</h2>
-        <p>Competição de inovação tecnológica para criação de soluções com impacto social.</p>
-        <a href="#" class="btn-inscrever">Participar</a>
-      </div>
-      <div class="card">
-        <h2>Campanha de Doação de Sangue</h2>
-        <p>Parceria com o Hemocentro para doação de sangue no campus universitário.</p>
-        <a href="#" class="btn-inscrever">Participar</a>
-      </div>
-      <div class="card">
-        <h2>Cinema na Universidade</h2>
-        <p>Sessões gratuitas com debate e análise de filmes relevantes à formação cidadã.</p>
-        <a href="#" class="btn-inscrever">Participar</a>
-      </div>
+  <title>Eventos - Universidade</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/userStyle.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+   <nav class="navbar bg-primary-subtle fixed-top">
+        <div class="container-fluid">
+
+          <a class="navbar-brand text-primary-emphasis" href="{{ url_for('main.indexUsers') }}">SAEC</a>
+
+          <button class="navbar-toggler bg-primary-subtle rounded-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
+            
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title">Menu</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+            </div>
+
+            <div class="offcanvas-body">
+
+              <!-- 👤 Usuário -->
+              <h6>Olá, {{ session['usuario_nome'] }} 👋</h6>
+
+              <ul class="navbar-nav">
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Notificações</a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Configurações</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                    Cadastrar Novo Dependente
+                  </a>
+
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Menor de Idade</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Pet</a></li>
+                  </ul>
+                </li>
+
+              </ul>
+
+              <!-- 🚪 Logout -->
+              <div class="btn-sair mt-3">
+                <a href="{{ url_for('auth.logout') }}">Sair</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </nav>
+  <main class="servicos">
+
+    <h1>Eventos da Universidade</h1>
+
+    <!-- Campo de pesquisa -->
+    <div class="input-group mb-3" id="campo-pesquisa">
+
+      <input
+        type="text"
+        class="form-control"
+        placeholder="nome, categoria..."
+        aria-label="Pesquisar eventos"
+        aria-describedby="button-addon2"
+      >
+
+      <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="16"
+             height="16"
+             fill="currentColor"
+             class="bi bi-search"
+             viewBox="0 0 16 16">
+
+          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397
+          1.398h-.001q.044.06.098.115l3.85
+          3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1
+          1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1
+          1-11 0 5.5 5.5 0 0 1 11 0"/>
+        </svg>
+
+      </button>
+
     </div>
+
+    <!-- Cards -->
+    <div class="agenda-container">
+
+      <!-- Card 1 -->
+      <div class="agenda-card">
+
+        <h3>Semana da Saúde</h3>
+
+        <p>
+          Palestras, atividades físicas e serviços gratuitos de saúde abertos ao público.
+        </p>
+
+        <small>
+          <strong>Data:</strong> 15/05/2025 às 09h
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda">Participar</a>
+        </div>
+
+      </div>
+
+      <!-- Card 2 -->
+      <div class="agenda-card">
+
+        <h3>Feira de Profissões</h3>
+
+        <p>
+          Descubra cursos, converse com profissionais e tire dúvidas sobre o mercado de trabalho.
+        </p>
+
+        <small>
+          <strong>Data:</strong> 18/05/2025 às 14h
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda">Participar</a>
+        </div>
+
+      </div>
+
+      <!-- Card 3 -->
+      <div class="agenda-card">
+
+        <h3>Encontro de Empreendedores</h3>
+
+        <p>
+          Networking, mentorias e histórias inspiradoras para quem quer empreender.
+        </p>
+
+        <small>
+          <strong>Data:</strong> 20/05/2025 às 19h
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda">Participar</a>
+        </div>
+
+      </div>
+
+      <!-- Card 4 -->
+      <div class="agenda-card">
+
+        <h3>Festival de Cultura</h3>
+
+        <p>
+          Exposição de arte, música ao vivo, dança e apresentações culturais da comunidade.
+        </p>
+
+        <small>
+          <strong>Data:</strong> 22/05/2025 às 16h
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda">Participar</a>
+        </div>
+
+      </div>
+
+      <!-- Card 5 -->
+      <div class="agenda-card">
+
+        <h3>Circuito de Palestras</h3>
+
+        <p>
+          Palestrantes renomados compartilham experiências nas áreas de saúde, tecnologia e educação.
+        </p>
+
+        <small>
+          <strong>Data:</strong> 25/05/2025 às 10h
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda">Participar</a>
+        </div>
+
+      </div>
+
+      <!-- Card 6 -->
+      <div class="agenda-card">
+
+        <h3>Dia do Voluntariado</h3>
+
+        <p>
+          Ação social em comunidades carentes com o apoio dos alunos e professores.
+        </p>
+
+        <small>
+          <strong>Data:</strong> 27/05/2025 às 08h
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda">Participar</a>
+        </div>
+
+      </div>
+
+      <!-- Card 7 -->
+      <div class="agenda-card">
+
+        <h3>Hackathon Universitário</h3>
+
+        <p>
+          Competição de inovação tecnológica para criação de soluções com impacto social.
+        </p>
+
+        <small>
+          <strong>Data:</strong> 29/05/2025 às 13h
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda">Participar</a>
+        </div>
+
+      </div>
+
+      <!-- Card 8 -->
+      <div class="agenda-card">
+
+        <h3>Campanha de Doação de Sangue</h3>
+
+        <p>
+          Parceria com o Hemocentro para doação de sangue no campus universitário.
+        </p>
+
+        <small>
+          <strong>Data:</strong> 30/05/2025 às 09h
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda">Participar</a>
+        </div>
+
+      </div>
+
+      <!-- Card 9 -->
+      <div class="agenda-card">
+
+        <h3>Cinema na Universidade</h3>
+
+        <p>
+          Sessões gratuitas com debate e análise de filmes relevantes à formação cidadã.
+        </p>
+
+        <small>
+          <strong>Data:</strong> 02/06/2025 às 18h
+        </small>
+
+        <div class="agenda-actions">
+          <a href="#" class="btn-agenda">Ver Detalhes</a>
+          <a href="#" class="btn-agenda">Participar</a>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Botão voltar -->
+    <div class="botoes-usuario">
+
+      <a class="btn-voltar" href="{{ url_for('main.indexUsers') }}">
+        Voltar
+      </a>
+
+    </div>
+
   </main>
-  
+
 </body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 </html>
