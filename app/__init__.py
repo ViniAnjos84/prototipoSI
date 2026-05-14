@@ -1,4 +1,6 @@
+import secrets
 from flask import Flask
+from datetime import timedelta
 
 def create_app():
     app = Flask(
@@ -7,7 +9,9 @@ def create_app():
         static_folder="views/static"
     )
 
-    app.secret_key = "chave_secreta_super_segura" 
+    # Configuração da aplicação (feito quando o sistema inicia)
+    app.secret_key = secrets.token_hex(32)
+    app.permanent_session_lifetime = timedelta(minutes=10)
 
     from app.routes.auth import auth_bp
     from app.routes.main import main_bp
