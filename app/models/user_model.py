@@ -37,7 +37,7 @@ def create_cliente(data):
                 cep,
                 cliente_id
             )
-            VALUES (%s, %s, %s)
+            VALUES (%s, %s)
         """, (
             data["cep"],
             cliente_id
@@ -186,3 +186,26 @@ def find_user_by_telefone(tel):
     finally:
         cursor.close()
         conn.close()
+
+# =========================
+# SALVAR CONSENTIMENTO
+# =========================
+def salvar_consentimento(
+    cursor,
+    cliente_id,
+):
+
+    cursor.execute("""
+        INSERT INTO consentimentos_termos (
+
+            cliente_id,
+            aceitou,
+            versao_termo
+
+        )
+        VALUES (%s, %s, %s)
+    """, (
+        cliente_id,
+        True,
+        "1.0"
+    ))

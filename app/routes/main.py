@@ -135,3 +135,8 @@ def user_meuPerfil():
 @login_required
 def exportar_pdf():
     return exportar_pdf_controller()
+
+# Termos de uso
+@main_bp.route("/termos")
+def termos_uso():
+    return render_template("termos.html")
