@@ -1,8 +1,10 @@
 from app.models.user_model import create_cliente
 from app.models.user_model import find_user_by_email, find_user_by_cpf, find_user_by_telefone
+from app.models.user_model import salvar_consentimento
 from datetime import datetime, timedelta
 from argon2 import PasswordHasher
 from email.mime.text import MIMEText
+from flask import request
 import random, smtplib, os
 
 
@@ -16,6 +18,14 @@ ph = PasswordHasher(
 
 def cadastrar_usuario(form):
     try:
+    
+        # VALIDAR TERMOS
+        if not form.get("termos"):
+
+            return {
+                "success": False,
+                "erro": "É necessário aceitar os termos"
+            }
     
         senha = form.get("senha")
         senha_ver = form.get("senhaVER")
@@ -67,6 +77,12 @@ def cadastrar_usuario(form):
         }
 
         conn, cursor, cliente_id = create_cliente(data)
+       
+        # SALVAR CONSENTIMENTO
+        salvar_consentimento(
+            cursor,
+            cliente_id
+        )
 
         #tipo = form.get("tipoCadastro")
 
