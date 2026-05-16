@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, session, url_for
+from app import limiter
 
 from app.controllers.user_controller import (
     cadastrar_usuario,
@@ -37,28 +38,37 @@ def cadastrar():
         tipo="erro"
     )
 
-
 # ========================
 # LOGIN
 # ========================
+
+MAX_TENTATIVAS = 5
 @auth_bp.route("/login", methods=["GET", "POST"])
+@limiter.limit("5 per minute")
+@limiter.limit("20 per hour")
 def login():
 
     # GET
     if request.method == "GET":
-        return render_template("login.html")
+
+        # Inicializa tentativas
+        session.setdefault("tentativas", 0)
+
+        return render_template(
+            "login.html", 
+        )
 
     # Inicializa tentativas
-    if "tentativas" not in session:
-        session["tentativas"] = 0
+    session.setdefault("tentativas", 0)
 
-    # Limite de tentativas
-    if session["tentativas"] >= 3:
+    # Verifica bloqueio
+    if session["tentativas"] >= MAX_TENTATIVAS:
 
         return render_template(
             "login.html",
             mensagem="Muitas tentativas. Tente novamente mais tarde.",
-            tipo="erro"
+            tipo="erro",
+            tentativas_restantes = 0
         )
 
     # Login
@@ -68,33 +78,30 @@ def login():
     if not result["success"]:
 
         session["tentativas"] += 1
+        tentativas_restantes = (
+            MAX_TENTATIVAS - session["tentativas"]
+        )
 
         return render_template(
             "login.html",
             mensagem=result["erro"],
-            tipo="erro"
+            tipo="erro",
+            tentativas_restantes=tentativas_restantes
         )
 
     usuario = result["usuario"]
+    session["tentativas"] = 0
 
-    # ========================
-    # GERAR 2FA
-    # ========================
+    # Gerar 2FA
     codigo, expiracao = gerar_codigo_2fa()
+    print("Codigo Autenticação:", codigo)
 
-    # ========================
-    # SESSÃO
-    # ========================
+    # Sessão
     session["usuario_temp_id"] = usuario["id"]
-
     session["usuario_nome"] = usuario["nome"]
     session["usuario_email"] = usuario["email"]
     session["usuario_telefone"] = usuario["telefone"]
-
     session["usuario_cep"] = usuario["cep"]
-    session["usuario_numero"] = usuario["numero"]
-    session["usuario_complemento"] = usuario["complemento"]
-
     session["usuario_cpf"] = usuario["cpf"]
 
     # 2FA
@@ -105,10 +112,10 @@ def login():
     )
 
     # Envia email
-    enviar_codigo_email(
-        usuario["email"],
-        codigo
-    )
+    #enviar_codigo_email(
+    #    usuario["email"],
+    #    codigo
+    #)
 
     return redirect(
         url_for("auth.verificar_2fa")

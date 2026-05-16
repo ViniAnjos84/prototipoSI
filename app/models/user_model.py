@@ -17,18 +17,16 @@ def create_cliente(data):
                 telefone,
                 email,
                 senha,
-                cpf,
-                rg
+                cpf
             )
-            VALUES (%s, %s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s)
             RETURNING id
         """, (
             data["nome"],
             data["telefone"],
             data["email"],
             data["senha"],
-            data["cpf"],
-            data["rg"]
+            data["cpf"]
         ))
 
         cliente_id = cursor.fetchone()["id"]
@@ -37,15 +35,11 @@ def create_cliente(data):
         cursor.execute("""
             INSERT INTO enderecos (
                 cep,
-                numero,
-                complemento,
                 cliente_id
             )
-            VALUES (%s, %s, %s, %s)
+            VALUES (%s, %s, %s)
         """, (
             data["cep"],
-            data["numero"],
-            data["complemento"],
             cliente_id
         ))
 
@@ -111,7 +105,7 @@ def find_user_by_email(email):
     try:
 
         cursor.execute("""
-            SELECT
+            SELECT 
 
                 c.id,
                 c.nome,
@@ -119,11 +113,7 @@ def find_user_by_email(email):
                 c.email,
                 c.senha,
                 c.cpf,
-                c.rg,
-
-                e.cep,
-                e.numero,
-                e.complemento
+                e.cep
 
             FROM clientes c
 
@@ -170,34 +160,6 @@ def find_user_by_cpf(cpf):
     finally:
         cursor.close()
         conn.close()
-
-
-# =========================
-# BUSCAR POR RG
-# =========================
-def find_user_by_rg(rg):
-
-    conn = get_connection()
-    cursor = conn.cursor()
-
-    try:
-
-        cursor.execute(
-            "SELECT * FROM clientes WHERE rg = %s",
-            (rg,)
-        )
-
-        usuario = cursor.fetchone()
-
-        return usuario
-
-    except:
-        raise
-
-    finally:
-        cursor.close()
-        conn.close()
-
 
 # =========================
 # BUSCAR POR TELEFONE
