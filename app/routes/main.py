@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, session, redirect, url_for
 from app.utils.auth_decorators import login_required
 from app.controllers.pdf_controller import exportar_pdf_controller
 
@@ -21,6 +21,17 @@ def indexAdm():
 @login_required
 def indexUsers():
     return render_template("indexUsers.html")
+
+
+# ======================
+# PERFIL
+# ======================
+@main_bp.route("/perfil")
+def perfil():
+    if "usuario_id" not in session:
+        return redirect(url_for("auth.login"))
+
+    return render_template("users/meu-perfil.html")
 
 # ======================
 # ADMIN

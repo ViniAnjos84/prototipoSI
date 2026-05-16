@@ -110,6 +110,13 @@ body {
       font-size: 14px;
       font-weight: 600;
   }
+
+  .subtitulo-recuperacao{
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 15px;
+    line-height: 1.5;
+  }
   
   /* #termos-uso{
     /* margin-top: 0.5%; 

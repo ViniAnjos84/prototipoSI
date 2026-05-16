@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, session, url_for
 from app import limiter
+from app.models.user_model import find_user_by_email
 
 from app.controllers.user_controller import (
     cadastrar_usuario,
@@ -62,11 +63,10 @@ def login():
     session.setdefault("tentativas", 0)
 
     # Verifica bloqueio
-    if session["tentativas"] >= MAX_TENTATIVAS:
+    if session["tentativas"] >= MAX_TENTATIVAS and request.method == "POST":
 
         return render_template(
             "login.html",
-            mensagem="Muitas tentativas. Tente novamente mais tarde.",
             tipo="erro",
             tentativas_restantes = 0
         )
@@ -78,9 +78,7 @@ def login():
     if not result["success"]:
 
         session["tentativas"] += 1
-        tentativas_restantes = (
-            MAX_TENTATIVAS - session["tentativas"]
-        )
+        tentativas_restantes = (MAX_TENTATIVAS - session["tentativas"])
 
         return render_template(
             "login.html",
@@ -184,16 +182,105 @@ def verificar_2fa():
 
 
 # ========================
-# PERFIL
+# RECUPERAÇÃO DE SENHA
 # ========================
-@auth_bp.route("/perfil")
-def perfil():
+@auth_bp.route("/recuperar-senha", methods=["GET", "POST"])
+def recuperar_senha():
 
-    if "usuario_id" not in session:
-        return redirect(url_for("auth.login"))
+    if request.method == "GET":
+        return render_template("recuperarSenha.html")
 
-    return render_template("users/meu-perfil.html")
+    email = request.form["email"]
 
+    # controller
+    usuario = find_user_by_email(email)
+
+    if not usuario:
+        return render_template(
+            "recuperarSenha.html",
+            mensagem="Email não encontrado",
+            tipo="erro"
+        )
+
+    # gera código
+    codigo, expiracao = gerar_codigo_2fa()
+
+    # sessão temporária
+    session["reset_user_id"] = usuario["id"]
+    session["reset_codigo"] = codigo
+    session["reset_expira"] = expiracao.strftime(
+        "%Y-%m-%d %H:%M:%S"
+    )
+
+    # envia email
+    enviar_codigo_email(email, codigo)
+
+    return redirect(
+        url_for("auth.validar_codigo_recuperacao")
+    )
+
+@auth_bp.route("/validar-recuperacao", methods=["GET", "POST"])
+def validar_codigo_recuperacao():
+
+    # GET → apenas mostra a tela
+    if request.method == "GET":
+        return render_template("validarCodigoRecuperacao.html")
+
+    # POST → valida código digitado
+    codigo_digitado = request.form["codigo"]
+
+    codigo_salvo = session.get("reset_codigo")
+    expiracao = session.get("reset_expira")
+
+    # sessão inexistente
+    if not codigo_salvo or not expiracao:
+
+        session.clear()
+
+        return render_template(
+            "validarCodigoRecuperacao.html",
+            mensagem="Sessão expirada. Solicite um novo código.",
+            tipo="erro"
+        )
+
+    # verifica expiração
+    expiracao_datetime = datetime.strptime(
+        expiracao,
+        "%Y-%m-%d %H:%M:%S"
+    )
+
+    if datetime.now() > expiracao_datetime:
+
+        # limpa apenas dados da recuperação
+        session.pop("reset_user_id", None)
+        session.pop("reset_codigo", None)
+        session.pop("reset_expira", None)
+
+        return render_template(
+            "validar_recuperacao.html",
+            mensagem="Código expirado. Solicite outro código.",
+            tipo="erro"
+        )
+
+    # código inválido
+    if codigo_digitado != codigo_salvo:
+
+        return render_template(
+            "validar_recuperacao.html",
+            mensagem="Código inválido.",
+            tipo="erro"
+        )
+
+    # código válido
+    session["reset_validado"] = True
+
+    # remove código usado
+    session.pop("reset_codigo", None)
+    session.pop("reset_expira", None)
+
+    return redirect(
+        url_for("auth.redefinir_senha")
+    )
 
 # ========================
 # LOGOUT
