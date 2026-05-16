@@ -73,6 +73,16 @@ def indexUsers():
 
 
 # ======================
+# PERFIL
+# ======================
+@main_bp.route("/perfil")
+def perfil():
+    if "usuario_id" not in session:
+        return redirect(url_for("auth.login"))
+
+    return render_template("users/meu-perfil.html")
+
+# ======================
 # ADMIN
 # ======================
 @main_bp.route("/admin/cadastro")

@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #f2f2f2;
+
+    padding: 20px;
+}
+
+.formulario-container-login{
+    display: flex;
+    align-items: center;
+    gap: 40px;
+
+    width: 100%;
+    max-width: 70rem;
+
+    background: white;
+
+    padding: 2rem;
+
+    border-radius: 16px;
+
+    box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+}
+
+.info-form{
+    width: 50%;
+}
+
+.info-form h1{
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.subtitulo-verificacao{
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+.code-inputs{
+    display: flex;
+    gap: 12px;
+
+    margin-bottom: 30px;
+}
+
+.code-inputs input{
+    width: 55px;
+    height: 60px;
+
+    border: 2px solid #ddd;
+    border-radius: 12px;
+
+    text-align: center;
+
+    font-size: 24px;
+    font-weight: 600;
+
+    outline: none;
+
+    transition: 0.2s;
+}
+
+.code-inputs input:focus{
+    border-color: #345CFC;
+
+    box-shadow: 0 0 0 4px rgba(52,92,252,0.12);
+}
+
+.btn-login{
+    width: 100%;
+
+    background-color: #345CFC;
+
+    color: white;
+
+    border: none;
+
+    padding: 14px;
+
+    border-radius: 999px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+    margin-bottom: 20px;
+}
+
+.btn-login:hover{
+    opacity: 0.92;
+}
+
+.reenviar-codigo{
+    font-size: 14px;
+    color: #666;
+
+    margin-bottom: 10px;
+}
+
+.reenviar-codigo a,
+.voltar-login a{
+    text-decoration: none;
+    color: #345CFC;
+    font-weight: 600;
+}
+
+.imagem img{
+    width: 100%;
+    max-width: 400px;
+
+    border-radius: 8px;
+}
+
+.mensagem{
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.mensagem.erro{
+    background: #ffdede;
+    color: #a30000;
+}
+
+.mensagem.sucesso{
+    background: #e8ffea;
+    color: #08751c;
+}
