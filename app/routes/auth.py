@@ -112,10 +112,10 @@ def login():
     )
 
     # Envia email
-    #enviar_codigo_email(
-    #    usuario["email"],
-    #    codigo
-    #)
+    enviar_codigo_email(
+       usuario["email"],
+       codigo
+    )
 
     return redirect(
         url_for("auth.verificar_2fa")

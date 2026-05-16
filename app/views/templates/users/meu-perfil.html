@@ -221,9 +221,9 @@
                 Editar Informações
               </button>
 
-              <button class="btn btn-success">
+              <a class="btn btn-success"  href="{{ url_for('main.exportar_pdf') }}">
                 Exportar Dados
-              </button>
+              </a>
 
               <button class="btn btn-outline-secondary">
                 Revisar Termos
@@ -295,7 +295,7 @@
               <div class="card-body">
 
                 <h4 class="mb-3">
-                  👧 Dependente:
+                   Dependente:
                   {{ session['usuario_dependente'] }}
                 </h4>
 

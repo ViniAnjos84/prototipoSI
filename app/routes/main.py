@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template
 from app.utils.auth_decorators import login_required
+from app.controllers.pdf_controller import exportar_pdf_controller
 
 main_bp = Blueprint("main", __name__)
 
@@ -129,3 +130,8 @@ def user_servicos():
 def user_meuPerfil():
     return render_template("users/meu-perfil.html")
 
+# exportar pdf
+@main_bp.route("/user/exportar-pdf")
+@login_required
+def exportar_pdf():
+    return exportar_pdf_controller()
