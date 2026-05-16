@@ -1,4 +1,5 @@
 Flask
+Flask-Limiter
 psycopg2
 dotenv
 argon2-cffi

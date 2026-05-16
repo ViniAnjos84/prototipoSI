@@ -1,5 +1,5 @@
 from app.models.user_model import create_cliente
-from app.models.user_model import find_user_by_email, find_user_by_rg, find_user_by_cpf, find_user_by_telefone
+from app.models.user_model import find_user_by_email, find_user_by_cpf, find_user_by_telefone
 from datetime import datetime, timedelta
 from argon2 import PasswordHasher
 from email.mime.text import MIMEText
@@ -42,13 +42,6 @@ def cadastrar_usuario(form):
                 "erro": "CPF já cadastrado"
             }
 
-        usuario_existente = find_user_by_rg(form.get("rg"))
-        if usuario_existente:
-            return {
-                "success": False,
-                "erro": "RG já cadastrado"
-            }
-
         usuario_existente = find_user_by_telefone(form.get("telefone"))
         if usuario_existente:
             return {
@@ -64,10 +57,7 @@ def cadastrar_usuario(form):
             "email": form.get("email"),
             "senha": senha_hash,
             "cpf": form.get("cpf"),
-            "rg": form.get("rg"),
             "cep": form.get("cep"),
-            "numero": form.get("numero"),
-            "complemento": form.get("complemento"),
             "nome_dependente": form.get("nome_dependente"),
             "data_nascimento": form.get("data_nascimento"),
             "parentesco": form.get("parentesco"),

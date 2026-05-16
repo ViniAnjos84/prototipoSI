@@ -17,6 +17,25 @@
                 <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required>
               </div>
               <div class="mb-3">
+                <!-- Mensagem -->
+                {% if mensagem %}
+                    <div class="mensagem {{ tipo }}">
+                        {{ mensagem }}
+                    </div>
+                {% endif %}
+
+                <!-- Tentativas restantes -->
+                {% if tentativas_restantes is defined and tentativas_restantes < 4 %}
+                    <div class="tentativas-restantes">
+                        {% if tentativas_restantes > 0 %}
+                            {{ tentativas_restantes }}
+                            tentativa(s) restante(s)
+                        {% else %}
+                            Conta temporariamente bloqueada
+                        {% endif %}
+                    </div>
+                {% endif %}
+
                 <label for="exampleInputPassword1" class="form-label">Senha</label>
                 <input type="password" class="form-control" name="senha" id="senha" required>
               </div>
