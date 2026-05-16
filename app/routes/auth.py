@@ -26,7 +26,6 @@ def cadastrar():
     result = cadastrar_usuario(request.form)
 
     if result["success"]:
-
         return render_template(
             "cadastro.html",
             mensagem="Cadastro realizado com sucesso!",
@@ -39,27 +38,21 @@ def cadastrar():
         tipo="erro"
     )
 
+
 # ========================
 # LOGIN
 # ========================
-
 MAX_TENTATIVAS = 5
+
 @auth_bp.route("/login", methods=["GET", "POST"])
 @limiter.limit("5 per minute")
 @limiter.limit("20 per hour")
 def login():
 
-    # GET
     if request.method == "GET":
-
-        # Inicializa tentativas
         session.setdefault("tentativas", 0)
+        return render_template("login.html")
 
-        return render_template(
-            "login.html", 
-        )
-
-    # Inicializa tentativas
     session.setdefault("tentativas", 0)
 
     # Verifica bloqueio
@@ -68,15 +61,12 @@ def login():
         return render_template(
             "login.html",
             tipo="erro",
-            tentativas_restantes = 0
+            tentativas_restantes=0
         )
 
-    # Login
     result = realizar_login(request.form)
 
-    # Login inválido
     if not result["success"]:
-
         session["tentativas"] += 1
         tentativas_restantes = (MAX_TENTATIVAS - session["tentativas"])
 
@@ -90,34 +80,35 @@ def login():
     usuario = result["usuario"]
     session["tentativas"] = 0
 
-    # Gerar 2FA
     codigo, expiracao = gerar_codigo_2fa()
     print("Codigo Autenticação:", codigo)
 
-    # Sessão
-    session["usuario_temp_id"] = usuario["id"]
-    session["usuario_nome"] = usuario["nome"]
-    session["usuario_email"] = usuario["email"]
-    session["usuario_telefone"] = usuario["telefone"]
-    session["usuario_cep"] = usuario["cep"]
-    session["usuario_cpf"] = usuario["cpf"]
+    # -------------------------------------------------------
+    # CORREÇÃO: todos os campos necessários para o perfil e
+    # para o PDF são salvos aqui, antes do 2FA, usando
+    # chaves "temp" para não vazar dados antes da verificação
+    # -------------------------------------------------------
+    session["usuario_temp_id"]           = usuario["id"]
+    session["usuario_temp_nome"]         = usuario["nome"]
+    session["usuario_temp_email"]        = usuario["email"]
+    session["usuario_temp_telefone"]     = usuario["telefone"]
+    session["usuario_temp_cep"]          = usuario["cep"]
+    session["usuario_temp_cpf"]          = usuario["cpf"]
 
-    # 2FA
-    session["codigo_2fa"] = codigo
+    # campos opcionais — podem vir None do banco
+    session["usuario_temp_dependente"]        = usuario.get("nome_dependente")
+    session["usuario_temp_parentesco"]        = usuario.get("parentesco")
+    session["usuario_temp_data_nascimento"]   = usuario.get("data_nascimento")
+    session["usuario_temp_pet"]               = usuario.get("nome_pet")
+    session["usuario_temp_especie"]           = usuario.get("especie")
+    session["usuario_temp_raca"]              = usuario.get("raca")
 
-    session["codigo_expira"] = expiracao.strftime(
-        "%Y-%m-%d %H:%M:%S"
-    )
+    session["codigo_2fa"]    = codigo
+    session["codigo_expira"] = expiracao.strftime("%Y-%m-%d %H:%M:%S")
 
-    # Envia email
-    enviar_codigo_email(
-       usuario["email"],
-       codigo
-    )
+    enviar_codigo_email(usuario["email"], codigo)
 
-    return redirect(
-        url_for("auth.verificar_2fa")
-    )
+    return redirect(url_for("auth.verificar_2fa"))
 
 
 # ========================
@@ -130,49 +121,46 @@ def verificar_2fa():
         return render_template("2fa.html")
 
     codigo_digitado = request.form["codigo"]
-
-    codigo_salvo = session.get("codigo_2fa")
-
-    expiracao = session.get("codigo_expira")
+    codigo_salvo    = session.get("codigo_2fa")
+    expiracao       = session.get("codigo_expira")
 
     if not codigo_salvo:
+        return render_template("2fa.html", mensagem="Sessão expirada.", tipo="erro")
 
-        return render_template(
-            "2fa.html",
-            mensagem="Sessão expirada.",
-            tipo="erro"
-        )
-
-    # Expiração
-    if datetime.now() > datetime.strptime(
-        expiracao,
-        "%Y-%m-%d %H:%M:%S"
-    ):
-
+    if datetime.now() > datetime.strptime(expiracao, "%Y-%m-%d %H:%M:%S"):
         session.clear()
+        return render_template("2fa.html", mensagem="Código expirado.", tipo="erro")
 
-        return render_template(
-            "2fa.html",
-            mensagem="Código expirado.",
-            tipo="erro"
-        )
-
-    # Código correto
     if codigo_digitado == codigo_salvo:
 
         session.permanent = True
 
-        session["usuario_id"] = session["usuario_temp_id"]
+        # -------------------------------------------------------
+        # CORREÇÃO: só após validar o 2FA os dados "temp" viram
+        # dados definitivos na sessão. Isso evita que informações
+        # do usuário fiquem acessíveis antes da autenticação
+        # completa, e garante que todos os campos estejam
+        # disponíveis no perfil e no PDF.
+        # -------------------------------------------------------
+        session["usuario_id"]             = session.pop("usuario_temp_id")
+        session["usuario_nome"]           = session.pop("usuario_temp_nome")
+        session["usuario_email"]          = session.pop("usuario_temp_email")
+        session["usuario_telefone"]       = session.pop("usuario_temp_telefone")
+        session["usuario_cep"]            = session.pop("usuario_temp_cep")
+        session["usuario_cpf"]            = session.pop("usuario_temp_cpf")
 
-        # Limpa temporários
+        session["usuario_dependente"]       = session.pop("usuario_temp_dependente", None)
+        session["usuario_parentesco"]       = session.pop("usuario_temp_parentesco", None)
+        session["usuario_data_nascimento"]  = session.pop("usuario_temp_data_nascimento", None)
+        session["usuario_pet"]              = session.pop("usuario_temp_pet", None)
+        session["usuario_especie"]          = session.pop("usuario_temp_especie", None)
+        session["usuario_raca"]             = session.pop("usuario_temp_raca", None)
+
         session.pop("codigo_2fa", None)
         session.pop("codigo_expira", None)
-        session.pop("usuario_temp_id", None)
-
-        # Reset tentativas
         session["tentativas"] = 0
 
-        return redirect("/perfil")
+        return redirect(url_for("main.user_meuPerfil"))
 
     return render_template(
         "2fa.html",
@@ -287,7 +275,5 @@ def validar_codigo_recuperacao():
 # ========================
 @auth_bp.route("/logout")
 def logout():
-
     session.clear()
-
     return redirect("/")
