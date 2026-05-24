@@ -63,13 +63,13 @@ def index():
 @main_bp.route("/indexAdmin")
 @login_required
 def indexAdm():
-    return render_template("indexAdm.html")
+    return render_template("admin/indexAdm.html")
 
 
 @main_bp.route("/indexUsers")
 @login_required
 def indexUsers():
-    return render_template("indexUsers.html")
+    return render_template("users/indexUsers.html")
 
 
 # ======================
