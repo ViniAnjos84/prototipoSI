@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, session, url_for
+from flask import Blueprint, render_template, request, redirect, session, url_for, current_app
 from app import limiter
-from app.models.user_model import find_user_by_email
+from app.models.user_model import find_user_by_email, create_log_auth, create_log_2fa
 
 from app.controllers.user_controller import (
     cadastrar_usuario,
@@ -12,6 +12,7 @@ from app.controllers.user_controller import (
 from datetime import datetime
 
 auth_bp = Blueprint("auth", __name__)
+
 
 # ========================
 # CADASTRO
@@ -55,7 +56,15 @@ def login():
     session.setdefault("tentativas", 0)
 
     # Verifica bloqueio
-    if session["tentativas"] >= MAX_TENTATIVAS and request.method == "POST":
+    if session["tentativas"] >= MAX_TENTATIVAS:
+
+        create_log_auth(
+            email=request.form.get("email"),
+            sucesso=False,
+            ip=request.remote_addr,
+            user_agent=request.headers.get("User-Agent"),
+            motivo_falha="Conta bloqueada por excesso de tentativas"
+        )
 
         return render_template(
             "login.html",
@@ -63,11 +72,15 @@ def login():
             tentativas_restantes=0
         )
 
-    result = realizar_login(request.form)
+    result = realizar_login(
+        request.form,
+        ip=request.remote_addr,
+        user_agent=request.headers.get("User-Agent")
+    )
 
     if not result["success"]:
         session["tentativas"] += 1
-        tentativas_restantes = (MAX_TENTATIVAS - session["tentativas"])
+        tentativas_restantes = MAX_TENTATIVAS - session["tentativas"]
 
         return render_template(
             "login.html",
@@ -80,21 +93,15 @@ def login():
     session["tentativas"] = 0
 
     codigo, expiracao = gerar_codigo_2fa()
-    print("Codigo Autenticação:", codigo)
+    current_app.logger.debug("Codigo 2FA: %s", codigo)
 
-    # -------------------------------------------------------
-    # CORREÇÃO: todos os campos necessários para o perfil e
-    # para o PDF são salvos aqui, antes do 2FA, usando
-    # chaves "temp" para não vazar dados antes da verificação
-    # -------------------------------------------------------
-    session["usuario_temp_id"]           = usuario["id"]
-    session["usuario_temp_nome"]         = usuario["nome"]
-    session["usuario_temp_email"]        = usuario["email"]
-    session["usuario_temp_telefone"]     = usuario["telefone"]
-    session["usuario_temp_cep"]          = usuario["cep"]
-    session["usuario_temp_cpf"]          = usuario["cpf"]
+    session["usuario_temp_id"]                = usuario["id"]
+    session["usuario_temp_nome"]              = usuario["nome"]
+    session["usuario_temp_email"]             = usuario["email"]
+    session["usuario_temp_telefone"]          = usuario["telefone"]
+    session["usuario_temp_cep"]               = usuario["cep"]
+    session["usuario_temp_cpf"]               = usuario["cpf"]
 
-    # campos opcionais — podem vir None do banco
     session["usuario_temp_dependente"]        = usuario.get("nome_dependente")
     session["usuario_temp_parentesco"]        = usuario.get("parentesco")
     session["usuario_temp_data_nascimento"]   = usuario.get("data_nascimento")
@@ -122,25 +129,44 @@ def verificar_2fa():
     codigo_digitado = request.form["codigo"]
     codigo_salvo    = session.get("codigo_2fa")
     expiracao       = session.get("codigo_expira")
+    email           = session.get("usuario_temp_email")
 
     if not codigo_salvo:
-        return render_template("2fa.html", mensagem="Sessão expirada.", tipo="erro")
+
+        create_log_2fa(
+            email=email,
+            sucesso=False,
+            ip=request.remote_addr,
+            user_agent=request.headers.get("User-Agent"),
+            motivo_falha="Sessao expirada"
+        )
+
+        return render_template("2fa.html", mensagem="Sessao expirada.", tipo="erro")
 
     if datetime.now() > datetime.strptime(expiracao, "%Y-%m-%d %H:%M:%S"):
+
+        create_log_2fa(
+            email=email,
+            sucesso=False,
+            ip=request.remote_addr,
+            user_agent=request.headers.get("User-Agent"),
+            motivo_falha="Codigo expirado"
+        )
+
         session.clear()
-        return render_template("2fa.html", mensagem="Código expirado.", tipo="erro")
+        return render_template("2fa.html", mensagem="Codigo expirado.", tipo="erro")
 
     if codigo_digitado == codigo_salvo:
 
+        create_log_2fa(
+            email=email,
+            sucesso=True,
+            ip=request.remote_addr,
+            user_agent=request.headers.get("User-Agent")
+        )
+
         session.permanent = True
 
-        # -------------------------------------------------------
-        # CORREÇÃO: só após validar o 2FA os dados "temp" viram
-        # dados definitivos na sessão. Isso evita que informações
-        # do usuário fiquem acessíveis antes da autenticação
-        # completa, e garante que todos os campos estejam
-        # disponíveis no perfil e no PDF.
-        # -------------------------------------------------------
         session["usuario_id"]             = session.pop("usuario_temp_id")
         session["usuario_nome"]           = session.pop("usuario_temp_nome")
         session["usuario_email"]          = session.pop("usuario_temp_email")
@@ -161,15 +187,23 @@ def verificar_2fa():
 
         return redirect(url_for("main.user_meuPerfil"))
 
+    create_log_2fa(
+        email=email,
+        sucesso=False,
+        ip=request.remote_addr,
+        user_agent=request.headers.get("User-Agent"),
+        motivo_falha="Codigo invalido"
+    )
+
     return render_template(
         "2fa.html",
-        mensagem="Código inválido.",
+        mensagem="Codigo invalido.",
         tipo="erro"
     )
 
 
 # ========================
-# RECUPERAÇÃO DE SENHA
+# RECUPERACAO DE SENHA
 # ========================
 @auth_bp.route("/recuperar-senha", methods=["GET", "POST"])
 def recuperar_senha():
@@ -179,116 +213,94 @@ def recuperar_senha():
 
     email = request.form["email"]
 
-    # controller
     usuario = find_user_by_email(email)
 
     if not usuario:
         return render_template(
             "recuperarSenha.html",
-            mensagem="Email não encontrado",
+            mensagem="Email nao encontrado",
             tipo="erro"
         )
 
-    # gera código
     codigo, expiracao = gerar_codigo_2fa()
 
-    # sessão temporária
     session["reset_user_id"] = usuario["id"]
-    session["reset_codigo"] = codigo
-    session["reset_expira"] = expiracao.strftime(
-        "%Y-%m-%d %H:%M:%S"
-    )
+    session["reset_codigo"]  = codigo
+    session["reset_expira"]  = expiracao.strftime("%Y-%m-%d %H:%M:%S")
 
-    # envia email
     enviar_codigo_email(email, codigo)
 
-    return redirect(
-        url_for("auth.validar_codigo_recuperacao")
-    )
+    return redirect(url_for("auth.validar_codigo_recuperacao"))
+
 
 @auth_bp.route("/validar-recuperacao", methods=["GET", "POST"])
 def validar_codigo_recuperacao():
 
-    # GET → apenas mostra a tela
     if request.method == "GET":
         return render_template("validarCodigoRecuperacao.html")
 
-    # POST → valida código digitado
     codigo_digitado = request.form["codigo"]
+    codigo_salvo    = session.get("reset_codigo")
+    expiracao       = session.get("reset_expira")
 
-    codigo_salvo = session.get("reset_codigo")
-    expiracao = session.get("reset_expira")
-
-    # sessão inexistente
     if not codigo_salvo or not expiracao:
 
         session.clear()
 
         return render_template(
             "validarCodigoRecuperacao.html",
-            mensagem="Sessão expirada. Solicite um novo código.",
+            mensagem="Sessao expirada. Solicite um novo codigo.",
             tipo="erro"
         )
 
-    # verifica expiração
-    expiracao_datetime = datetime.strptime(
-        expiracao,
-        "%Y-%m-%d %H:%M:%S"
-    )
+    expiracao_datetime = datetime.strptime(expiracao, "%Y-%m-%d %H:%M:%S")
 
     if datetime.now() > expiracao_datetime:
 
-        # limpa apenas dados da recuperação
         session.pop("reset_user_id", None)
         session.pop("reset_codigo", None)
         session.pop("reset_expira", None)
 
         return render_template(
-            "validar_recuperacao.html",
-            mensagem="Código expirado. Solicite outro código.",
+            "validarCodigoRecuperacao.html",
+            mensagem="Codigo expirado. Solicite outro codigo.",
             tipo="erro"
         )
 
-    # código inválido
     if codigo_digitado != codigo_salvo:
 
         return render_template(
-            "validar_recuperacao.html",
-            mensagem="Código inválido.",
+            "validarCodigoRecuperacao.html",
+            mensagem="Codigo invalido.",
             tipo="erro"
         )
 
-    # código válido
     session["reset_validado"] = True
 
-    # remove código usado
     session.pop("reset_codigo", None)
     session.pop("reset_expira", None)
 
-    return redirect(
-        url_for("auth.nova_senha")
-    )
+    return redirect(url_for("auth.nova_senha"))
+
 
 @auth_bp.route("/nova-senha", methods=["GET", "POST"])
 def nova_senha():
 
     if request.method == "GET":
         return render_template("novaSenha.html")
-    
+
     elif request.method == "POST":
-        nova_senha = request.form["nova_senha"]
+        nova_senha      = request.form["nova_senha"]
         confirmar_senha = request.form["confirmar_senha"]
 
         if nova_senha != confirmar_senha:
             return render_template(
                 "novaSenha.html",
-                mensagem="As senhas não coincidem",
+                mensagem="As senhas nao coincidem",
                 tipo="erro"
             )
-        
+
     return render_template("novaSenha.html")
-    
-    
 
 
 # ========================

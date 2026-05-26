@@ -92,7 +92,7 @@ def create_pet(cursor, data, cliente_id):
 
 
 # =========================
-# BUSCAR USUÁRIO POR EMAIL
+# BUSCAR USUARIO POR EMAIL
 # =========================
 def find_user_by_email(email):
 
@@ -255,13 +255,6 @@ def revogar_consentimento(cliente_id):
 # ATUALIZAR DADOS CADASTRAIS
 # =========================
 def update_cliente(cliente_id, data):
-    """
-    Atualiza nome, telefone, email na tabela clientes
-    e cep na tabela enderecos.
-    CPF nunca é alterado.
-    Retorna dict com os campos que foram de fato alterados,
-    ou lança exceção em caso de erro.
-    """
 
     conn = get_connection()
     cursor = conn.cursor()
@@ -301,10 +294,8 @@ def update_cliente(cliente_id, data):
         cursor.close()
         conn.close()
 
-    # =========================
-    # ATUALIZAR DADOS CADASTRAIS
-    # =========================
-    # =========================
+
+# =========================
 # EXCLUIR TODOS OS DADOS DO CLIENTE
 # =========================
 def excluir_dados_banco(cliente_id):
@@ -314,37 +305,31 @@ def excluir_dados_banco(cliente_id):
 
     try:
 
-        # Exclui dependentes
         cursor.execute("""
             DELETE FROM dependentes
             WHERE cliente_id = %s
         """, (cliente_id,))
 
-        # Exclui pets
         cursor.execute("""
             DELETE FROM pets
             WHERE cliente_id = %s
         """, (cliente_id,))
 
-        # Exclui consentimentos
         cursor.execute("""
             DELETE FROM consentimentos_termos
             WHERE cliente_id = %s
         """, (cliente_id,))
 
-        # Exclui endereço
         cursor.execute("""
             DELETE FROM enderecos
             WHERE cliente_id = %s
         """, (cliente_id,))
 
-        # Exclui cliente
         cursor.execute("""
             DELETE FROM clientes
             WHERE id = %s
         """, (cliente_id,))
 
-        # Confirma alterações
         conn.commit()
 
         return True
@@ -352,12 +337,85 @@ def excluir_dados_banco(cliente_id):
     except Exception as e:
 
         conn.rollback()
-
         print(f"Erro ao excluir cliente: {e}")
-
         return False
 
     finally:
+        cursor.close()
+        conn.close()
 
+
+# =========================
+# REGISTRAR LOG DE AUTH
+# =========================
+def create_log_auth(email, sucesso, ip=None, user_agent=None, motivo_falha=None):
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+
+        cursor.execute("""
+            INSERT INTO logs_auth (
+                email,
+                sucesso,
+                ip,
+                user_agent,
+                motivo_falha
+            )
+            VALUES (%s, %s, %s, %s, %s)
+        """, (
+            email,
+            sucesso,
+            ip,
+            user_agent,
+            motivo_falha
+        ))
+
+        conn.commit()
+
+    except:
+        conn.rollback()
+        raise
+
+    finally:
+        cursor.close()
+        conn.close()
+
+
+# =========================
+# REGISTRAR LOG DE 2FA
+# =========================
+def create_log_2fa(email, sucesso, ip=None, user_agent=None, motivo_falha=None):
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+
+        cursor.execute("""
+            INSERT INTO logs_2fa (
+                email,
+                sucesso,
+                ip,
+                user_agent,
+                motivo_falha
+            )
+            VALUES (%s, %s, %s, %s, %s)
+        """, (
+            email,
+            sucesso,
+            ip,
+            user_agent,
+            motivo_falha
+        ))
+
+        conn.commit()
+
+    except:
+        conn.rollback()
+        raise
+
+    finally:
         cursor.close()
         conn.close()
