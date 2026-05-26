@@ -300,3 +300,64 @@ def update_cliente(cliente_id, data):
     finally:
         cursor.close()
         conn.close()
+
+    # =========================
+    # ATUALIZAR DADOS CADASTRAIS
+    # =========================
+    # =========================
+# EXCLUIR TODOS OS DADOS DO CLIENTE
+# =========================
+def excluir_dados_banco(cliente_id):
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+
+        # Exclui dependentes
+        cursor.execute("""
+            DELETE FROM dependentes
+            WHERE cliente_id = %s
+        """, (cliente_id,))
+
+        # Exclui pets
+        cursor.execute("""
+            DELETE FROM pets
+            WHERE cliente_id = %s
+        """, (cliente_id,))
+
+        # Exclui consentimentos
+        cursor.execute("""
+            DELETE FROM consentimentos_termos
+            WHERE cliente_id = %s
+        """, (cliente_id,))
+
+        # Exclui endereço
+        cursor.execute("""
+            DELETE FROM enderecos
+            WHERE cliente_id = %s
+        """, (cliente_id,))
+
+        # Exclui cliente
+        cursor.execute("""
+            DELETE FROM clientes
+            WHERE id = %s
+        """, (cliente_id,))
+
+        # Confirma alterações
+        conn.commit()
+
+        return True
+
+    except Exception as e:
+
+        conn.rollback()
+
+        print(f"Erro ao excluir cliente: {e}")
+
+        return False
+
+    finally:
+
+        cursor.close()
+        conn.close()
