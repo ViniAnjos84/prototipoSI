@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Redefinir Senha</title>
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/novaSenha.css') }}"
+  >
+
+</head>
+
+<body>
+
+  <!-- FORMULÁRIO -->
+  <form
+    class="formulario-base"
+    method="POST"
+    action="{{ url_for('auth.nova_senha') }}"
+    id="formNovaSenha"
+  >
+
+    <!-- CONTEÚDO -->
+    <div class="conteudo-recuperacao">
+
+      <div class="recuperacao-form">
+
+        <h1 class="mb-3">Nova Senha</h1>
+
+        <p class="subtitulo">
+          Crie uma nova senha para continuar acessando sua conta.
+        </p>
+
+        <!-- MENSAGEM BACKEND -->
+        {% if mensagem %}
+        <div class="mensagem {{ tipo }}">
+          {{ mensagem }}
+        </div>
+        {% endif %}
+
+        <!-- MENSAGEM FRONT -->
+        <div
+          id="mensagem-front"
+          class="mensagem erro"
+          style="display: none;"
+        >
+          As senhas não coincidem
+        </div>
+
+        <!-- NOVA SENHA -->
+        <div class="mb-3">
+
+          <label for="nova_senha" class="form-label">
+            Nova senha
+          </label>
+
+          <input
+            type="password"
+            class="form-control"
+            id="nova_senha"
+            name="nova_senha"
+            required
+            maxlength="30"
+          >
+
+        </div>
+
+        <!-- CONFIRMAR SENHA -->
+        <div class="mb-3">
+
+          <label for="confirmar_senha" class="form-label">
+            Confirmar nova senha
+          </label>
+
+          <input
+            type="password"
+            class="form-control"
+            id="confirmar_senha"
+            name="confirmar_senha"
+            required
+            maxlength="30"
+          >
+
+        </div>
+
+        <!-- BOTÃO -->
+        <button
+          type="submit"
+          class="btn-confirmar"
+        >
+          Confirmar
+        </button>
+
+        <!-- VOLTAR -->
+        <a
+          href="{{ url_for('auth.login') }}"
+          class="btn-voltar"
+        >
+          Voltar para login
+        </a>
+
+      </div>
+
+    </div>
+
+    <!-- IMAGEM -->
+    <div class="imagem-recuperacao-container">
+
+      <img
+        src="{{ url_for('static', filename='assets/login.jpg') }}"
+        alt="Redefinição de senha"
+        class="imagem-recuperacao"
+      >
+
+    </div>
+
+  </form>
+
+  <!-- SCRIPT -->
+  <script>
+
+    const form = document.getElementById("formNovaSenha");
+
+    form.addEventListener("submit", function(event) {
+
+      const novaSenha = document.getElementById("nova_senha").value;
+      const confirmarSenha = document.getElementById("confirmar_senha").value;
+
+      const mensagemFront = document.getElementById("mensagem-front");
+
+      if (novaSenha !== confirmarSenha) {
+
+        event.preventDefault();
+
+        mensagemFront.style.display = "block";
+
+      } else {
+
+        mensagemFront.style.display = "none";
+      }
+
+    });
+
+  </script>
+
+  <!-- BOOTSTRAP -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

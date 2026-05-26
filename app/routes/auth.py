@@ -13,7 +13,6 @@ from datetime import datetime
 
 auth_bp = Blueprint("auth", __name__)
 
-
 # ========================
 # CADASTRO
 # ========================
@@ -267,8 +266,30 @@ def validar_codigo_recuperacao():
     session.pop("reset_expira", None)
 
     return redirect(
-        url_for("auth.redefinir_senha")
+        url_for("auth.nova_senha")
     )
+
+@auth_bp.route("/nova-senha", methods=["GET", "POST"])
+def nova_senha():
+
+    if request.method == "GET":
+        return render_template("novaSenha.html")
+    
+    elif request.method == "POST":
+        nova_senha = request.form["nova_senha"]
+        confirmar_senha = request.form["confirmar_senha"]
+
+        if nova_senha != confirmar_senha:
+            return render_template(
+                "novaSenha.html",
+                mensagem="As senhas não coincidem",
+                tipo="erro"
+            )
+        
+    return render_template("novaSenha.html")
+    
+    
+
 
 # ========================
 # LOGOUT
