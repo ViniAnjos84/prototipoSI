@@ -10,7 +10,7 @@ from app.controllers.user_controller import (
     aceitar_termos_novamente,
     salvar_dependente_controller,
     salvar_pet_controller,
-    editar_dados_controller,         # NOVO
+    editar_dados_controller,         
 )
 
 main_bp = Blueprint("main", __name__)
