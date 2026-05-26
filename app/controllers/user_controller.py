@@ -387,3 +387,55 @@ def editar_dados_controller(session, form):
         import traceback
         traceback.print_exc()
         return {"success": False, "erro": "Erro ao atualizar os dados."}
+
+# =========================
+# VALIDAR NOVA SENHA
+# =========================
+def redefinir_senha(email, form):
+ 
+    try:
+ 
+        nova_senha = form.get("nova_senha")
+        confirmar_senha = form.get("confirmar_senha")
+ 
+        # VALIDAR SENHAS
+        if nova_senha != confirmar_senha:
+ 
+            return {
+                "success": False,
+                "erro": "As senhas não coincidem"
+            }
+ 
+        # BUSCAR USUÁRIO
+        usuario = find_user_by_email(email)
+ 
+        if not usuario:
+ 
+            return {
+                "success": False,
+                "erro": "Usuário não encontrado"
+            }
+ 
+        # ID DO CLIENTE
+        cliente_id = usuario["id"]
+ 
+        # CRIPTOGRAFAR SENHA
+        senha_hash = ph.hash(nova_senha)
+ 
+        # ATUALIZAR SENHA
+        update_senha(cliente_id, senha_hash)
+ 
+        return {
+            "success": True
+        }
+ 
+    except Exception:
+ 
+        import traceback
+        traceback.print_exc()
+ 
+        return {
+            "success": False,
+            "erro": "Erro ao redefinir senha"
+        }
+ 
