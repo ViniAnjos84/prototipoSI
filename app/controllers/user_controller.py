@@ -8,6 +8,7 @@ from app.models.user_model import (
     salvar_consentimento,
     revogar_consentimento,
     update_cliente,
+    update_senha,
     buscar_consentimento_ativo as _buscar_consentimento_ativo,
     create_log_auth,
 )
@@ -41,7 +42,7 @@ def buscar_consentimento_ativo(cliente_id):
 # =========================
 def cadastrar_usuario(form):
 
-    conn   = None
+    conn = None
     cursor = None
 
     try:
@@ -49,7 +50,7 @@ def cadastrar_usuario(form):
         if not form.get("termos"):
             return {"success": False, "erro": "Você precisa aceitar os termos."}
 
-        senha     = form.get("senha")
+        senha = form.get("senha")
         senha_ver = form.get("senhaVER")
 
         if senha != senha_ver:
@@ -67,18 +68,18 @@ def cadastrar_usuario(form):
         senha_hash = ph.hash(form.get("senha"))
 
         data = {
-            "nome":            form.get("nome"),
-            "telefone":        form.get("telefone"),
-            "email":           form.get("email"),
-            "senha":           senha_hash,
-            "cpf":             form.get("cpf"),
-            "cep":             form.get("cep"),
+            "nome": form.get("nome"),
+            "telefone": form.get("telefone"),
+            "email": form.get("email"),
+            "senha": senha_hash,
+            "cpf": form.get("cpf"),
+            "cep": form.get("cep"),
             "nome_dependente": form.get("nome_dependente"),
             "data_nascimento": form.get("data_nascimento"),
-            "parentesco":      form.get("parentesco"),
-            "nome_pet":        form.get("nome_pet"),
-            "especie":         form.get("especie"),
-            "raca":            form.get("raca"),
+            "parentesco": form.get("parentesco"),
+            "nome_pet": form.get("nome_pet"),
+            "especie": form.get("especie"),
+            "raca": form.get("raca"),
         }
 
         conn, cursor, cliente_id = create_cliente(data)
@@ -99,18 +100,27 @@ def cadastrar_usuario(form):
         )
 
         conn.commit()
+
         return {"success": True}
 
-    except Exception:
-        import traceback
-        traceback.print_exc()
-        if conn: conn.rollback()
+    except Exception as e:
+
+        print(f"Erro ao cadastrar usuário: {e}")
+
+        if conn:
+            conn.rollback()
+
         return {"success": False}
 
     finally:
+
         try:
-            if cursor: cursor.close()
-            if conn:   conn.close()
+            if cursor:
+                cursor.close()
+
+            if conn:
+                conn.close()
+
         except Exception:
             pass
 
@@ -126,6 +136,7 @@ def realizar_login(form, ip=None, user_agent=None):
     usuario = find_user_by_email(email)
 
     if not usuario:
+
         create_log_auth(
             email=email,
             sucesso=False,
@@ -133,11 +144,17 @@ def realizar_login(form, ip=None, user_agent=None):
             user_agent=user_agent,
             motivo_falha="Usuário não encontrado"
         )
-        return {"success": False, "erro": "Usuário não encontrado"}
+
+        return {
+            "success": False,
+            "erro": "Usuário não encontrado"
+        }
 
     try:
         ph.verify(usuario["senha"], senha)
+
     except Exception:
+
         create_log_auth(
             email=email,
             sucesso=False,
@@ -145,7 +162,11 @@ def realizar_login(form, ip=None, user_agent=None):
             user_agent=user_agent,
             motivo_falha="Senha incorreta"
         )
-        return {"success": False, "erro": "Senha incorreta"}
+
+        return {
+            "success": False,
+            "erro": "Senha incorreta"
+        }
 
     create_log_auth(
         email=email,
@@ -153,27 +174,37 @@ def realizar_login(form, ip=None, user_agent=None):
         ip=ip,
         user_agent=user_agent
     )
-    return {"success": True, "usuario": usuario}
+
+    return {
+        "success": True,
+        "usuario": usuario
+    }
 
 
 # =========================
 # 2FA
 # =========================
 def gerar_codigo_2fa():
-    codigo    = str(random.randint(100000, 999999))
+
+    codigo = str(random.randint(100000, 999999))
     expiracao = datetime.now() + timedelta(minutes=5)
+
     return codigo, expiracao
 
-def enviar_codigo_email(destinatario, codigo):
-    remetente = os.getenv("EMAIL_REMETENTE")
-    senha     = os.getenv("EMAIL_SENHA")
 
-    msg            = MIMEText(f"Seu código de verificação é: {codigo}")
+def enviar_codigo_email(destinatario, codigo):
+
+    remetente = os.getenv("EMAIL_REMETENTE")
+    senha = os.getenv("EMAIL_SENHA")
+
+    msg = MIMEText(f"Seu código de verificação é: {codigo}")
+
     msg["Subject"] = "Código de verificação"
-    msg["From"]    = remetente
-    msg["To"]      = destinatario
+    msg["From"] = remetente
+    msg["To"] = destinatario
 
     with smtplib.SMTP("smtp.gmail.com", 587) as servidor:
+
         servidor.starttls()
         servidor.login(remetente, senha)
         servidor.send_message(msg)
@@ -197,9 +228,15 @@ def revogar_aceite_controller(session):
         return {"success": False}
 
     try:
+
         revogar_consentimento(cliente_id)
+
         return {"success": True}
-    except Exception:
+
+    except Exception as e:
+
+        print(f"Erro ao revogar aceite: {e}")
+
         return {"success": False}
 
 
@@ -213,11 +250,12 @@ def aceitar_termos_novamente(session, request):
     if not cliente_id:
         return {"success": False}
 
-    conn   = None
+    conn = None
     cursor = None
 
     try:
-        conn   = get_connection()
+
+        conn = get_connection()
         cursor = conn.cursor()
 
         salvar_consentimento(
@@ -230,16 +268,27 @@ def aceitar_termos_novamente(session, request):
         )
 
         conn.commit()
+
         return {"success": True}
 
-    except Exception:
-        if conn: conn.rollback()
+    except Exception as e:
+
+        print(f"Erro ao aceitar termos novamente: {e}")
+
+        if conn:
+            conn.rollback()
+
         return {"success": False}
 
     finally:
+
         try:
-            if cursor: cursor.close()
-            if conn:   conn.close()
+            if cursor:
+                cursor.close()
+
+            if conn:
+                conn.close()
+
         except Exception:
             pass
 
@@ -254,38 +303,48 @@ def salvar_dependente_controller(session, form):
     if not cliente_id:
         return {"success": False}
 
-    conn   = None
+    conn = None
     cursor = None
 
     try:
-        conn   = get_connection()
+
+        conn = get_connection()
         cursor = conn.cursor()
 
         data = {
             "nome_dependente": form.get("nome_dependente"),
             "data_nascimento": form.get("data_nascimento"),
-            "parentesco":      form.get("parentesco"),
+            "parentesco": form.get("parentesco"),
         }
 
         create_dependente(cursor, data, cliente_id)
+
         conn.commit()
 
-        session["usuario_dependente"]      = data["nome_dependente"]
-        session["usuario_parentesco"]      = data["parentesco"]
+        session["usuario_dependente"] = data["nome_dependente"]
+        session["usuario_parentesco"] = data["parentesco"]
         session["usuario_data_nascimento"] = data["data_nascimento"]
 
         return {"success": True}
 
-    except Exception:
-        import traceback
-        traceback.print_exc()
-        if conn: conn.rollback()
+    except Exception as e:
+
+        print(f"Erro ao salvar dependente: {e}")
+
+        if conn:
+            conn.rollback()
+
         return {"success": False}
 
     finally:
+
         try:
-            if cursor: cursor.close()
-            if conn:   conn.close()
+            if cursor:
+                cursor.close()
+
+            if conn:
+                conn.close()
+
         except Exception:
             pass
 
@@ -300,38 +359,48 @@ def salvar_pet_controller(session, form):
     if not cliente_id:
         return {"success": False}
 
-    conn   = None
+    conn = None
     cursor = None
 
     try:
-        conn   = get_connection()
+
+        conn = get_connection()
         cursor = conn.cursor()
 
         data = {
             "nome_pet": form.get("nome_pet"),
-            "especie":  form.get("especie"),
-            "raca":     form.get("raca"),
+            "especie": form.get("especie"),
+            "raca": form.get("raca"),
         }
 
         create_pet(cursor, data, cliente_id)
+
         conn.commit()
 
-        session["usuario_pet"]     = data["nome_pet"]
+        session["usuario_pet"] = data["nome_pet"]
         session["usuario_especie"] = data["especie"]
-        session["usuario_raca"]    = data["raca"]
+        session["usuario_raca"] = data["raca"]
 
         return {"success": True}
 
-    except Exception:
-        import traceback
-        traceback.print_exc()
-        if conn: conn.rollback()
+    except Exception as e:
+
+        print(f"Erro ao salvar pet: {e}")
+
+        if conn:
+            conn.rollback()
+
         return {"success": False}
 
     finally:
+
         try:
-            if cursor: cursor.close()
-            if conn:   conn.close()
+            if cursor:
+                cursor.close()
+
+            if conn:
+                conn.close()
+
         except Exception:
             pass
 
@@ -340,102 +409,111 @@ def salvar_pet_controller(session, form):
 # EDITAR DADOS CADASTRAIS
 # =========================
 def editar_dados_controller(session, form):
-    """
-    Atualiza nome, telefone, email e cep.
-    Valida duplicidade de email e telefone contra outros usuários.
-    Atualiza a sessão após salvar com sucesso.
-    CPF nunca é alterado.
-    """
 
     cliente_id = session.get("usuario_id")
 
     if not cliente_id:
         return {"success": False, "erro": "Sessão inválida."}
 
-    novo_nome     = form.get("nome",     "").strip()
+    novo_nome = form.get("nome", "").strip()
     novo_telefone = form.get("telefone", "").strip()
-    novo_email    = form.get("email",    "").strip()
-    novo_cep      = form.get("cep",      "").strip()
+    novo_email = form.get("email", "").strip()
+    novo_cep = form.get("cep", "").strip()
 
     if not all([novo_nome, novo_telefone, novo_email, novo_cep]):
-        return {"success": False, "erro": "Todos os campos são obrigatórios."}
+        return {
+            "success": False,
+            "erro": "Todos os campos são obrigatórios."
+        }
 
     usuario_email = find_user_by_email(novo_email)
+
     if usuario_email and str(usuario_email["id"]) != str(cliente_id):
-        return {"success": False, "erro": "Este e-mail já está em uso."}
+        return {
+            "success": False,
+            "erro": "Este e-mail já está em uso."
+        }
 
     usuario_tel = find_user_by_telefone(novo_telefone)
+
     if usuario_tel and str(usuario_tel["id"]) != str(cliente_id):
-        return {"success": False, "erro": "Este telefone já está em uso."}
+        return {
+            "success": False,
+            "erro": "Este telefone já está em uso."
+        }
 
     try:
+
         update_cliente(cliente_id, {
-            "nome":     novo_nome,
+            "nome": novo_nome,
             "telefone": novo_telefone,
-            "email":    novo_email,
-            "cep":      novo_cep,
+            "email": novo_email,
+            "cep": novo_cep,
         })
 
-        session["usuario_nome"]     = novo_nome
+        session["usuario_nome"] = novo_nome
         session["usuario_telefone"] = novo_telefone
-        session["usuario_email"]    = novo_email
-        session["usuario_cep"]      = novo_cep
+        session["usuario_email"] = novo_email
+        session["usuario_cep"] = novo_cep
 
         return {"success": True}
 
-    except Exception:
-        import traceback
-        traceback.print_exc()
-        return {"success": False, "erro": "Erro ao atualizar os dados."}
+    except Exception as e:
+
+        print(f"Erro ao editar dados: {e}")
+
+        return {
+            "success": False,
+            "erro": "Erro ao atualizar os dados."
+        }
+
 
 # =========================
-# VALIDAR NOVA SENHA
+# REDEFINIR SENHA
 # =========================
 def redefinir_senha(email, form):
- 
+
     try:
- 
+
         nova_senha = form.get("nova_senha")
         confirmar_senha = form.get("confirmar_senha")
- 
+
         # VALIDAR SENHAS
         if nova_senha != confirmar_senha:
- 
+
             return {
                 "success": False,
                 "erro": "As senhas não coincidem"
             }
- 
+
         # BUSCAR USUÁRIO
         usuario = find_user_by_email(email)
- 
+
         if not usuario:
- 
+
             return {
                 "success": False,
                 "erro": "Usuário não encontrado"
             }
- 
+
         # ID DO CLIENTE
         cliente_id = usuario["id"]
- 
+
         # CRIPTOGRAFAR SENHA
         senha_hash = ph.hash(nova_senha)
- 
+
         # ATUALIZAR SENHA
         update_senha(cliente_id, senha_hash)
- 
+
         return {
             "success": True
         }
- 
-    except Exception:
- 
-        import traceback
-        traceback.print_exc()
- 
+
+    except Exception as e:
+
+        print(f"Erro ao redefinir senha: {e}")
+
         return {
             "success": False,
             "erro": "Erro ao redefinir senha"
         }
- 

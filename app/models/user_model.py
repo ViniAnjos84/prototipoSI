@@ -419,3 +419,39 @@ def create_log_2fa(email, sucesso, ip=None, user_agent=None, motivo_falha=None):
     finally:
         cursor.close()
         conn.close()
+
+# =========================
+# ATUALIZAR SENHA
+# =========================
+def update_senha(cliente_id, senha_hash):
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+
+        cursor.execute("""
+            UPDATE clientes
+            SET senha = %s
+            WHERE id = %s
+        """, (
+            senha_hash,
+            cliente_id
+        ))
+
+        conn.commit()
+
+        return True
+
+    except Exception as e:
+
+        conn.rollback()
+
+        print(f"Erro ao atualizar senha: {e}")
+
+        return False
+
+    finally:
+
+        cursor.close()
+        conn.close()
