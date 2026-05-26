@@ -132,6 +132,83 @@
                     Revogar Consentimento
                   </button>
 
+                  <!-- BOTÃO EXCLUIR DADOS -->
+<button class="btn btn-link text-danger text-decoration-none p-0 mt-2 small w-100"
+        data-bs-toggle="modal"
+        data-bs-target="#modalExcluirDados">
+
+  Excluir meus dados
+
+</button>
+
+
+<!-- MODAL EXCLUIR DADOS -->
+<div class="modal fade"
+     id="modalExcluirDados"
+     tabindex="-1">
+
+  <div class="modal-dialog modal-dialog-centered">
+
+    <div class="modal-content border-0 rounded-4">
+
+      <div class="modal-header">
+
+        <h5 class="modal-title text-danger fw-bold">
+          Excluir Conta
+        </h5>
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="modal">
+        </button>
+
+      </div>
+
+      <div class="modal-body">
+
+        <p class="fw-semibold">
+          Tem certeza que deseja excluir sua conta?
+        </p>
+
+        <p class="text-danger">
+          Todos os seus dados serão removidos permanentemente.
+        </p>
+
+        <p class="text-danger fw-bold mb-0">
+          Você perderá acesso à conta e não poderá recuperar essas informações depois.
+        </p>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button class="btn btn-secondary"
+                data-bs-dismiss="modal">
+
+          Cancelar
+
+        </button>
+
+        <form method="POST"
+              action="{{ url_for('main.excluir_dados') }}">
+
+          <button type="submit"
+                  class="btn btn-danger">
+
+            Excluir permanentemente
+
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
                 {% else %}
 
                   <div class="alert alert-warning">

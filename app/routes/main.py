@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, session, redirect, url_fo
 
 from app.utils.auth_decorators import login_required
 from app.controllers.pdf_controller import exportar_pdf_controller
+from app.models.user_model import excluir_dados_banco
 
 from app.controllers.user_controller import (
     buscar_consentimento_ativo,
@@ -47,7 +48,23 @@ def editar_dados():
 
     return redirect(url_for("main.user_meuPerfil"))
 
+# ======================
+# EXCLUIR DADOS
+# ======================
+@main_bp.route("/user/exluir-dados", methods=["POST"])
+@login_required
+def excluir_dados():
 
+    usuario_id = session.get("usuario_id")
+
+    excluir_dados_banco(usuario_id)
+
+    session.clear()
+
+    flash("Conta excluída com sucesso.", "success")
+
+    return redirect(url_for("auth.login"))
+    
 # ======================
 # INDEX
 # ======================
