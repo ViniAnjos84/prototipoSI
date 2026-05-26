@@ -7,8 +7,9 @@ from app.models.user_model import (
     find_user_by_telefone,
     salvar_consentimento,
     revogar_consentimento,
-    update_cliente,                                              # NOVO
+    update_cliente,                                              
     buscar_consentimento_ativo as _buscar_consentimento_ativo,
+    update_senha
 )
 
 from app.database import get_connection
@@ -161,8 +162,53 @@ def enviar_codigo_email(destinatario, codigo):
 # =========================
 # VALIDAR NOVA SENHA
 # =========================
-def validar_nova_senha(form):
-    pass
+def redefinir_senha(email, form):
+
+    try:
+
+        nova_senha = form.get("nova_senha")
+        confirmar_senha = form.get("confirmar_senha")
+
+        # VALIDAR SENHAS
+        if nova_senha != confirmar_senha:
+
+            return {
+                "success": False,
+                "erro": "As senhas não coincidem"
+            }
+
+        # BUSCAR USUÁRIO
+        usuario = find_user_by_email(email)
+
+        if not usuario:
+
+            return {
+                "success": False,
+                "erro": "Usuário não encontrado"
+            }
+
+        # ID DO CLIENTE
+        cliente_id = usuario["id"]
+
+        # CRIPTOGRAFAR SENHA
+        senha_hash = ph.hash(nova_senha)
+
+        # ATUALIZAR SENHA
+        update_senha(cliente_id, senha_hash)
+
+        return {
+            "success": True
+        }
+
+    except Exception:
+
+        import traceback
+        traceback.print_exc()
+
+        return {
+            "success": False,
+            "erro": "Erro ao redefinir senha"
+        }
 
 # =========================
 # REVOGAR ACEITE
@@ -368,3 +414,4 @@ def editar_dados_controller(session, form):
         import traceback
         traceback.print_exc()
         return {"success": False, "erro": "Erro ao atualizar os dados."}
+

@@ -255,13 +255,6 @@ def revogar_consentimento(cliente_id):
 # ATUALIZAR DADOS CADASTRAIS
 # =========================
 def update_cliente(cliente_id, data):
-    """
-    Atualiza nome, telefone, email na tabela clientes
-    e cep na tabela enderecos.
-    CPF nunca é alterado.
-    Retorna dict com os campos que foram de fato alterados,
-    ou lança exceção em caso de erro.
-    """
 
     conn = get_connection()
     cursor = conn.cursor()
@@ -301,10 +294,37 @@ def update_cliente(cliente_id, data):
         cursor.close()
         conn.close()
 
-    # =========================
-    # ATUALIZAR DADOS CADASTRAIS
-    # =========================
-    # =========================
+
+# =========================
+# ATUALIZAR SENHA
+# =========================
+def update_senha(cliente_id, nova_senha):
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+
+        cursor.execute("""
+            UPDATE clientes
+            SET senha = %s
+            WHERE id = %s
+        """, (
+            nova_senha,
+            cliente_id
+        ))
+
+        conn.commit()
+
+    except:
+        conn.rollback()
+        raise
+
+    finally:
+        cursor.close()
+        conn.close()
+
+
 # EXCLUIR TODOS OS DADOS DO CLIENTE
 # =========================
 def excluir_dados_banco(cliente_id):

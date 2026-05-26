@@ -1,12 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, session, url_for
 from app import limiter
 from app.models.user_model import find_user_by_email
-
 from app.controllers.user_controller import (
     cadastrar_usuario,
     realizar_login,
     gerar_codigo_2fa,
-    enviar_codigo_email
+    enviar_codigo_email,
+    redefinir_senha
 )
 
 from datetime import datetime
@@ -174,37 +174,41 @@ def verificar_2fa():
 @auth_bp.route("/recuperar-senha", methods=["GET", "POST"])
 def recuperar_senha():
 
+    # GET
     if request.method == "GET":
         return render_template("recuperarSenha.html")
 
     email = request.form["email"]
 
-    # controller
+    # BUSCAR USUÁRIO
     usuario = find_user_by_email(email)
 
     if not usuario:
+
         return render_template(
             "recuperarSenha.html",
             mensagem="Email não encontrado",
             tipo="erro"
         )
 
-    # gera código
+    # GERA CÓDIGO E EXPIRAÇÃO
     codigo, expiracao = gerar_codigo_2fa()
 
-    # sessão temporária
-    session["reset_user_id"] = usuario["id"]
+    # SALVA NA SESSÃO
+    session["email_recuperacao"] = email
     session["reset_codigo"] = codigo
     session["reset_expira"] = expiracao.strftime(
         "%Y-%m-%d %H:%M:%S"
     )
 
-    # envia email
+    # ENVIA EMAIL
     enviar_codigo_email(email, codigo)
+    print("Codigo de autenticação:", codigo)
 
     return redirect(
         url_for("auth.validar_codigo_recuperacao")
     )
+
 
 @auth_bp.route("/validar-recuperacao", methods=["GET", "POST"])
 def validar_codigo_recuperacao():
@@ -219,7 +223,7 @@ def validar_codigo_recuperacao():
     codigo_salvo = session.get("reset_codigo")
     expiracao = session.get("reset_expira")
 
-    # sessão inexistente
+    # SESSÃO INEXISTENTE
     if not codigo_salvo or not expiracao:
 
         session.clear()
@@ -230,38 +234,39 @@ def validar_codigo_recuperacao():
             tipo="erro"
         )
 
-    # verifica expiração
+    # CONVERTE STRING → DATETIME
     expiracao_datetime = datetime.strptime(
         expiracao,
         "%Y-%m-%d %H:%M:%S"
     )
 
+    # VERIFICA EXPIRAÇÃO
     if datetime.now() > expiracao_datetime:
 
-        # limpa apenas dados da recuperação
-        session.pop("reset_user_id", None)
+        # LIMPA APENAS DADOS DA RECUPERAÇÃO
         session.pop("reset_codigo", None)
         session.pop("reset_expira", None)
+        session.pop("email_recuperacao", None)
 
         return render_template(
-            "validar_recuperacao.html",
+            "validarCodigoRecuperacao.html",
             mensagem="Código expirado. Solicite outro código.",
             tipo="erro"
         )
 
-    # código inválido
+    # CÓDIGO INVÁLIDO
     if codigo_digitado != codigo_salvo:
 
         return render_template(
-            "validar_recuperacao.html",
+            "validarCodigoRecuperacao.html",
             mensagem="Código inválido.",
             tipo="erro"
         )
 
-    # código válido
+    # CÓDIGO VÁLIDO
     session["reset_validado"] = True
 
-    # remove código usado
+    # REMOVE CÓDIGO USADO
     session.pop("reset_codigo", None)
     session.pop("reset_expira", None)
 
@@ -269,27 +274,50 @@ def validar_codigo_recuperacao():
         url_for("auth.nova_senha")
     )
 
+
 @auth_bp.route("/nova-senha", methods=["GET", "POST"])
 def nova_senha():
 
+    # GARANTE RECUPERAÇÃO ATIVA
+    email = session.get("email_recuperacao")
+    reset_validado = session.get("reset_validado")
+
+    if not email or not reset_validado:
+
+        return redirect(
+            url_for("auth.recuperar_senha")
+        )
+
+    # GET
     if request.method == "GET":
         return render_template("novaSenha.html")
-    
-    elif request.method == "POST":
-        nova_senha = request.form["nova_senha"]
-        confirmar_senha = request.form["confirmar_senha"]
 
-        if nova_senha != confirmar_senha:
+    # POST
+    elif request.method == "POST":
+
+        resultado = redefinir_senha(
+            email=email,
+            form=request.form
+        )
+
+        if not resultado["success"]:
+
             return render_template(
                 "novaSenha.html",
-                mensagem="As senhas não coincidem",
+                mensagem=resultado["erro"],
                 tipo="erro"
             )
-        
+
+        # LIMPA SESSÃO DE RECUPERAÇÃO
+        session.pop("email_recuperacao", None)
+        session.pop("reset_validado", None)
+
+        return redirect(
+            url_for("auth.login")
+        )
+
     return render_template("novaSenha.html")
     
-    
-
 
 # ========================
 # LOGOUT
