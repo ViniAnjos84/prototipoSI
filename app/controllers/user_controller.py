@@ -143,7 +143,6 @@ def gerar_codigo_2fa():
     expiracao = datetime.now() + timedelta(minutes=5)
     return codigo, expiracao
 
-
 def enviar_codigo_email(destinatario, codigo):
     remetente = os.getenv("EMAIL_REMETENTE")
     senha     = os.getenv("EMAIL_SENHA")
@@ -158,6 +157,12 @@ def enviar_codigo_email(destinatario, codigo):
         servidor.login(remetente, senha)
         servidor.send_message(msg)
 
+
+# =========================
+# VALIDAR NOVA SENHA
+# =========================
+def validar_nova_senha(form):
+    pass
 
 # =========================
 # REVOGAR ACEITE

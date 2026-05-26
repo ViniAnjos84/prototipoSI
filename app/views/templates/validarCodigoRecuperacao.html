@@ -42,13 +42,20 @@
             <!-- valor real enviado -->
             <input type="hidden" name="codigo" id="codigoCompleto">
 
-            <button type="submit" class="btn-login">
-                Confirmar Código
-            </button>
+            <form
+                method="POST"
+                action="{{ url_for('auth.nova_senha') }}"
+            >
+
+                <button type="submit" class="btn-login">
+                    Confirmar Código
+                </button>
+
+            </form>
 
             <div class="reenviar-codigo">
                 Não recebeu? 
-                <a href="{{ url_for('auth.validar_codigo_recuperacao') }}">
+                <a href="{{ url_for('auth.recuperar_senha') }}">
                     Reenviar código
                 </a>
             </div>
