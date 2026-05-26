@@ -185,7 +185,7 @@ def verificar_2fa():
         session.pop("codigo_expira", None)
         session["tentativas"] = 0
 
-        return redirect(url_for("main.user_meuPerfil"))
+        return redirect(url_for("main.indexUsers"))
 
     create_log_2fa(
         email=email,
