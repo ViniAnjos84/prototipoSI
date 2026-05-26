@@ -7,8 +7,9 @@ from app.models.user_model import (
     find_user_by_telefone,
     salvar_consentimento,
     revogar_consentimento,
-    update_cliente,                                              # NOVO
+    update_cliente,
     buscar_consentimento_ativo as _buscar_consentimento_ativo,
+    create_log_auth,
 )
 
 from app.database import get_connection
@@ -117,7 +118,7 @@ def cadastrar_usuario(form):
 # =========================
 # LOGIN
 # =========================
-def realizar_login(form):
+def realizar_login(form, ip=None, user_agent=None):
 
     email = form.get("email")
     senha = form.get("senha")
@@ -125,13 +126,33 @@ def realizar_login(form):
     usuario = find_user_by_email(email)
 
     if not usuario:
+        create_log_auth(
+            email=email,
+            sucesso=False,
+            ip=ip,
+            user_agent=user_agent,
+            motivo_falha="Usuário não encontrado"
+        )
         return {"success": False, "erro": "Usuário não encontrado"}
 
     try:
         ph.verify(usuario["senha"], senha)
     except Exception:
+        create_log_auth(
+            email=email,
+            sucesso=False,
+            ip=ip,
+            user_agent=user_agent,
+            motivo_falha="Senha incorreta"
+        )
         return {"success": False, "erro": "Senha incorreta"}
 
+    create_log_auth(
+        email=email,
+        sucesso=True,
+        ip=ip,
+        user_agent=user_agent
+    )
     return {"success": True, "usuario": usuario}
 
 
@@ -163,6 +184,7 @@ def enviar_codigo_email(destinatario, codigo):
 # =========================
 def validar_nova_senha(form):
     pass
+
 
 # =========================
 # REVOGAR ACEITE
@@ -338,12 +360,10 @@ def editar_dados_controller(session, form):
     if not all([novo_nome, novo_telefone, novo_email, novo_cep]):
         return {"success": False, "erro": "Todos os campos são obrigatórios."}
 
-    # Verifica se o email já pertence a outro usuário
     usuario_email = find_user_by_email(novo_email)
     if usuario_email and str(usuario_email["id"]) != str(cliente_id):
         return {"success": False, "erro": "Este e-mail já está em uso."}
 
-    # Verifica se o telefone já pertence a outro usuário
     usuario_tel = find_user_by_telefone(novo_telefone)
     if usuario_tel and str(usuario_tel["id"]) != str(cliente_id):
         return {"success": False, "erro": "Este telefone já está em uso."}
@@ -356,7 +376,6 @@ def editar_dados_controller(session, form):
             "cep":      novo_cep,
         })
 
-        # Atualiza sessão para refletir imediatamente sem novo login
         session["usuario_nome"]     = novo_nome
         session["usuario_telefone"] = novo_telefone
         session["usuario_email"]    = novo_email
