@@ -44,7 +44,6 @@
           </div>
         </div>
       </div>
-
     </div>
   </nav>
 
@@ -330,7 +329,8 @@
                 class="form-control"
                 name="nome"
                 value="{{ session.get('usuario_nome', '') }}"
-                required>
+                required
+                maxlength="120">
             </div>
 
             <div>
@@ -340,7 +340,8 @@
                 class="form-control"
                 name="email"
                 value="{{ session.get('usuario_email', '') }}"
-                required>
+                required
+                maxlength="120">
             </div>
 
             <div>
@@ -350,7 +351,8 @@
                 class="form-control"
                 name="telefone"
                 value="{{ session.get('usuario_telefone', '') }}"
-                required>
+                required
+                maxlength="11">
             </div>
 
             <div>
@@ -360,7 +362,8 @@
                 class="form-control"
                 name="cep"
                 value="{{ session.get('usuario_cep', '') }}"
-                required>
+                required
+                maxlength="8">
             </div>
 
             <!-- CPF exibido como somente leitura, sem campo de envio -->
