@@ -156,7 +156,8 @@ def verificar_2fa():
         session.clear()
         return render_template("2fa.html", mensagem="Código expirado.", tipo="erro")
 
-    if codigo_digitado == codigo_salvo:
+    current_app.logger.debug(f"Digitado: {type(codigo_digitado)}{codigo_digitado} | {type(codigo_salvo)}{codigo_salvo}")
+    if int(codigo_digitado) == codigo_salvo:
 
         create_log_2fa(
             email=email,

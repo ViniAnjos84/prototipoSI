@@ -12,13 +12,12 @@ from app.models.user_model import (
     buscar_consentimento_ativo as _buscar_consentimento_ativo,
     create_log_auth,
 )
- 
 from app.database import get_connection
 from datetime import datetime, timedelta
 from argon2 import PasswordHasher
 from email.mime.text import MIMEText
 from flask import request
-import random
+import secrets
 import smtplib
 import os
 import re
@@ -176,15 +175,11 @@ def cadastrar_usuario(form):
         }
  
     finally:
- 
         try:
- 
             if cursor:
                 cursor.close()
- 
             if conn:
                 conn.close()
- 
         except Exception:
             pass
  
@@ -251,7 +246,7 @@ def realizar_login(form, ip=None, user_agent=None):
 # =========================
 def gerar_codigo_2fa():
  
-    codigo = str(random.randint(100000, 999999))
+    codigo = secrets.randbelow(900000) + 100000
     expiracao = datetime.now() + timedelta(minutes=5)
  
     return codigo, expiracao
@@ -528,7 +523,9 @@ def redefinir_senha(email, form):
             "success": False,
             "erro": "Erro interno ao redefinir senha"
         }
-    # =========================
+
+
+# =========================
 # SALVAR DEPENDENTE
 # =========================
 def salvar_dependente_controller(session, form):
