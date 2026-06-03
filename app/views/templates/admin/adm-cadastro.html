@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/admCadStyle.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main>
+    <h1>Cadastrar Serviço</h1>
+    <section class="menu">
+        <div class="item-menu" id="form-cons-medica">
+            <div class="icone-menu">
+                <img src="./assets/novoEvento.png" alt="">
+            </div>
+            <div class="titulo-item">
+                <p>Consulta Médica</p>
+            </div>
+        </div>
+        <div class="item-menu-blue" data-page="formEventos.html">
+            <div class="icone-menu">
+                <img src="./assets/cad-evento.png" alt="">
+            </div>
+            <div class="titulo-item">
+                <p>Eventos Acadêmicos</p>
+            </div>
+        </div>
+        <div class="item-menu" data-page="formOficina.html">
+            <div class="icone-menu">
+                <img src="./assets/cad-ofc.png" alt="">
+            </div>
+            <div class="titulo-item">
+                <p>Oficinas Acadêmicas</p>
+            </div>
+        </div>
+        <div class="item-menu-blue" data-page="formConsultaVeterinaria.html">
+            <div class="icone-menu">
+                <img src="./assets/cad-vet.png" alt="">
+            </div>
+            <div class="titulo-item">
+                <p>Consulta Veterinária</p>
+            </div>
+        </div>
+        <div class="item-menu" data-page="formCursos.html">
+            <div class="icone-menu">
+                <img src="./assets/cad-curso.png" alt="">
+            </div>
+            <div class="titulo-item">
+                <p>Cursos Complementares</p>
+            </div>
+        </div>
+    </section>
+
+    <div id="secConsultaVet" class="form-section">
+        
+        <div class="informacoes">
+          <div class="info-content">
+            <div>
+                <label for="nome">Nome</label>
+                <input type="number" class="form-control mb-2" placeholder="Castração" id="vagas">
+              </div>
+            <div>
+              <label for="vagas">Vagas</label>
+              <input type="number" class="form-control mb-2" placeholder="100" id="vagas">
+            </div>
+            <div>
+              <label for="especialidade">Tipo de Procedimento</label>
+              <input type="text" class="form-control mb-2" placeholder="cirurgico" id="especialidade">
+            </div>
+             <div>
+              <label for="responsavel">Responsável</label>
+              <input type="text" class="form-control mb-2" placeholder="Professor" id="responsavel">
+            </div>
+          </div>
+          <div class="info-content">
+           
+            <div>
+              <label for="descricao">Descrição</label>
+              <input type="text" class="form-control mb-2" placeholder="Procesimento cirurgico para cães e gatos" id="descricao">
+            </div>
+            <div>
+              <label for="pre-requisitos">Pré-requisitos</label>
+              <input type="text" class="form-control mb-2" placeholder="Jejum de 8 à 12 horas - pré avaliação..." id="pre-requisitos">
+            </div>
+            <div>
+              <label for="periodo">Período de inscrição</label>
+              <div class="periodo">
+                <input type="date" class="form-control mb-2" id="periodo1">
+                <input type="date" class="form-control mb-2" id="periodo2">
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" id="cadastrar-consulta">Cadastrar</button>
+    </div>
+    
+       
+   
+    </main>
+    
+
+    <script src="js/adm-cadastro.js"></script>
+</body>
+</html>

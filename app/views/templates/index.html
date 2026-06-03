@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAECA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/homeStyle.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <nav>
+        <div class="content-logo">
+            <a href="#">SAEC</a>
+        </div>
+        <div class="content-links">
+            <ul class="itens-nav">
+                <li class="nav-item"><a class="a-nav" href="#info-servicos">Serviços</a></li>
+                <li class="nav-item"><a class="a-nav" href="#quem-somos">Quem somos</a></li>
+                <li class="nav-item"><a class="a-nav" href="#contato">Contato</a></li>
+            </ul>
+        </div>
+        <div class="content-login-cadastro">
+              <a class="btn-login" href="{{ url_for('auth.login') }}">Login</a>
+              <a class="btn-cadastro" href="{{ url_for('auth.cadastrar') }}">Cadastro</a>
+        </div>
+    </nav>
+    <header>
+        <div class="page-text">
+          <p>A Universidade está de portas abertas para você! <br> Cadastre-se agora e tenha acesso a eventos acadêmicos, culturais, científicos e consultas especializadas oferecidas por nossos profissionais e alunos.</p>
+          <div class="servicos-text">
+            <a href="#consultas" class="servico-text">consultas</a>
+            <a href="#eventos" class="servico-text">eventos</a>
+            <a href="#oficinas" class="servico-text">oficinas</a>
+            <a href="#cursos" class="servico-text">cursos</a>
+            <a href="#pet" class="servico-text">pet</a>
+          </div>
+        </div>
+        <div class="page-img">
+          <img src="{{ url_for('static', filename='assets/img-home.jpg') }}" alt="" class="img-header">
+        </div>
+    </header>
+    <main>
+      <section class="info-servicos" id="info-servicos">
+        <div class="info-servico" id="consultas">
+          <div class="texto-info-servico">
+            <h1>Consultas</h1>
+            <p>A Universidade oferece à comunidade atendimentos gratuitos em diversas áreas da saúde, como parte de seus projetos de extensão e formação prática dos alunos. Entre os serviços disponíveis, destacam-se consultas em odontologia, psicologia, fisioterapia e outras especialidades, sempre realizadas sob supervisão de professores e profissionais qualificados. <br>
+              Esses atendimentos são uma oportunidade de cuidado acessível e de qualidade, além de contribuir para o aprendizado e formação dos nossos estudantes.</p>
+          </div>
+          <div class="img-info-servico">
+            <img src="https://img.freepik.com/vetores-gratis/ilustracao-plana-do-conceito-de-servico-hospitalar_1150-50287.jpg?t=st=1745945653~exp=1745949253~hmac=7713efec505f021718e0e5cc9763aae8cc6ec8110e2635251425064afad4eba7&w=1060" alt="Imagem de eventos">
+          </div>
+        </div>
+        
+        <div class="info-servico" id="eventos">
+          <div class="texto-info-servico">
+            <h1>Eventos</h1>
+            <p>
+              A Universidade promove regularmente eventos acadêmicos, culturais e científicos com o objetivo de integrar a comunidade universitária e ampliar o conhecimento dos alunos. Palestras, workshops, feiras de profissões, congressos e mostras culturais fazem parte da nossa programação anual.
+              <br>
+              Esses eventos incentivam a troca de experiências, a construção de redes de contato e o desenvolvimento pessoal e profissional dos participantes. Muitos deles são abertos ao público e contam com a presença de especialistas renomados de diversas áreas.
+            </p>
+          </div>
+          <div class="img-info-servico">
+            <img src="https://img.freepik.com/vetores-gratis/ilustracao-do-conceito-de-palestra-publica_114360-27231.jpg?t=st=1745946260~exp=1745949860~hmac=136728246e37cac8e52c27a1ff5fff2f84e92af83ad668b4cd2666becf81895f&w=1380" alt="Imagem de eventos">
+          </div>
+        </div>
+      
+        <div class="info-servico" id="oficinas">
+          <div class="texto-info-servico">
+            <h1>Oficinas</h1>
+            <p>
+              A Universidade oferece diversas oficinas práticas ao longo do semestre, com o objetivo de complementar a formação dos alunos e incentivar o desenvolvimento de novas habilidades. As oficinas abrangem temas variados, como tecnologia, saúde, artes, comunicação, empreendedorismo, entre outros.
+              <br>
+              Voltadas para estudantes e também para a comunidade externa, as oficinas são ministradas por professores, profissionais convidados e, em alguns casos, pelos próprios alunos em projetos de extensão.
+              <br>
+              Participar é uma ótima oportunidade para aprender de forma dinâmica, interativa e aplicar o conhecimento na prática.
+            </p>
+          </div>
+          <div class="img-info-servico">
+            <img src="https://img.freepik.com/vetores-gratis/empresarios-trabalhando-em-laptops-no-escritorio-com-area-de-meditacao-e-relaxamento-sala-de-meditacao-do-escritorio-capsula-de-meditacao-conceito-de-local-relaxante-de-escritorio-ilustracao-de-vetor-isolado-de-coral-rosa_335657-1644.jpg?t=st=1745946314~exp=1745949914~hmac=312ae2f093d60e36d4a4820374ff9ca5794f9dcc97b58d94e2e77d768dc75d73&w=1380" alt="Imagem de oficina">
+          </div>
+        </div>
+      
+        <div class="info-servico" id="cursos">
+          <div class="texto-info-servico">
+            <h1>Cursos Gratuitos</h1>
+            <p>
+              A Universidade também disponibiliza cursos gratuitos em diversas áreas do conhecimento, como parte de seu compromisso com a inclusão, a formação continuada e o desenvolvimento social. Essas oportunidades são voltadas tanto para estudantes quanto para a comunidade em geral, contribuindo para o acesso à educação de qualidade.
+            </p>
+          </div>
+          <div class="img-info-servico">
+            <img src="https://img.freepik.com/vetores-gratis/conselhos-sobre-computacao-grafica-e-dicas-para-assistir-masterclass-de-design-digital-curso-online-informacoes-uteis-preparacao-para-exame-de-pintura_335657-3272.jpg?t=st=1745946355~exp=1745949955~hmac=75111e301a546c2e30c63fea16be3f5a1abde1ecb87874aa4458d9960515d1fc&w=826" alt="Imagem de cursos gratuitos">
+          </div>
+        </div>
+
+        <div class="info-servico" id="pet">
+          <div class="texto-info-servico">
+            <h1>Serviços para Pet</h1>
+            <p>
+              A Universidade oferece à comunidade diversos serviços voltados para o cuidado e bem-estar dos animais de estimação, como parte das atividades práticas dos cursos da área de saúde animal. Entre os atendimentos disponíveis, destacam-se consultas veterinárias, vacinação, orientação nutricional, cuidados preventivos e triagens clínicas.
+              <br>
+              Os serviços são realizados por estudantes supervisionados por professores e profissionais experientes, garantindo um atendimento seguro, acessível e de qualidade.
+              <br>
+              Se você tem um pet e deseja cuidar bem dele, acompanhe nossos canais oficiais para saber mais sobre agendamentos, horários e serviços disponíveis.
+            </p>
+          </div>
+          <div class="img-info-servico">
+            <img src="https://img.freepik.com/vetores-gratis/gato-de-exame-medico-veterinario-na-sala-de-clinica-veterinaria-especialista-com-estetoscopio-ouvir-batimento-cardiaco-do-gatinho-pulmao-do-paciente-interior-da-sala-de-exame-na-clinica-veterinaria-medicina-para-animais-domesticos_575670-1452.jpg?t=st=1745946443~exp=1745950043~hmac=f5af5988e31fd30457dfa62b0d2bc1bc5bed79a2dc01d786c10ee2f659935773&w=1060" alt="Imagem de atendimento veterinário">
+          </div>
+        </div>
+      </section>
+
+      <section class="section-carousel" id="quem-somos">
+        <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="10000">
+              <img id="img-carousel" src="{{ url_for('static', filename='assets/quemSomos.png') }}" class="d-block w-80" alt="...">
+            </div>
+            <div class="carousel-item" data-bs-interval="1000">
+              <img id="img-carousel" src="{{ url_for('static', filename='assets/sobreConsultas.png') }}" class="d-block w-80" alt="...">
+            </div>
+            <div class="carousel-item"  data-bs-interval="1000">
+              <img id="img-carousel" src="{{ url_for('static', filename='assets/sobreCursos.png') }}" class="d-block w-80" alt="...">
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </section>
+    </main>
+   
+    <footer id="contato">
+      <p>&copy; 2025 SAEC - Sistema de Agendamento de Eventos e Consultas Academicos</p>
+      <p>Contato: <a href="mailto:contato@saec.com.br">contato@saeca.com.br</a> | Telefone: (11) 99999-0000</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+</body>
+</html>

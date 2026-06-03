@@ -1,0 +1,261 @@
+/* ===========================
+   1. Variáveis e Reset
+=========================== */
+
+:root {
+  --cor-primaria: #345CFC;
+  --cor-texto: #333;
+  --cor-texto-suave: #666;
+  --cor-fundo: #f2f2f2;
+  --cor-branco: white;
+
+  --cor-erro-bg: #ffdede;
+  --cor-erro-texto: #a30000;
+
+  --raio-padrao: 12px;
+  --raio-pequeno: 6px;
+  --raio-pill: 9999px;
+
+  --sombra-padrao: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+  --font-size-base: 1rem;
+  --font-size-pequeno: 0.875rem;
+
+  --transicao: 0.3s;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===========================
+   2. Layout Global
+=========================== */
+
+body {
+
+  min-height: 100vh;
+
+  padding: 2rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--cor-fundo);
+
+  font-family: sans-serif;
+
+  color: var(--cor-texto);
+}
+
+a {
+  text-decoration: none;
+}
+
+/* ===========================
+   3. Container Base
+=========================== */
+
+.formulario-base {
+
+  width: 100%;
+  max-width: 1400px;
+  min-height: 650px;
+
+  display: flex;
+
+  overflow: hidden;
+
+  background-color: var(--cor-branco);
+
+  border-radius: var(--raio-padrao);
+
+  box-shadow: var(--sombra-padrao);
+}
+
+/* ===========================
+   4. Conteúdo
+=========================== */
+
+.conteudo-recuperacao {
+
+  width: 100%;
+
+  padding: 2.5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.recuperacao-form {
+
+  width: 100%;
+  max-width: 800px;
+}
+
+.subtitulo {
+
+  margin-bottom: 2rem;
+
+  color: var(--cor-texto-suave);
+
+  font-size: var(--font-size-base);
+}
+
+/* ===========================
+   5. Imagem
+=========================== */
+
+.imagem-recuperacao-container {
+
+  width: 100%;
+
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+
+  overflow: hidden;
+
+  background-color: #f7f7f7;
+}
+
+.imagem-recuperacao {
+
+  width: 700px;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+/* ===========================
+   6. Botões
+=========================== */
+
+.btn-confirmar {
+
+  width: 100%;
+
+  background-color: var(--cor-primaria);
+  color: var(--cor-branco);
+
+  border: none;
+
+  padding: 0.75rem 1.5rem;
+
+  border-radius: var(--raio-pill);
+
+  font-weight: bold;
+
+  font-size: var(--font-size-base);
+
+  cursor: pointer;
+
+  transition: var(--transicao);
+
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.btn-confirmar:hover {
+  opacity: 0.9;
+}
+
+.btn-voltar {
+
+  display: block;
+
+  width: 100%;
+
+  text-align: center;
+
+  padding: 0.75rem 1.5rem;
+
+  border-radius: var(--raio-pill);
+
+  background-color: #6c757d;
+
+  color: white;
+
+  font-weight: bold;
+
+  font-size: var(--font-size-base);
+
+  transition: var(--transicao);
+}
+
+.btn-voltar:hover {
+
+  background-color: #5a6268;
+
+  color: white;
+}
+
+/* ===========================
+   7. Mensagens
+=========================== */
+
+.mensagem {
+
+  margin-bottom: 1rem;
+
+  padding: 0.75rem;
+
+  border-radius: var(--raio-pequeno);
+
+  font-size: var(--font-size-pequeno);
+}
+
+.mensagem.erro {
+
+  background-color: var(--cor-erro-bg);
+
+  color: var(--cor-erro-texto);
+}
+
+/* ===========================
+   8. Responsivo
+=========================== */
+
+@media(max-width: 992px) {
+
+  body {
+    padding: 1rem;
+  }
+
+  .formulario-base {
+
+    flex-direction: column;
+
+    min-height: auto;
+  }
+
+  .conteudo-recuperacao {
+
+    width: 100%;
+
+    padding: 2rem;
+  }
+
+  .recuperacao-form {
+
+    max-width: 100%;
+  }
+
+  .imagem-recuperacao-container {
+
+    width: 100%;
+
+    height: 300px;
+  }
+
+  .imagem-recuperacao {
+
+    width: 100%;
+  }
+
+}

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Notificações</title>
+
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Seu CSS -->
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/userStyle.css') }}"
+  />
+
+  <!-- Fonte -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+</head>
+
+<body>
+   <nav class="navbar bg-primary-subtle fixed-top">
+        <div class="container-fluid">
+
+          <a class="navbar-brand text-primary-emphasis" href="{{ url_for('main.indexUsers') }}">SAEC</a>
+
+          <button class="navbar-toggler bg-primary-subtle rounded-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
+            
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title">Menu</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+            </div>
+
+            <div class="offcanvas-body">
+
+              <!-- 👤 Usuário -->
+              <h6>Olá, {{ session['usuario_nome'] }} 👋</h6>
+
+              <ul class="navbar-nav">
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Notificações</a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Configurações</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                    Cadastrar Novo Dependente
+                  </a>
+
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Menor de Idade</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Pet</a></li>
+                  </ul>
+                </li>
+
+              </ul>
+
+              <!-- 🚪 Logout -->
+              <div class="btn-sair mt-3">
+                <a href="{{ url_for('auth.logout') }}">Sair</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </nav>
+  <main class="container">
+
+    <!-- Título -->
+    <div class="mb-4">
+      <h1 class="fw-bold">Notificações</h1>
+      <h5 class="text-secondary">
+        Total de Notificações: 8
+      </h5>
+    </div>
+
+    <!-- Card -->
+    <div class="card shadow-sm border-0 rounded-4">
+
+      <div class="card-body">
+
+        <!-- Tabela -->
+        <div class="table-responsive">
+
+          <table class="table table-hover align-middle">
+
+            <thead class="table-dark">
+              <tr>
+                <th>Tipo</th>
+                <th>Mensagem</th>
+                <th>Data</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td>🔔 Lembrete</td>
+                <td>
+                  Você tem uma palestra sobre Inovação agendada para hoje às 19h.
+                </td>
+                <td>08/05/2025</td>
+              </tr>
+
+              <tr>
+                <td>✅ Confirmação</td>
+                <td>
+                  Sua inscrição na palestra “Empreendedorismo Jovem” foi confirmada.
+                </td>
+                <td>07/05/2025</td>
+              </tr>
+
+              <tr>
+                <td>📢 Atualização</td>
+                <td>
+                  A palestra “Saúde Mental na Era Digital” foi reagendada para 20/05 às 14h.
+                </td>
+                <td>06/05/2025</td>
+              </tr>
+
+              <tr>
+                <td>🔔 Lembrete</td>
+                <td>
+                  Não se esqueça da palestra “IA na Educação” amanhã às 16h30.
+                </td>
+                <td>05/05/2025</td>
+              </tr>
+
+              <tr>
+                <td>⚠️ Alerta</td>
+                <td>
+                  A palestra “Sustentabilidade no Século XXI” teve alteração no local.
+                </td>
+                <td>04/05/2025</td>
+              </tr>
+
+              <tr>
+                <td>✅ Confirmação</td>
+                <td>
+                  Sua presença foi confirmada na palestra “Carreira em TI”.
+                </td>
+                <td>03/05/2025</td>
+              </tr>
+
+              <tr>
+                <td>📢 Atualização</td>
+                <td>
+                  Nova palestra disponível: “Finanças Pessoais para Jovens”.
+                </td>
+                <td>02/05/2025</td>
+              </tr>
+
+              <tr>
+                <td>🔔 Lembrete</td>
+                <td>
+                  A palestra “Tecnologia e Sociedade” acontecerá em 2 dias.
+                </td>
+                <td>01/05/2025</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Botão -->
+    <div class="mt-4">
+      <a
+        class="btn btn-primary px-4 py-2 rounded-3"
+        href="{{ url_for('main.indexUsers') }}"
+      >
+        Voltar
+      </a>
+    </div>
+
+  </main>
+</body>
+ <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</html>

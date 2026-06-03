@@ -1,0 +1,413 @@
+/* ===========================
+   1. Variáveis e Reset
+=========================== */
+
+:root {
+  --cor-primaria: #345CFC;
+  --cor-texto: #333;
+  --cor-texto-suave: #666;
+  --cor-fundo: #f2f2f2;
+  --cor-branco: white;
+
+  --cor-erro-bg: #ffdede;
+  --cor-erro-texto: #a30000;
+  --cor-erro-borda: #ffb3b3;
+  --cor-alerta-texto: #c97b00;
+
+  --raio-padrao: 12px;
+  --raio-pequeno: 6px;
+  --raio-pill: 9999px;
+
+  --sombra-padrao: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+  --gap-padrao: 1.875rem;
+  --padding-padrao: 2rem;
+
+  --font-size-base: 1rem;
+  --font-size-pequeno: 0.875rem;
+
+  --transicao: 0.3s;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===========================
+   2. Layout Global
+=========================== */
+
+body {
+  min-height: 100vh;
+  padding: 2rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--cor-fundo);
+
+  font-family: sans-serif;
+  color: var(--cor-texto);
+}
+
+a {
+  text-decoration: none;
+}
+
+/* ===========================
+   3. Container Base
+=========================== */
+
+.formulario-base {
+
+  width: 100%;
+  max-width: 1400px;
+  min-height: 650px;
+
+  display: flex;
+  overflow: hidden;
+
+  background-color: var(--cor-branco);
+
+  border-radius: var(--raio-padrao);
+
+  box-shadow: var(--sombra-padrao);
+}
+
+/* ===========================
+   4. Cadastro
+=========================== */
+
+.conteudo-formulario {
+  width: 70%;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.formulario-infos {
+  width: 100%;
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.info-form {
+  flex: 1;
+}
+
+.coluna-direita {
+  margin-top: 5.2%;
+}
+
+/* ===========================
+   5. Botões Cadastro
+=========================== */
+
+.formulario-buttons {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+}
+
+.formulario-buttons .btn {
+  flex: 1;
+}
+
+/* ===========================
+   6. Imagem Cadastro
+=========================== */
+
+.imagem-cad-container {
+  width: 30%;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  overflow: hidden;
+  background-color: #f7f7f7;
+}
+
+.imagem-cad {
+  width: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+
+/* ===========================
+   7. Login
+=========================== */
+
+.conteudo-login {
+  width: 100%;
+  padding: 2.5rem;
+  display: flex;
+  justify-content: flex-start;
+
+}
+
+.login-form {
+  width: 100%;
+  max-width: 800px;
+}
+
+/* LINK */
+
+.link-recuperacao {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+/* IMAGEM LOGIN */
+
+.imagem-login-container {
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  overflow: hidden;
+  background-color: #f7f7f7;
+}
+
+.imagem-login {
+  width: 700px;
+  object-fit: cover;
+  display: block;
+}
+
+/* ===========================
+   8. Botões
+=========================== */
+
+.btn-login {
+
+  width: 100%;
+
+  background-color: var(--cor-primaria);
+  color: var(--cor-branco);
+
+  border: none;
+
+  padding: 0.75rem 1.5rem;
+
+  border-radius: var(--raio-pill);
+
+  font-weight: bold;
+  font-size: var(--font-size-base);
+
+  cursor: pointer;
+
+  transition: var(--transicao);
+
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.btn-cadastre-se,
+.btn-login-voltar {
+
+  display: block;
+
+  width: 100%;
+
+  text-align: center;
+
+  padding: 0.75rem 1.5rem;
+
+  border-radius: var(--raio-pill);
+
+  font-weight: bold;
+
+  font-size: var(--font-size-base);
+
+  cursor: pointer;
+
+  transition: var(--transicao);
+
+  margin-bottom: 1rem;
+}
+
+.btn-login-voltar-cad {
+  display: block;
+  width: 100%;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  padding: 0;
+  border-radius: var(--raio-pill);
+  font-weight: bold;
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  transition: var(--transicao);
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  box-sizing: border-box;
+}
+
+
+.btn-cadastre-se {
+  background-color: transparent;
+  color: var(--cor-primaria);
+  border: 2px solid var(--cor-primaria);
+}
+
+.btn-cadastre-se:hover {
+  background-color: var(--cor-primaria);
+  color: white;
+}
+
+.btn-login-voltar,
+.btn-login-voltar-cad {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+}
+
+.btn-login-voltar:hover {
+  background-color: #5a6268;
+  color: white;
+}
+
+/* ===========================
+   9. Mensagens
+=========================== */
+
+.mensagem {
+
+  margin-bottom: 0.9375rem;
+
+  padding: 0.625rem;
+
+  border-radius: var(--raio-pequeno);
+
+  font-size: var(--font-size-pequeno);
+}
+
+.mensagem.erro {
+
+  background-color: var(--cor-erro-bg);
+
+  color: var(--cor-erro-texto);
+}
+
+.tentativas-restantes {
+
+  margin-bottom: 0.625rem;
+
+  color: var(--cor-alerta-texto);
+
+  font-size: var(--font-size-pequeno);
+
+  font-weight: 600;
+}
+
+/* ===========================
+   10. Senha
+=========================== */
+
+.senha-requisitos {
+  margin-top: 0.625rem;
+}
+
+.senha-requisitos ul {
+
+  padding-left: 1.125rem;
+
+  margin-top: 0.3125rem;
+}
+
+.senha-requisitos li {
+
+  font-size: var(--font-size-pequeno);
+
+  margin-bottom: 0.25rem;
+
+  color: red;
+
+  transition: var(--transicao);
+}
+
+.erro-senha-card {
+
+  display: none;
+
+  margin-top: 0.75rem;
+
+  padding: 0.75rem;
+
+  border-radius: 0.625rem;
+
+  background-color: #ffe5e5;
+
+  border: 1px solid var(--cor-erro-borda);
+
+  color: var(--cor-erro-texto);
+
+  font-size: var(--font-size-pequeno);
+
+  font-weight: 500;
+}
+
+/* ===========================
+   11. Responsivo
+=========================== */
+
+@media(max-width: 992px) {
+
+  body {
+    padding: 1rem;
+  }
+
+  .formulario-base {
+
+    flex-direction: column;
+
+    min-height: auto;
+  }
+
+  /* CADASTRO */
+
+  .conteudo-formulario {
+
+    width: 100%;
+  }
+
+  .formulario-infos {
+
+    flex-direction: column;
+  }
+
+  .coluna-direita {
+    margin-top: 0;
+  }
+
+  .formulario-buttons {
+
+    flex-direction: column;
+  }
+
+  /* LOGIN */
+
+  .conteudo-login {
+    width: 100%;
+    padding: 2rem;
+  }
+
+  .login-form {
+    max-width: 100%;
+  }
+
+  /* IMAGENS */
+
+  .imagem-cad-container,
+  .imagem-login-container {
+
+    width: 80%;
+    height: 300px;
+  }
+
+}

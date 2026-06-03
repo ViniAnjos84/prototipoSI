@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/admCadStyle.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main>
+    <h1>Notificações</h1>
+
+    <div id="secNotificacoes" class="form-section">
+        
+        <div class="informacoes">
+          <div class="info-content">
+            <p>Selecione o tipo de notificação que deseja enviar:</p>
+            <div class="tipo-notificacao">
+                <div>
+                    <input type="checkbox" id="alteracao" name="alteracao" value="alteracao">
+                    <label for="alteracao">Alteração de Serviço</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="cancelamento" name="cancelamento" value="cancelamento">
+                    <label for="cancelamento">Cancelamento</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="divulgacao" name="divulgacao" value="divulgacao">
+                    <label for="divulgacao">Divulgação/Comunicado</label>
+                </div>
+            </div>
+            <p>Destinatários</p>
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Selecione o Destinatário</option>
+                <option value="1">Grupo de Pacientes</option>
+                <option value="2">Responsável@email.com</option>
+                <option value="3">Alunos</option>
+            </select>
+            
+          <div class="mensagem-anexos">
+            <div class="input-group">
+                <span class="input-group-text">Mensagem</span>
+                <textarea class="form-control" aria-label="With textarea"></textarea>
+            </div>
+            <div>
+                <div>
+                    <label for="anexo">Anexos</label>
+                    <input type="file" class="form-control mb-2" id="anexo">
+                  </div>
+
+                <div>
+                    <label for="data">Data de Início</label>
+                    <input type="date" class="form-control mb-2" id="data">
+                  </div>
+                <div class="btn-notificacao">
+                    <button class="ntf-btn">Confirmar</button>
+                    <button class="ntf-btn-cancelar">Cancelar</button>
+                </div>
+            </div>
+          </div>
+            
+          </div>
+        </div>
+        
+    </div>
+    </main>
+
+    <script src="js/adm-cadastro.js"></script>
+</body>
+</html>

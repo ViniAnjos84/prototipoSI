@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>SAEC - Meu Perfil</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/userStyle.css') }}" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+</head>
+
+<body class="bg-light">
+
+  <!-- NAVBAR -->
+  <nav class="navbar bg-primary-subtle fixed-top shadow-sm">
+    <div class="container-fluid">
+
+      <a class="navbar-brand text-primary-emphasis fw-bold" href="{{ url_for('main.indexUsers') }}">
+        SAEC
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title">Menu</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+          <h6>Olá, {{ session['usuario_nome'] }} 👋</h6>
+          <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="#">Notificações</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Configurações</a></li>
+          </ul>
+          <div class="mt-4">
+            <a href="{{ url_for('auth.logout') }}" class="btn btn-danger w-100">Sair</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="container py-5 mt-5">
+
+    <!-- MENSAGENS FLASH -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="row g-4">
+
+      <!-- PERFIL -->
+      <!-- Requisito 4.8 Funcionalidade de consulta aos dados do titular -->
+      <div class="col-lg-5">
+        <div class="card border-0 shadow-sm rounded-4">
+          <div class="card-body">
+
+            <!-- HEADER -->
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
+                style="width:75px;height:75px;font-size:1.8rem;font-weight:bold;">
+                {{ session['usuario_nome'][0] }}
+              </div>
+              <div>
+                <h3 class="mb-1">{{ session['usuario_nome'] }}</h3>
+                <p class="text-muted mb-0">ID: {{ session['usuario_id'] }}</p>
+              </div>
+            </div>
+
+            <!-- DADOS -->
+            <div class="d-flex flex-column gap-2">
+              <p><strong>Nome:</strong> {{ session.get('usuario_nome', '—') }}</p>
+              <p><strong>E-mail:</strong> {{ session.get('usuario_email', '—') }}</p>
+              <p><strong>Telefone:</strong> {{ session.get('usuario_telefone', '—') }}</p>
+              <p><strong>CEP:</strong> {{ session.get('usuario_cep', '—') }}</p>
+              <!-- CPF apenas leitura — nunca editável -->
+              <p><strong>CPF:</strong> {{ session.get('usuario_cpf', '—') }}</p>
+            </div>
+
+            <div class="d-grid gap-2 mt-4">
+              <!-- Botão abre o modal de edição pré-preenchido -->
+              <button class="btn btn-primary"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalEditar">
+                Editar Informações
+              </button>
+            </div>
+
+            <!-- PRIVACIDADE -->
+            <div class="card border-0 bg-light mt-4 rounded-4">
+              <div class="card-body">
+
+                <h5 class="fw-bold mb-3">Privacidade e Consentimento</h5>
+                <p class="text-muted small">
+                  Você pode revisar, exportar ou gerenciar seu consentimento.
+                </p>
+
+                {% if consentimento_ativo %}
+
+                  <div class="alert alert-success">
+                    Seu consentimento está ativo.
+                  </div>
+
+                  <a class="btn btn-outline-secondary w-100 mb-2"
+                     href="{{ url_for('main.termos_uso') }}">
+                    Revisar Termos de Uso
+                  </a>
+
+                  <a class="btn btn-outline-success w-100 mb-2"
+                     href="{{ url_for('main.exportar_pdf') }}">
+                    Exportar Meus Dados
+                  </a>
+
+                  <button class="btn btn-outline-danger w-100"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalRevogar">
+                    Revogar Consentimento
+                  </button>
+
+                  <!-- BOTÃO EXCLUIR DADOS -->
+<button class="btn btn-link text-danger text-decoration-none p-0 mt-2 small w-100"
+        data-bs-toggle="modal"
+        data-bs-target="#modalExcluirDados">
+
+  Excluir meus dados
+
+</button>
+
+
+<!-- MODAL EXCLUIR DADOS -->
+<div class="modal fade"
+     id="modalExcluirDados"
+     tabindex="-1">
+
+  <div class="modal-dialog modal-dialog-centered">
+
+    <div class="modal-content border-0 rounded-4">
+
+      <div class="modal-header">
+
+        <h5 class="modal-title text-danger fw-bold">
+          Excluir Conta
+        </h5>
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="modal">
+        </button>
+
+      </div>
+
+      <div class="modal-body">
+
+        <p class="fw-semibold">
+          Tem certeza que deseja excluir sua conta?
+        </p>
+
+        <p class="text-danger">
+          Todos os seus dados serão removidos permanentemente.
+        </p>
+
+        <p class="text-danger fw-bold mb-0">
+          Você perderá acesso à conta e não poderá recuperar essas informações depois.
+        </p>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button class="btn btn-secondary"
+                data-bs-dismiss="modal">
+
+          Cancelar
+
+        </button>
+
+        <form method="POST"
+              action="{{ url_for('main.excluir_dados') }}">
+
+          <button type="submit"
+                  class="btn btn-danger">
+
+            Excluir permanentemente
+
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+                {% else %}
+
+                  <div class="alert alert-warning">
+                    Você revogou o consentimento dos termos e da política de privacidade.
+                    Algumas funcionalidades podem ficar indisponíveis.
+                  </div>
+
+                  <form method="POST" action="{{ url_for('main.aceitar_termos_route') }}">
+                    <button type="submit" class="btn btn-success w-100">
+                      Aceitar Termos Novamente
+                    </button>
+                  </form>
+
+                {% endif %}
+
+              </div>
+            </div>
+
+            <div class="mt-3">
+              <a href="{{ url_for('main.indexUsers') }}" class="btn btn-outline-primary w-100">
+                Voltar
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- DEPENDENTES E PETS -->
+      <div class="col-lg-7">
+        <div class="card shadow-sm border-0 rounded-4">
+          <div class="card-body">
+
+            <h2 class="mb-4">Dependentes e Pets</h2>
+
+            <div class="d-flex gap-2 mb-4">
+              <button class="btn btn-outline-primary" onclick="mostrarDependente()">
+                + Adicionar Dependente
+              </button>
+              <button class="btn btn-outline-success" onclick="mostrarPet()">
+                + Adicionar Pet
+              </button>
+            </div>
+
+            <!-- DEPENDENTE -->
+            {% if session.get('usuario_dependente') %}
+              <div class="card border mb-3 shadow-sm">
+                <div class="card-body">
+                  <h4>Dependente: {{ session['usuario_dependente'] }}</h4>
+                  <p><strong>Parentesco:</strong> {{ session.get('usuario_parentesco', '—') }}</p>
+                  <p><strong>Data de nascimento:</strong> {{ session.get('usuario_data_nascimento', '—') }}</p>
+                </div>
+              </div>
+            {% else %}
+              <div id="formDependente" class="card border shadow-sm mb-4" style="display:none;">
+                <div class="card-body">
+                  <h4>Cadastro de Dependente</h4>
+                  <form method="POST" action="{{ url_for('main.salvar_dependente') }}">
+                    <input class="form-control mb-2" name="nome_dependente" placeholder="Nome" required>
+                    <input class="form-control mb-2" name="data_nascimento" type="date" required>
+                    <input class="form-control mb-2" name="parentesco" placeholder="Parentesco" required>
+                    <button type="submit" class="btn btn-primary">Salvar Dependente</button>
+                  </form>
+                </div>
+              </div>
+            {% endif %}
+
+            <!-- PET -->
+            {% if session.get('usuario_pet') %}
+              <div class="card border shadow-sm mt-3">
+                <div class="card-body">
+                  <h4>🐶 Pet: {{ session['usuario_pet'] }}</h4>
+                  <p><strong>Espécie:</strong> {{ session.get('usuario_especie', '—') }}</p>
+                  <p><strong>Raça:</strong> {{ session.get('usuario_raca', '—') }}</p>
+                </div>
+              </div>
+            {% else %}
+              <div id="formPet" class="card border shadow-sm mt-3" style="display:none;">
+                <div class="card-body">
+                  <h4>Cadastro de Pet</h4>
+                  <form method="POST" action="{{ url_for('main.salvar_pet') }}">
+                    <input class="form-control mb-2" name="nome_pet" placeholder="Nome" required>
+                    <input class="form-control mb-2" name="especie" placeholder="Espécie" required>
+                    <input class="form-control mb-2" name="raca" placeholder="Raça" required>
+                    <button type="submit" class="btn btn-success">Salvar Pet</button>
+                  </form>
+                </div>
+              </div>
+            {% endif %}
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- ================================ -->
+  <!-- MODAL EDITAR INFORMAÇÕES         -->
+  <!-- ================================ -->
+  <div class="modal fade" id="modalEditar" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 rounded-4">
+
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">Editar Informações</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <form method="POST" action="{{ url_for('main.editar_dados') }}">
+          <div class="modal-body d-flex flex-column gap-3">
+
+            <div>
+              <label class="form-label fw-semibold">Nome</label>
+              <input
+                type="text"
+                class="form-control"
+                name="nome"
+                value="{{ session.get('usuario_nome', '') }}"
+                required
+                maxlength="120">
+            </div>
+
+            <div>
+              <label class="form-label fw-semibold">E-mail</label>
+              <input
+                type="email"
+                class="form-control"
+                name="email"
+                value="{{ session.get('usuario_email', '') }}"
+                required
+                maxlength="120">
+            </div>
+
+            <div>
+              <label class="form-label fw-semibold">Telefone</label>
+              <input
+                type="text"
+                class="form-control"
+                name="telefone"
+                value="{{ session.get('usuario_telefone', '') }}"
+                required
+                maxlength="11">
+            </div>
+
+            <div>
+              <label class="form-label fw-semibold">CEP</label>
+              <input
+                type="text"
+                class="form-control"
+                name="cep"
+                value="{{ session.get('usuario_cep', '') }}"
+                required
+                maxlength="8">
+            </div>
+
+            <!-- CPF exibido como somente leitura, sem campo de envio -->
+            <div>
+              <label class="form-label fw-semibold text-muted">CPF <span class="badge bg-secondary ms-1" style="font-size:.7rem">não editável</span></label>
+              <input
+                type="text"
+                class="form-control"
+                value="{{ session.get('usuario_cpf', '') }}"
+                disabled>
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Salvar alterações</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ================================ -->
+  <!-- MODAL REVOGAR CONSENTIMENTO      -->
+  <!-- ================================ -->
+  <div class="modal fade" id="modalRevogar" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 rounded-4">
+
+        <div class="modal-header">
+          <h5 class="modal-title text-danger fw-bold">Revogar Consentimento</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <p>Tem certeza que deseja revogar o consentimento?</p>
+          <p class="text-danger fw-semibold">
+            Isso não bloqueia o sistema, mas limita funcionalidades.
+          </p>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <form method="POST" action="{{ url_for('main.revogar_consentimento_route') }}">
+            <button type="submit" class="btn btn-danger">Confirmar</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    function mostrarDependente() {
+      let form = document.getElementById("formDependente")
+      if (form) form.style.display = form.style.display === "none" ? "block" : "none"
+    }
+
+    function mostrarPet() {
+      let form = document.getElementById("formPet")
+      if (form) form.style.display = form.style.display === "none" ? "block" : "none"
+    }
+  </script>
+
+</body>
+</html>
