@@ -298,7 +298,7 @@ def validar_codigo_recuperacao():
             tipo="erro"
         )
 
-    if codigo_digitado != codigo_salvo:
+    if int(codigo_digitado) != int(codigo_salvo):
         
         # Requisito 5.2: Logs de falhas e 2FA registrados
         create_log_auth(
