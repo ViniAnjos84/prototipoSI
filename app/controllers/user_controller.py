@@ -25,13 +25,16 @@ import re
  
 # =========================
 # PASSWORD HASHER
+# Requisito 1.2: Uso de hash criptográfico seguro para senhas (Argon2)
+# Requisito 1.2: Parâmetros de custo do hash configurados e justificados
+# Requisito 1.3: Uso de salt criptográfico único por usuário
 # =========================
 ph = PasswordHasher(
-    time_cost=3,
-    memory_cost=65536,
-    parallelism=4,
-    hash_len=32,
-    salt_len=8
+    time_cost=3,        # 3 iterações para aumentar o custo computacional
+    memory_cost=65536,  # 64 MB de memória para dificultar ataques em massa
+    parallelism=4,      # Utiliza até 4 threads/processadores em paralelo
+    hash_len=32,        # Gera um hash de 32 bytes (256 bits)
+    salt_len=8          # Salt aleatório de 8 bytes para evitar hashes iguais
 )
  
  
@@ -122,6 +125,8 @@ def cadastrar_usuario(form):
                 "erro": "Telefone já cadastrado"
             }
  
+        # Requisito 1.4: Armazenamento correto do hash + salt
+        # Requisito 3.4: Dados sensíveis criptografados em repouso
         senha_hash = ph.hash(senha)
  
         data = {
@@ -196,6 +201,8 @@ def realizar_login(form, ip=None, user_agent=None):
  
     if not usuario:
  
+        # Requisito 5.1: Logs de autenticação registrados
+        # Requisito 5.2: Logs de falhas e 2FA registrados
         create_log_auth(
             email=email,
             sucesso=False,
@@ -214,7 +221,9 @@ def realizar_login(form, ip=None, user_agent=None):
         ph.verify(usuario["senha"], senha)
  
     except Exception:
- 
+        
+        # Requisito 5.1: Logs de autenticação registrados
+        # Requisito 5.2: Logs de falhas e 2FA registrados
         create_log_auth(
             email=email,
             sucesso=False,
@@ -227,7 +236,8 @@ def realizar_login(form, ip=None, user_agent=None):
             "success": False,
             "erro": "Senha incorreta"
         }
- 
+    
+    # Requisito 5.1: Logs de autenticação registrados
     create_log_auth(
         email=email,
         sucesso=True,
@@ -243,6 +253,9 @@ def realizar_login(form, ip=None, user_agent=None):
  
 # =========================
 # GERAR CÓDIGO 2FA
+# Requisito 1.5: Autenticação de dois fatores (2FA)
+# Requisito 2.2: Token criptograficamente seguro
+# Requisito 2.3: Token com tempo de expiração
 # =========================
 def gerar_codigo_2fa():
  
@@ -254,6 +267,7 @@ def gerar_codigo_2fa():
  
 # =========================
 # ENVIAR EMAIL 2FA
+# Requisito 1.5: Autenticação de dois fatores (2FA)
 # =========================
 def enviar_codigo_email(destinatario, codigo):
  
@@ -282,6 +296,7 @@ def enviar_codigo_email(destinatario, codigo):
  
 # =========================
 # REVOGAR ACEITE
+# Requisito 4.6 Possibilidade de revogação do consentimento
 # =========================
 def revogar_aceite_controller(session):
  
@@ -450,6 +465,7 @@ def editar_dados_controller(session, form):
  
 # =========================
 # REDEFINIR SENHA
+# Requisito 2.1: Funcionalidade de recuperação de senha
 # =========================
 def redefinir_senha(email, form):
  

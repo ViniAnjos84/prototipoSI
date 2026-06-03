@@ -1,9 +1,7 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash
-
 from app.utils.auth_decorators import login_required
 from app.controllers.pdf_controller import exportar_pdf_controller
 from app.models.user_model import excluir_dados_banco
-
 from app.controllers.user_controller import (
     buscar_consentimento_ativo,
     revogar_aceite_controller,
@@ -50,6 +48,7 @@ def editar_dados():
 
 # ======================
 # EXCLUIR DADOS
+# Requisito 4.10 Funcionalidade de exclusão dos dados pessoais
 # ======================
 @main_bp.route("/user/exluir-dados", methods=["POST"])
 @login_required
@@ -224,6 +223,7 @@ def user_servicos():
 
 # ======================
 # EXPORTAR PDF
+# Requisito 4.9 Funcionalidade de exportação dos dados
 # ======================
 @main_bp.route("/user/exportar-pdf")
 @login_required
