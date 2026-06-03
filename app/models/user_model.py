@@ -1,5 +1,7 @@
 from app.database import get_connection
-
+import hashlib
+import hmac
+import os
 
 # =========================
 # CREATE CLIENTE
@@ -297,6 +299,7 @@ def update_cliente(cliente_id, data):
 
 # =========================
 # EXCLUIR TODOS OS DADOS DO CLIENTE
+# Requisito 4.10 Funcionalidade de exclusão dos dados pessoais
 # =========================
 def excluir_dados_banco(cliente_id):
 
@@ -346,12 +349,21 @@ def excluir_dados_banco(cliente_id):
 
 
 # =========================
-# REGISTRAR LOG DE AUTH
+# REGISTRAR LOG DE AUTENTICAÇÃO
 # =========================
 def create_log_auth(email, sucesso, ip=None, user_agent=None, motivo_falha=None):
 
     conn = get_connection()
     cursor = conn.cursor()
+    # Requisito 5.3: Proteção contra alteração dos logs
+    # O banco armazena apenas o hash.
+    # A chave secreta fica na aplicação.
+    # Quem tiver acesso somente ao banco não consegue gerar um hash válido após alterar um registro.
+    hash_integridade = hmac.new(
+        os.getenv("SECRET_KEY_LOG").encode(),
+        f"{email}{sucesso}{ip}{user_agent}{motivo_falha}".encode(),
+        hashlib.sha256
+    ).hexdigest()
 
     try:
 
@@ -361,15 +373,17 @@ def create_log_auth(email, sucesso, ip=None, user_agent=None, motivo_falha=None)
                 sucesso,
                 ip,
                 user_agent,
-                motivo_falha
+                motivo_falha,
+                hash_integridade
             )
-            VALUES (%s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s, %s)
         """, (
             email,
             sucesso,
             ip,
             user_agent,
-            motivo_falha
+            motivo_falha,
+            hash_integridade
         ))
 
         conn.commit()
@@ -390,7 +404,16 @@ def create_log_2fa(email, sucesso, ip=None, user_agent=None, motivo_falha=None):
 
     conn = get_connection()
     cursor = conn.cursor()
-
+    # Requisito 5.3: Proteção contra alteração dos logs
+    # O banco armazena apenas o hash.
+    # A chave secreta fica na aplicação.
+    # Quem tiver acesso somente ao banco não consegue gerar um hash válido após alterar um registro.
+    hash_integridade = hmac.new(
+        os.getenv("SECRET_KEY_LOG").encode(),
+        f"{email}{sucesso}{ip}{user_agent}{motivo_falha}".encode(),
+        hashlib.sha256
+    ).hexdigest()
+    
     try:
 
         cursor.execute("""
@@ -399,15 +422,17 @@ def create_log_2fa(email, sucesso, ip=None, user_agent=None, motivo_falha=None):
                 sucesso,
                 ip,
                 user_agent,
-                motivo_falha
+                motivo_falha,
+                hash_intregridade
             )
-            VALUES (%s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s, %s)
         """, (
             email,
             sucesso,
             ip,
             user_agent,
-            motivo_falha
+            motivo_falha,
+            hash_integridade
         ))
 
         conn.commit()
